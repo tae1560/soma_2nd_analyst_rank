@@ -11,7 +11,35 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130303060124) do
+ActiveRecord::Schema.define(:version => 20130303062700) do
+
+  create_table "day_candles", :force => true do |t|
+    t.string   "symbol"
+    t.datetime "trading_date"
+    t.integer  "o"
+    t.integer  "h"
+    t.integer  "l"
+    t.integer  "c"
+    t.integer  "v"
+    t.datetime "crawl_date"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "stock_code_id"
+  end
+
+  add_index "day_candles", ["symbol", "trading_date"], :name => "index_day_candles_on_symbol_and_trading_date", :unique => true
+
+  create_table "recommendations", :force => true do |t|
+    t.datetime "in_dt"
+    t.string   "cmp_cd"
+    t.string   "brk_nm_kor"
+    t.integer  "brk_cd"
+    t.integer  "stock_code_id"
+    t.integer  "day_candle_id"
+    t.integer  "stock_firm_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -23,6 +51,24 @@ ActiveRecord::Schema.define(:version => 20130303060124) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "stock_codes", :force => true do |t|
+    t.string   "institution_code"
+    t.string   "name"
+    t.string   "eng_name"
+    t.string   "standard_code"
+    t.string   "short_code"
+    t.string   "market_type"
+    t.string   "symbol"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "stock_firms", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                :default => "", :null => false
