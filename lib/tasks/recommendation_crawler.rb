@@ -80,30 +80,29 @@ def crawl_recommend
     curPage += 1
   end
 
-  return
-  pg_no = 1
-
-  while true
-
-    # 각 데이터 튜플
-    odd_tuples = doc.xpath("//tr[@bgcolor='#E5E5E5']")
-    even_tuples = doc.xpath("//tr[@bgcolor='#EDEDED']")
-
-    if even_tuples.size==1 and odd_tuples.size==0
-      puts "ENDED"
-      break
-    end
-
-    odd_tuples.each do |tuple|
-      parsing_each_tuple(tuple)
-    end
-
-    even_tuples.each do |tuple|
-      parsing_each_tuple(tuple)
-    end
-
-    pg_no += 1
-  end
+  #pg_no = 1
+  #
+  #while true
+  #
+  #  # 각 데이터 튜플
+  #  odd_tuples = doc.xpath("//tr[@bgcolor='#E5E5E5']")
+  #  even_tuples = doc.xpath("//tr[@bgcolor='#EDEDED']")
+  #
+  #  if even_tuples.size==1 and odd_tuples.size==0
+  #    puts "ENDED"
+  #    break
+  #  end
+  #
+  #  odd_tuples.each do |tuple|
+  #    parsing_each_tuple(tuple)
+  #  end
+  #
+  #  even_tuples.each do |tuple|
+  #    parsing_each_tuple(tuple)
+  #  end
+  #
+  #  pg_no += 1
+  #end
 
   ## 업종별 URL 얻어오기
   #upjong_links = doc.xpath("//div[@id='contentarea_left']/table[@class='type_1']//a[contains(@href,'/sise/sise_group_detail.nhn')]/@href")
@@ -132,45 +131,45 @@ def crawl_recommend
 end
 
 
-def parsing_each_tuple(tuple)
-  columns = tuple.css("td")
+#def parsing_each_tuple(tuple)
+#  columns = tuple.css("td")
+#
+#  if columns.size == 6
+#    # 발행기관코드	종목명	영문종목명	표준코드	단축코드	시장구분
+#    # institution_code, name, eng_name, standard_code, symbol, market_type
+#    institution_code = columns[0].inner_text
+#    name = columns[1].inner_text
+#    eng_name = columns[2].inner_text
+#    standard_code = columns[3].inner_text
+#    short_code = columns[4].inner_text
+#    market_type = columns[5].inner_text
+#
+#    if market_type.include? "상장"
+#      if !(market_type.include? "폐지")
+#        symbol = short_code[-6, 6]
+#        store_code(institution_code, name, eng_name, standard_code, short_code, market_type, symbol)
+#      end
+#    end
+#  else
+#    puts "ERROR : columns.size is not 6 but #{columns.size}"
+#  end
+#end
 
-  if columns.size == 6
-    # 발행기관코드	종목명	영문종목명	표준코드	단축코드	시장구분
-    # institution_code, name, eng_name, standard_code, symbol, market_type
-    institution_code = columns[0].inner_text
-    name = columns[1].inner_text
-    eng_name = columns[2].inner_text
-    standard_code = columns[3].inner_text
-    short_code = columns[4].inner_text
-    market_type = columns[5].inner_text
-
-    if market_type.include? "상장"
-      if !(market_type.include? "폐지")
-        symbol = short_code[-6, 6]
-        store_code(institution_code, name, eng_name, standard_code, short_code, market_type, symbol)
-      end
-    end
-  else
-    puts "ERROR : columns.size is not 6 but #{columns.size}"
-  end
-end
-
-def store_code (institution_code, name, eng_name, standard_code, short_code, market_type, symbol)
-  # attr_accessible :issue_code, :symbol, :name, :eng_name, :standard_code, :short_code, :market_type, :crawl_date
-  unless StockCode.duplicated?(symbol)
-    begin
-      StockCode.create(:institution_code => institution_code, :name => name, :eng_name => eng_name,
-        :standard_code => standard_code, :short_code => short_code, :market_type => market_type, :symbol => symbol)
-    rescue
-      puts $!
-    end
-    puts "saved #{symbol}, #{name}"
-  else
-    puts "Duplicated! #{symbol}, #{name}"
-    #s = StockCode.where(:symbol => symbol).first
-    #s[:name] = name
-    #s[:eng_name] = eng_name
-    #s.save
-  end
-end
+#def store_code (institution_code, name, eng_name, standard_code, short_code, market_type, symbol)
+#  # attr_accessible :issue_code, :symbol, :name, :eng_name, :standard_code, :short_code, :market_type, :crawl_date
+#  #unless StockCode.duplicated?(symbol)
+#  #  begin
+#  #    StockCode.create(:institution_code => institution_code, :name => name, :eng_name => eng_name,
+#  #      :standard_code => standard_code, :short_code => short_code, :market_type => market_type, :symbol => symbol)
+#  #  rescue
+#  #    puts $!
+#  #  end
+#  #  puts "saved #{symbol}, #{name}"
+#  #else
+#  #  puts "Duplicated! #{symbol}, #{name}"
+#  #  #s = StockCode.where(:symbol => symbol).first
+#  #  #s[:name] = name
+#  #  #s[:eng_name] = eng_name
+#  #  #s.save
+#  #end
+#end

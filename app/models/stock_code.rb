@@ -1,10 +1,7 @@
 class StockCode < ActiveRecord::Base
-  attr_accessible :institution_code, :name, :eng_name, :standard_code, :short_code, :market_type, :symbol, :crawl_date
+  attr_accessible :name, :eng_name, :symbol
 
   has_many :day_candles
   has_many :recommendations
 
-  def self.duplicated? symbol
-    StockCode.where(:symbol => symbol).exists?
-  end
 end

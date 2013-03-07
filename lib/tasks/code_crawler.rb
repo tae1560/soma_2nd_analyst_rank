@@ -10,7 +10,8 @@ def crawl_code
 
   while true
     doc = Nokogiri::HTML(
-        open("http://isin.krx.co.kr/jsp/BA_LT131.jsp?pg_no=#{pg_no}").read, nil, 'euc-kr')
+        open("http://isin.krx.co.kr/jsp/BA_LT131.jsp?pg_no=#{pg_no}").read, nil, 'utf-8')
+    #puts "http://isin.krx.co.kr/jsp/BA_LT131.jsp?pg_no=#{pg_no}"
 
     # 각 데이터 튜플
     odd_tuples = doc.xpath("//tr[@bgcolor='#E5E5E5']")
@@ -72,32 +73,27 @@ def parsing_each_tuple(tuple)
     short_code = columns[4].inner_text
     market_type = columns[5].inner_text
 
-    if market_type.include? "상장"
-      if !(market_type.include? "폐지")
-        symbol = short_code[-6, 6]
-        store_code(institution_code, name, eng_name, standard_code, short_code, market_type, symbol)
+    # save all data
+    raw_stock_code = nil
+    unless RawStockCode.duplicated?(standard_code)
+      begin
+        raw_stock_code = RawStockCode.create(:institution_code => institution_code, :name => name, :eng_name => eng_name,
+                         :standard_code => standard_code, :short_code => short_code, :market_type => market_type)
+      rescue
+        puts $!
       end
+      #puts "saved #{standard_code}, #{name}"
+    else
+      #puts "Duplicated! #{standard_code}, #{name}"
     end
+
+    if raw_stock_code
+      #puts "raw_stock_code : #{raw_stock_code.inspect}"
+      raw_stock_code.parse_and_save
+    end
+
   else
     puts "ERROR : columns.size is not 6 but #{columns.size}"
-  end
-end
-
-def store_code (institution_code, name, eng_name, standard_code, short_code, market_type, symbol)
-  # attr_accessible :issue_code, :symbol, :name, :eng_name, :standard_code, :short_code, :market_type, :crawl_date
-  unless StockCode.duplicated?(symbol)
-    begin
-      StockCode.create(:institution_code => institution_code, :name => name, :eng_name => eng_name,
-        :standard_code => standard_code, :short_code => short_code, :market_type => market_type, :symbol => symbol)
-    rescue
-      puts $!
-    end
-    puts "saved #{symbol}, #{name}"
-  else
-    puts "Duplicated! #{symbol}, #{name}"
-    #s = StockCode.where(:symbol => symbol).first
-    #s[:name] = name
-    #s[:eng_name] = eng_name
-    #s.save
+    puts "columns : #{columns}"
   end
 end

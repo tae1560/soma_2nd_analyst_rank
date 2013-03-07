@@ -11,29 +11,78 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130303062700) do
+ActiveRecord::Schema.define(:version => 20130304144354) do
 
   create_table "day_candles", :force => true do |t|
     t.string   "symbol"
     t.datetime "trading_date"
+    t.integer  "open"
+    t.integer  "high"
+    t.integer  "low"
+    t.integer  "close"
+    t.integer  "volume"
+    t.integer  "stock_code_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "day_candles", ["symbol", "trading_date"], :name => "index_day_candles_on_symbol_and_trading_date", :unique => true
+
+  create_table "raw_day_candles", :force => true do |t|
+    t.datetime "date"
     t.integer  "o"
     t.integer  "h"
     t.integer  "l"
     t.integer  "c"
     t.integer  "v"
-    t.datetime "crawl_date"
+    t.string   "symbol"
+    t.integer  "day_candle_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-    t.integer  "stock_code_id"
   end
 
-  add_index "day_candles", ["symbol", "trading_date"], :name => "index_day_candles_on_symbol_and_trading_date", :unique => true
+  add_index "raw_day_candles", ["symbol", "date"], :name => "index_raw_day_candles_on_symbol_and_date", :unique => true
 
-  create_table "recommendations", :force => true do |t|
-    t.datetime "in_dt"
+  create_table "raw_recommendations", :force => true do |t|
+    t.string   "in_dt"
+    t.string   "cmp_nm_kor"
     t.string   "cmp_cd"
     t.string   "brk_nm_kor"
     t.integer  "brk_cd"
+    t.string   "pf_nm_kor"
+    t.integer  "pf_cd"
+    t.string   "recomm_price"
+    t.string   "recomm_rate"
+    t.integer  "recommend_adj_price"
+    t.integer  "pre_adj_price"
+    t.string   "pre_dt"
+    t.integer  "cnt"
+    t.string   "reason_in"
+    t.string   "file_nm"
+    t.string   "anl_dt"
+    t.string   "in_diff_reason"
+    t.integer  "recommendation_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "raw_recommendations", ["cmp_cd", "brk_cd", "pf_cd"], :name => "index_raw_recommendations_on_cmp_cd_and_brk_cd_and_pf_cd", :unique => true
+
+  create_table "raw_stock_codes", :force => true do |t|
+    t.string   "institution_code"
+    t.string   "name"
+    t.string   "eng_name"
+    t.string   "standard_code"
+    t.string   "short_code"
+    t.string   "market_type"
+    t.integer  "stock_code_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "recommendations", :force => true do |t|
+    t.datetime "in_date"
+    t.string   "symbol"
     t.integer  "stock_code_id"
     t.integer  "day_candle_id"
     t.integer  "stock_firm_id"
@@ -53,15 +102,11 @@ ActiveRecord::Schema.define(:version => 20130303062700) do
   add_index "roles", ["name"], :name => "index_roles_on_name"
 
   create_table "stock_codes", :force => true do |t|
-    t.string   "institution_code"
     t.string   "name"
     t.string   "eng_name"
-    t.string   "standard_code"
-    t.string   "short_code"
-    t.string   "market_type"
     t.string   "symbol"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "stock_firms", :force => true do |t|

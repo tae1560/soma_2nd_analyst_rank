@@ -6,14 +6,14 @@ require 'tasks/recommendation_crawler'
 #require 'tasks/firm_data_calculator'
 
 namespace :crawler do
-  task :day_candles => :environment do
-    puts "crawl_all_chart started"
-    crawl_all_chart
-  end
-
   task :stock_codes => :environment do
     puts "start crawl_code"
     crawl_code
+  end
+
+  task :day_candles => :environment do
+    puts "crawl_all_chart started"
+    crawl_all_chart
   end
 
   task :recommendations => :environment do

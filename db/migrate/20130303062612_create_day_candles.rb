@@ -6,16 +6,20 @@ class CreateDayCandles < ActiveRecord::Migration
       t.string :symbol, :presence => true
       #t.string :date, :presence => true
       t.datetime :trading_date, :presence => true
-      t.integer :o
-      t.integer :h
-      t.integer :l
-      t.integer :c
-      t.integer :v
-      t.datetime :crawl_date
+      t.integer :open
+      t.integer :high
+      t.integer :low
+      t.integer :close
+      t.integer :volume
+      #t.datetime :crawl_date
+
+      t.integer :stock_code_id, :index => true
 
       t.timestamps
     end
 
     add_index :day_candles, [:symbol, :trading_date], :unique => true
+
+
   end
 end
