@@ -3,18 +3,3 @@
 <% @users.each do |user| %>
   <p>User: <%=link_to user.name, user %></p>
 <% end %>
-
-<table class="table table-striped table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>symbol</th>
-      <th>종목명</th>
-    </tr>
-  </thead>
-  <% StockCode.find_each do |stock_code| %>
-      <tr>
-        <td><%= stock_code.symbol %></td>
-        <td><%= stock_code.name %></td>
-      </tr>
-  <% end %>
-</table>

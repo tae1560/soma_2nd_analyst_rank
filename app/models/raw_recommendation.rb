@@ -6,7 +6,7 @@ class RawRecommendation < ActiveRecord::Base
 #  add_index :raw_recommendations, [:cmp_cd, :brk_cd, :pf_cd], :unique => true
 
   def self.duplicated? cmp_cd, brk_cd, pf_cd
-    RawRecommendation.where(:cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd ).exists?
+    RawRecommendation.where(:cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).exists?
   end
 
   def parse_and_save
@@ -16,16 +16,20 @@ class RawRecommendation < ActiveRecord::Base
       self.recommendation = recommendation
     end
 
-    recommendation.symbol = self.symbol
-    recommendation.open = self.o
-    recommendation.high = self.h
-    recommendation.low = self.l
-    recommendation.close = self.c
-    recommendation.volume = self.v
+    recommendation.in_date = self.in_dt.to_datetime - 9.hours
+    recommendation.symbol = self.cmp_cd
 
-    recommendation.trading_date = self.date.to_datetime - 9.hours
+    # 증권사 instance
+    stock_firm = StockFirm.find_or_create_instance self.brk_cd, self.brk_nm_kor
+    if stock_firm
+      recommendation.stock_firm = stock_firm
+    end
 
-    recommendation.stock_code = StockCode.find_by_symbol(recommendation.symbol)
+    # stock code instance
+    stock_code = StockCode.find_by_symbol self.cmp_cd
+    if stock_code
+      recommendation.stock_code = stock_code
+    end
 
     unless recommendation.save
       puts "ERROR : recommendation.save is not working"

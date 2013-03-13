@@ -5,4 +5,8 @@ AnalystRank::Application.routes.draw do
   root :to => "home#index"
   devise_for :users
   resources :users
+  resources :day_candles
+  resources :stock_codes
+  resources :recommendations
+  resources :stock_firms
 end

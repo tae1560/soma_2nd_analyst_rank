@@ -1,0 +1,19 @@
+<h3>StockCodes</h3>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>이름</th>
+      <th>수익률</th>
+    </tr>
+  </thead>
+  <% @stock_firms.each do |stock_firm| %>
+      <tr>
+        <td><a href="<%= stock_firm_path(stock_firm) %>"> <%= stock_firm.name %> </a></td>
+
+        <% profit = stock_firm.profit %>
+        <td class=<%= class_of_profit profit %>><%= profit %> %</td>
+      </tr>
+  <% end %>
+</table>
+
