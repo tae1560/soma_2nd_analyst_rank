@@ -161,3 +161,11 @@ namespace :back_tester do
   #  aa.save
   #end
 end
+
+namespace :calculator do
+  task :profit => :environment do
+    StockFirm.find_each do |stock_firm|
+      stock_firm.calculate_profit
+    end
+  end
+end

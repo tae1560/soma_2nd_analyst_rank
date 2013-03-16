@@ -15,13 +15,13 @@ class StockFirm < ActiveRecord::Base
     return stock_firm
   end
 
-  def profit
+  def calculate_profit
     sum_of_profit = 0
     self.recommendations.find_each do |recommendation|
       sum_of_profit += recommendation.profit Time.now
     end
-    return sum_of_profit.round(2)
-
+    self.profit = sum_of_profit.round(2)
+    self.save
   end
 
 end
