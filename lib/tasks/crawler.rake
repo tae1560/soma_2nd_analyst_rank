@@ -12,20 +12,24 @@ namespace :crawler do
   end
 
   task :day_candles => :environment do
-    puts "crawl_all_chart started"
+    puts "start crawler:day_candles"
     crawl_all_chart
   end
 
   task :recommendations => :environment do
-    puts "start crawl_recommend"
+    puts "start crawler:recommendations"
     crawl_recommend
   end
 
   task :daily => :environment do
-    puts "crawl_all_chart started"
+    puts "start crawler:day_candles"
     crawl_all_chart
-    puts "start crawl_recommend"
+    puts "start crawler:recommendations"
     crawl_recommend
+    puts "start calculator:profit"
+    StockFirm.find_each do |stock_firm|
+      stock_firm.calculate_profit
+    end
   end
 
   #task :firm_data => :environment do
@@ -171,6 +175,7 @@ end
 
 namespace :calculator do
   task :profit => :environment do
+    puts "start calculator:profit"
     StockFirm.find_each do |stock_firm|
       stock_firm.calculate_profit
     end
