@@ -21,6 +21,13 @@ namespace :crawler do
     crawl_recommend
   end
 
+  task :daily => :environment do
+    puts "crawl_all_chart started"
+    crawl_all_chart
+    puts "start crawl_recommend"
+    crawl_recommend
+  end
+
   #task :firm_data => :environment do
   #  #crwal_financialStatement
   #  crawl_firmdata
