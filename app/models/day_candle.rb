@@ -4,5 +4,4 @@ class DayCandle < ActiveRecord::Base
   belongs_to :stock_code
 
   has_many :recommendations
-
 end

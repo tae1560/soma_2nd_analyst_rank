@@ -111,9 +111,21 @@ ActiveRecord::Schema.define(:version => 20130315015116) do
 
   create_table "stock_firms", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.float    "profit"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.float    "profit_recent"
+    t.float    "profit_1_month"
+    t.float    "profit_2_month"
+    t.float    "profit_3_month"
+    t.float    "profit_4_month"
+    t.float    "profit_5_month"
+    t.float    "profit_6_month"
+    t.float    "profit_7_month"
+    t.float    "profit_8_month"
+    t.float    "profit_9_month"
+    t.float    "profit_10_month"
+    t.float    "profit_11_month"
+    t.float    "profit_12_month"
   end
 
   create_table "users", :force => true do |t|

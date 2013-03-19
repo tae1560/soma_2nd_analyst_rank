@@ -1,35 +1,53 @@
 <script type="text/javascript">
-    (function(c,a){window.mixpanel=a;var b,d,h,e;b=c.createElement("script");
-        b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+
-                '//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';d=c.getElementsByTagName("script")[0];
-        d.parentNode.insertBefore(b,d);a._i=[];a.init=function(b,c,f){function d(a,b){
-            var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(
-                    Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?g=a[f]=[]:
-                f="mixpanel";g.people=g.people||[];h=['disable','track','track_pageview','track_links',
-            'track_forms','register','register_once','unregister','identify','alias','name_tag',
-            'set_config','people.set','people.increment','people.track_charge','people.append'];
-            for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.2;})(document,window.mixpanel||[]);
-    mixpanel.init("5656aa59294f5d08d6b14d85c2029828");
-
-    mixpanel.track("Video play");
+    mixpanel.track("stock_firms", {"base_date" : "<%=session[:base_date]%>"});
 </script>
 
-<h3>StockCodes</h3>
+<h3>StockFirms (<%=@base_date_string%>)</h3>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span9">
+      <!--Sidebar content-->
+
+    </div>
+    <div class="span3">
+      <!--Body content-->
+
+      <div class="input-append">
+        <span class="add-on">수익률 계산 기준 날짜</span>
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            선택
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="<%=stock_firms_path%>?base_date=0">최근 까지</a></li>
+            <% (1..12).each do |month| %>
+                <li><a href="<%=stock_firms_path%>?base_date=<%=month%>">추천 후 <%=month%>달 동안</a></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <table class="table table-striped table-bordered table-hover">
   <thead>
     <tr>
+      <th>랭킹</th>
       <th>이름</th>
-      <th>수익률</th>
+      <th><%=@base_date_string%> 평균 수익률</th>
+      <th> </th>
     </tr>
   </thead>
-  <% @stock_firms.each do |stock_firm| %>
-      <tr>
-        <td><a href="<%= stock_firm_path(stock_firm) %>"> <%= stock_firm.name %> </a></td>
-
-        <% profit = stock_firm.profit %>
-        <td class=<%= class_of_profit profit %>><%= profit %> %</td>
-      </tr>
+  <%  %>
+  <% @stock_firms_rows.each do |stock_firms_row| %>
+    <tr>
+      <td><%= stock_firms_row[:ranking] %></td>
+      <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></td>
+      <% profit = stock_firms_row[:profit] %>
+      <td class=<%= class_of_profit profit %>><%= profit %> %</td>
+      <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
+    </tr>
   <% end %>
 </table>
-

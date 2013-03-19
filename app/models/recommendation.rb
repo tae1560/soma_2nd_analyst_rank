@@ -19,7 +19,7 @@ class Recommendation < ActiveRecord::Base
     in_day_candle = DayCandle.where(:trading_date => self.in_date, :symbol => self.symbol).first
 
     if in_day_candle and out_day_candle
-      return ((out_day_candle.close - in_day_candle.close) / in_day_candle.close.to_f * 100).round(2)
+      return ((out_day_candle.close - in_day_candle.close) / in_day_candle.close.to_f * 100)
     else
       return 0
     end

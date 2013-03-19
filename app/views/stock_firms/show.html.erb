@@ -1,36 +1,66 @@
-<h3>StockCodes</h3>
+<script type="text/javascript">
+    mixpanel.track("stock_firms/show", {"base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});
+</script>
+
+<h3><%= link_to "StockFirms", stock_firms_path %> > <%= @stock_firm.name %> (<%=@base_date_string%>)</h3>
 
 <table class="table table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th>추천날짜</th>
       <th>종목코드</th>
       <th>종목명</th>
       <th>증권사명</th>
+      <th>추천날짜</th>
       <th>추천시 종가</th>
-      <th>현재 종가</th>
+      <th>기준일</th>
+      <th>기준일 종가</th>
       <th>수익률</th>
+      <th></th>
     </tr>
   </thead>
-  <% @stock_firm.recommendations.each do |recommendation| %>
+  <% @recommendations.each do |recommendation| %>
       <%
-         current = DayCandle.where(:trading_date => recommendation.in_date, :symbol => recommendation.symbol).first
-         last = DayCandle.where(:symbol => recommendation.symbol).order(:trading_date).last
-         surplus = recommendation.profit Time.now
+         in_day_candle = nil
+         out_day_candle = nil
+
+         if session[:base_date] and session[:base_date].to_i > 0
+           base_date = recommendation.in_date + session[:base_date].to_i.months
+           base_date = base_date.to_date.to_datetime - 9.hours
+
+           in_day_candle = DayCandle.where(:trading_date => recommendation.in_date, :symbol => recommendation.symbol).first
+           out_day_candle = DayCandle.where(:trading_date => base_date, :symbol => recommendation.symbol).first
+
+           unless out_day_candle
+             out_day_candle = DayCandle.where(:symbol => recommendation.symbol).order(:trading_date).last
+           end
+         else
+           in_day_candle = DayCandle.where(:trading_date => recommendation.in_date, :symbol => recommendation.symbol).first
+           out_day_candle = DayCandle.where(:symbol => recommendation.symbol).order(:trading_date).last
+         end
+
+         if in_day_candle and out_day_candle
+           profit = ((out_day_candle.close - in_day_candle.close) / in_day_candle.close.to_f * 100).round(2)
+         else
+           profit = "-"
+         end
       %>
-      <% if recommendation.stock_code and current and last %>
+      <% if recommendation.stock_code and in_day_candle and out_day_candle %>
       <tr>
-        <td><%= recommendation.in_date.in_time_zone("Seoul").to_date %></td>
         <td><%= recommendation.symbol %></td>
         <td><%= recommendation.stock_code.name %></td>
         <td><%= recommendation.stock_firm.name %></td>
-        <td><%= current.close %></td>
-        <td><%= last.close %></td>
-        <% profit = recommendation.profit Time.now %>
+        <td><%= recommendation.in_date.in_time_zone("Seoul").to_date %></td>
+        <td><%= in_day_candle.close %></td>
+        <td><%= out_day_candle.trading_date.in_time_zone("Seoul").to_date %></td>
+        <td><%= out_day_candle.close %></td>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
+        <td><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%=recommendation.in_date.in_time_zone("Seoul").to_date%>&brknm=<%=recommendation.stock_firm.name%>"
+               target="_blank" onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= recommendation.in_date.in_time_zone("Seoul").to_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>차트</a></td>
       </tr>
       <% end %>
   <% end %>
-
 </table>
+
+<%= will_paginate @recommendations %>
+
 
