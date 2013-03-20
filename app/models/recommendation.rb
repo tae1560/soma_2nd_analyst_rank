@@ -27,7 +27,7 @@ class Recommendation < ActiveRecord::Base
 
   def get_profit in_day_candle, out_day_candle
     profit = nil
-    if in_day_candle and out_day_candle
+    if in_day_candle and out_day_candle and in_day_candle.open != 0
       profit = ((out_day_candle.close - in_day_candle.open) / in_day_candle.open.to_f * 100).round(2)
     end
     return profit
