@@ -21,8 +21,8 @@
   </thead>
   <% @recommendations.each do |recommendation| %>
       <%
-         in_day_candle = recommendation.in_day_candle
-         out_day_candle = recommendation.out_day_candle session[:base_date]
+         in_day_candle = recommendation.get_in_day_candle
+         out_day_candle = recommendation.get_out_day_candle session[:base_date]
          profit = recommendation.get_profit in_day_candle, out_day_candle
       %>
       <tr>

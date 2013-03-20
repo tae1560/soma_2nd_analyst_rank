@@ -19,42 +19,36 @@ class StockFirm < ActiveRecord::Base
   end
 
   def calculate_profit
-    puts "recent"
-    sum_of_profit = 0
-    number_of_profit = 0
-    self.recommendations.find_each do |recommendation|
-      sum_of_profit += recommendation.profit Time.now
-      number_of_profit += 1
-    end
-
-    if number_of_profit > 0
-      self.profit_recent = (sum_of_profit / number_of_profit).round(2)
-    else
-      self.profit_recent = 0
-    end
-
-    (1..12).each do |month|
+    (0..12).each do |month|
       puts "month : #{month}"
+
       sum_of_profit = 0
       number_of_profit = 0
       #sum_of_start_date = 0
       #sum_of_target_date = 0
       self.recommendations.find_each do |recommendation|
-        target_date = recommendation.in_date + month.months
-        if target_date < Time.now
-          sum_of_profit += recommendation.profit recommendation.in_date + month.months
-          number_of_profit += 1
+        in_day_candle = recommendation.get_in_day_candle
+        out_day_candle = recommendation.get_out_day_candle month
+        profit = recommendation.get_profit in_day_candle, out_day_candle
 
-          #out_date = out_date.to_date.to_datetime - 9.hours
-          #sum_of_start_date = 0
-          #sum_of_target_date = 0
+        if profit
+          sum_of_profit += profit
+          number_of_profit += 1
         end
       end
 
-      if number_of_profit > 0
-        self.send("profit_#{month}_month=", (sum_of_profit / number_of_profit).round(2))
+      if month > 0
+        if number_of_profit > 0
+          self.send("profit_#{month}_month=", (sum_of_profit / number_of_profit).round(2))
+        else
+          self.send("profit_#{month}_month=", 0)
+        end
       else
-        self.send("profit_#{month}_month=", 0)
+        if number_of_profit > 0
+          self.profit_recent = (sum_of_profit / number_of_profit).round(2)
+        else
+          self.profit_recent = 0
+        end
       end
     end
 
