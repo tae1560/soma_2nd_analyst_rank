@@ -11,53 +11,35 @@
       <th>종목명</th>
       <th>증권사명</th>
       <th>추천날짜</th>
-      <th>추천시 종가</th>
-      <th>기준일</th>
-      <th>기준일 종가</th>
+      <th>매수 일자</th>
+      <th>매수일 시가</th>
+      <th>매도 일자</th>
+      <th>매도일 종가</th>
       <th>수익률</th>
       <th></th>
     </tr>
   </thead>
   <% @recommendations.each do |recommendation| %>
       <%
-         in_day_candle = nil
-         out_day_candle = nil
-
-         if session[:base_date] and session[:base_date].to_i > 0
-           base_date = recommendation.in_date + session[:base_date].to_i.months
-           base_date = base_date.to_date.to_datetime - 9.hours
-
-           in_day_candle = DayCandle.where(:trading_date => recommendation.in_date, :symbol => recommendation.symbol).first
-           out_day_candle = DayCandle.where(:trading_date => base_date, :symbol => recommendation.symbol).first
-
-           unless out_day_candle
-             out_day_candle = DayCandle.where(:symbol => recommendation.symbol).order(:trading_date).last
-           end
-         else
-           in_day_candle = DayCandle.where(:trading_date => recommendation.in_date, :symbol => recommendation.symbol).first
-           out_day_candle = DayCandle.where(:symbol => recommendation.symbol).order(:trading_date).last
-         end
-
-         if in_day_candle and out_day_candle
-           profit = ((out_day_candle.close - in_day_candle.close) / in_day_candle.close.to_f * 100).round(2)
-         else
-           profit = "-"
-         end
+         in_day_candle = recommendation.in_day_candle
+         out_day_candle = recommendation.out_day_candle session[:base_date]
+         profit = recommendation.get_profit in_day_candle, out_day_candle
       %>
-      <% if recommendation.stock_code and in_day_candle and out_day_candle %>
       <tr>
         <td><%= recommendation.symbol %></td>
         <td><%= recommendation.stock_code.name %></td>
         <td><%= recommendation.stock_firm.name %></td>
-        <td><%= recommendation.in_date.in_time_zone("Seoul").to_date %></td>
-        <td><%= in_day_candle.close %></td>
-        <td><%= out_day_candle.trading_date.in_time_zone("Seoul").to_date %></td>
-        <td><%= out_day_candle.close %></td>
+        <td><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
+        <td><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
+        <td><%= in_day_candle && in_day_candle.open || "-" %></td>
+        <td><%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %></td>
+        <td><%= out_day_candle && out_day_candle.close || "-" %></td>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
-        <td><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%=recommendation.in_date.in_time_zone("Seoul").to_date%>&brknm=<%=recommendation.stock_firm.name%>"
-               target="_blank" onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= recommendation.in_date.in_time_zone("Seoul").to_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>차트</a></td>
+        <td><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
+               target="_blank"
+               onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= Utility.utc_datetime_to_kor_str recommendation.in_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>
+          차트</a></td>
       </tr>
-      <% end %>
   <% end %>
 </table>
 

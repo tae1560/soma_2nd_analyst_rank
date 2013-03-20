@@ -24,4 +24,31 @@ class Recommendation < ActiveRecord::Base
       return 0
     end
   end
+
+  def get_profit in_day_candle, out_day_candle
+    profit = nil
+    if in_day_candle and out_day_candle
+      profit = ((out_day_candle.close - in_day_candle.open) / in_day_candle.open.to_f * 100).round(2)
+    end
+    return profit
+  end
+
+  def out_day_candle base_date_type
+  #  1~12 : in_date + month // 0 : now
+    out_day_candle = nil
+    if base_date_type and base_date_type.to_i > 0
+      base_date = self.in_date + base_date_type.to_i.months
+      out_day_candle = DayCandle.where("trading_date > '#{base_date}'").where(:symbol => self.symbol).order(:trading_date).first
+    end
+
+    unless out_day_candle
+      out_day_candle = DayCandle.where(:symbol => self.symbol).order(:trading_date).last
+    end
+
+    return out_day_candle
+  end
+
+  def in_day_candle
+    DayCandle.where("trading_date > '#{self.in_date}'").where(:symbol => self.symbol).order(:trading_date).first
+  end
 end
