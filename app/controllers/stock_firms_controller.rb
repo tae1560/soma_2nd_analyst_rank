@@ -37,7 +37,7 @@ class StockFirmsController < ApplicationController
 
   def show
     @stock_firm = StockFirm.find(params[:id])
-    @recommendations = @stock_firm.recommendations.paginate(:page => params[:page], :per_page => 30)
+    @recommendations = @stock_firm.recommendations.order("in_date DESC").paginate(:page => params[:page], :per_page => 30)
 
     if session[:base_date] and session[:base_date].to_i > 0
       @base_date_function = "profit_#{session[:base_date]}_month"
