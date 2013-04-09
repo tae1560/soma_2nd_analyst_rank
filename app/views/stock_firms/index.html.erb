@@ -38,16 +38,18 @@
       <th>이름</th>
       <th><%=@base_date_string%> 수익률의 평균</th>
       <th> </th>
+      <th> </th>
     </tr>
   </thead>
   <%  %>
   <% @stock_firms_rows.each do |stock_firms_row| %>
     <tr>
       <td><%= stock_firms_row[:ranking] %></td>
-      <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></td>
+      <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <% profit = stock_firms_row[:profit] %>
       <td class=<%= class_of_profit profit %>><%= profit %> %</td>
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
+      <td><a href="#">시그널링</a></td>
     </tr>
   <% end %>
 </table>

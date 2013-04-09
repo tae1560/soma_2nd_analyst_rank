@@ -14,6 +14,7 @@ class RawRecommendation < ActiveRecord::Base
     unless recommendation
       recommendation = Recommendation.new
       self.recommendation = recommendation
+      self.save
     end
 
     recommendation.in_date = self.in_dt.to_datetime - 9.hours

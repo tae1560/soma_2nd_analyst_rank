@@ -16,6 +16,7 @@ class RawStockCode < ActiveRecord::Base
         unless stock_code
           stock_code = StockCode.new
           self.stock_code = stock_code
+          self.save
         end
 
         stock_code.name = self.name

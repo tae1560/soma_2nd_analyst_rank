@@ -21,6 +21,6 @@
 
 every 1.minute do
   command "echo 'you can use raw cron syntax too'"
-  command "test.txt << 'test'"
+  command "/Users/tae1560/RubymineProjects/composer_test/analyst_rank/test.txt << 'test'"
 end
 
