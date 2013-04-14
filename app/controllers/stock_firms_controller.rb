@@ -4,6 +4,9 @@ class StockFirmsController < ApplicationController
     @stock_firms = StockFirm.all
     @stock_firms_rows = []
 
+    unless session[:base_date]
+      session[:base_date] = "1"
+    end
 
     if params[:base_date] and params[:base_date].to_i <= 12 and params[:base_date].to_i >= 0
       session[:base_date] = params[:base_date]
