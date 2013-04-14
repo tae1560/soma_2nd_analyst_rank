@@ -42,7 +42,7 @@ class Recommendation < ActiveRecord::Base
     end
 
     unless out_day_candle
-      out_day_candle = DayCandle.where(:symbol => self.symbol).order(:trading_date).last
+      #out_day_candle = DayCandle.where(:symbol => self.symbol).order(:trading_date).last
     end
 
     return out_day_candle
