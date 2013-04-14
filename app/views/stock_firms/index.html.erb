@@ -20,10 +20,10 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="<%=stock_firms_path%>?base_date=0">최근 까지</a></li>
             <% (1..12).each do |month| %>
                 <li><a href="<%=stock_firms_path%>?base_date=<%=month%>">추천 후 <%=month%>달 동안</a></li>
             <% end %>
+            <li><a href="<%=stock_firms_path%>?base_date=0">최근 까지</a></li>
           </ul>
         </div>
       </div>
@@ -49,7 +49,7 @@
       <% profit = stock_firms_row[:profit] %>
       <td class=<%= class_of_profit profit %>><%= profit %> %</td>
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
-      <td><a href="#">시그널링</a></td>
+      <td><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>
   <% end %>
 </table>

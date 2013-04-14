@@ -14,10 +14,10 @@ class StockFirmsController < ApplicationController
 
     if session[:base_date] and session[:base_date].to_i > 0
       @base_date_function = "profit_#{session[:base_date]}_month"
-      @base_date_string = "추천 후 #{session[:base_date]}달 동안"
+      @base_date_string = "추천 후 #{session[:base_date]}달 동안 유지할 때"
     else
       @base_date_function = "profit_recent"
-      @base_date_string = "최근 까지"
+      @base_date_string = "최근 까지 계속 유지할 때"
     end
 
     @stock_firms.each do |stock_firm|
@@ -44,10 +44,10 @@ class StockFirmsController < ApplicationController
 
     if session[:base_date] and session[:base_date].to_i > 0
       @base_date_function = "profit_#{session[:base_date]}_month"
-      @base_date_string = "추천 후 #{session[:base_date]}달 동안"
+      @base_date_string = "추천 후 #{session[:base_date]}달 동안 유지할 때"
     else
       @base_date_function = "profit_recent"
-      @base_date_string = "최근 까지"
+      @base_date_string = "최근 까지 계속 유지할 때"
     end
 
 
