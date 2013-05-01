@@ -29,3 +29,4 @@ gem "binding_of_caller", ">= 0.7.1", :group => :development, :platforms => [:mri
 
 gem 'whenever', :require => false
 gem 'will_paginate', '~> 3.0'
+gem 'capistrano'

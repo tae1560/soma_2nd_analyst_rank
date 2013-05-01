@@ -20,7 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.minute do
-  command "echo 'you can use raw cron syntax too'"
-  command "/Users/tae1560/RubymineProjects/composer_test/analyst_rank/test.txt << 'test'"
+  command "date >> /Users/tae1560/RubymineProjects/composer_test/analyst_rank/test.txt"
+  rake "manager:cron"
 end
 
