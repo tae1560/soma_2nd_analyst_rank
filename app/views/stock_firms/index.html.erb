@@ -1,10 +1,15 @@
 <script type="text/javascript">
-    mixpanel.track("stock_firms", {"base_date" : "<%=session[:base_date]%>"});
+    //mixpanel.track("stock_firms", {"base_date" : "<%=session[:base_date]%>"});
 </script>
 
 <h3 class="hidden-phone">StockFirms (<%=@base_date_string%>)</h3>
 <div class="container-fluid">
   <div class="row-fluid">
+    <div class="span8">
+      <!--Sidebar content-->
+
+    </div>
+    <div class="span4">
       <!--Body content-->
         <div class="input-append">
           <div class="btn-group">
@@ -26,10 +31,20 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <% (1..12).each do |month| %>
-                <li><a href="<%=stock_firms_path%>?base_date=<%=month%>">추천 후 <%=month%>달 뒤에 팔았다면</a></li>
+            <% RecentPeriod.find_each do |recent_period| %>
+                <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>">최근 <%=recent_period.name%> 추천을 </a></li>
             <% end %>
-            <li><a href="<%=stock_firms_path%>?base_date=0">최근 까지</a></li>
+          </ul>
+        </div>
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            선택
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <% KeepPeriod.find_each do |keep_period| %>
+                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=keep_period.name%> 동안 유지할 때 </a></li>
+            <% end %>
           </ul>
           <%=@base_date_string%>
         </div>

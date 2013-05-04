@@ -1,10 +1,8 @@
 class StockFirm < ActiveRecord::Base
-  attr_accessible :name, :profit_recent, :profit_1_month, :profit_2_month, :profit_3_month,
-                  :profit_4_month, :profit_5_month, :profit_6_month, :profit_7_month,
-                  :profit_8_month, :profit_9_month, :profit_10_month, :profit_11_month,
-                  :profit_12_month
+  attr_accessible :name
 
   has_many :recommendations
+  has_many :analyses
 
   def self.find_or_create_instance id, name
     stock_firm = StockFirm.find_by_id(id)
@@ -19,6 +17,66 @@ class StockFirm < ActiveRecord::Base
   end
 
   def calculate_profit
+    KeepPeriod.find_each do |keep_period|
+      RecentPeriod.find_each do |recent_period|
+        analysis = self.analyses.where(:keep_period_id => keep_period.id, :recent_period_id => recent_period.id).first
+        unless analysis
+          analysis = Analysis.create
+          analysis.keep_period = keep_period
+          analysis.recent_period = recent_period
+          self.analyses << analysis
+        end
+
+        puts "stock_firm : #{analysis.stock_firm.name} keep : #{analysis.keep_period.name}, recent : #{analysis.recent_period.name}"
+
+        # start calculate
+        profit_array = []
+
+        # recent_period
+        filtered_recommendations = nil
+        if analysis.recent_period.days < 0
+          filtered_recommendations = self.recommendations
+        else
+          filtered_recommendations = self.recommendations.where("in_date > '#{Time.now - analysis.recent_period.days.days}'")
+        end
+
+        filtered_recommendations.find_each do |recommendation|
+          in_day_candle = recommendation.get_in_day_candle
+          # keep_period
+          out_day_candle = recommendation.get_out_day_candle analysis.keep_period.days.days
+          profit = recommendation.get_profit in_day_candle, out_day_candle
+
+          if profit
+            profit_array.push profit
+          end
+        end
+
+        # calculate average and variance
+        sum_of_profit = 0
+        profit_array.each do |profit|
+          sum_of_profit += profit
+        end
+
+        earning_average = nil
+        if profit_array.size > 0
+          earning_average = sum_of_profit / profit_array.size
+        end
+
+        if earning_average
+          sum_of_profit_for_variance = 0
+          profit_array.each do |profit|
+            sum_of_profit_for_variance += ((profit - earning_average) * (profit - earning_average))
+          end
+
+          analysis.earning_average = earning_average
+          analysis.earning_variance = sum_of_profit_for_variance / profit_array.size
+          analysis.save
+        end
+      end
+    end
+
+    return
+
     (0..12).each do |month|
       puts "month : #{month}"
 
