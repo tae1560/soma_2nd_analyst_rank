@@ -31,3 +31,4 @@ gem 'nokogiri'
 gem 'whenever', :require => false
 gem 'will_paginate', '~> 3.0'
 gem 'capistrano'
+gem 'gcm_on_rails'
