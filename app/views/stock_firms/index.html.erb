@@ -2,32 +2,38 @@
     mixpanel.track("stock_firms", {"base_date" : "<%=session[:base_date]%>"});
 </script>
 
-<h3>StockFirms (<%=@base_date_string%>)</h3>
+<h3 class="hidden-phone">StockFirms (<%=@base_date_string%>)</h3>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span9">
-      <!--Sidebar content-->
-
-    </div>
-    <div class="span3">
       <!--Body content-->
-
-      <div class="input-append">
-        <span class="add-on">수익률 계산 기준 날짜</span>
+        <div class="input-append">
+          <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">
+              최근 n달 내 추천종목을
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <% (1..12).each do |month| %>
+                  <li><a href="<%=stock_firms_path%>?base_date=<%=month%>">최근 <%=month%>달 내 추천종목을</a></li>
+              <% end %>
+              <li><a href="<%=stock_firms_path%>?base_date=0">전체</a></li>
+            </ul>
+            <%=@base_date_string%>
+          </div>
         <div class="btn-group">
           <button class="btn dropdown-toggle" data-toggle="dropdown">
-            선택
+            매수한 후 n달 뒤에 팔았다면
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
             <% (1..12).each do |month| %>
-                <li><a href="<%=stock_firms_path%>?base_date=<%=month%>">추천 후 <%=month%>달 동안</a></li>
+                <li><a href="<%=stock_firms_path%>?base_date=<%=month%>">추천 후 <%=month%>달 뒤에 팔았다면</a></li>
             <% end %>
             <li><a href="<%=stock_firms_path%>?base_date=0">최근 까지</a></li>
           </ul>
+          <%=@base_date_string%>
         </div>
       </div>
-    </div>
   </div>
 </div>
 
@@ -36,9 +42,9 @@
     <tr>
       <th>랭킹</th>
       <th>이름</th>
-      <th><%=@base_date_string%> 수익률의 평균</th>
-      <th> </th>
-      <th> </th>
+      <th>평균수익률</th>
+      <th class="hidden-phone"> </th>
+      <th class="hidden-phone"> </th>
     </tr>
   </thead>
   <%  %>
@@ -48,8 +54,8 @@
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <% profit = stock_firms_row[:profit] %>
       <td class=<%= class_of_profit profit %>><%= profit %> %</td>
-      <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
-      <td><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
+      <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</a></td>
+      <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>
   <% end %>
 </table>

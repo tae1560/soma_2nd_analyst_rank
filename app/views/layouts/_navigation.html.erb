@@ -1,30 +1,32 @@
-<%= link_to "증권사 Rank", root_path, :class => 'brand' %>
-<ul class="nav">
+<%= link_to "증권사 순", root_path, :class => 'brand' %>
+<div class="nav-collapse collapse">
+    <ul class="nav pull-right">
 
-  <% if user_signed_in? %>
-    <li>
-    <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
-    </li>
-  <% else %>
-    <li>
-    <%= link_to 'Login', new_user_session_path %>
-    </li>
-  <% end %>
-  <% if user_signed_in? %>
-    <li>
-    <%= link_to 'Edit account', edit_user_registration_path %>
-    </li>
-    <% if current_user.has_role? :admin %>
+      <% if user_signed_in? %>
+        <li>
+        <%= link_to '로그아웃', destroy_user_session_path, :method=>'delete' %>
+        </li>
+      <% else %>
+        <li>
+        <%= link_to '로그인', new_user_session_path %>
+        </li>
+      <% end %>
+      <% if user_signed_in? %>
+        <li>
+        <%= link_to '정보수정', edit_user_registration_path %>
+        </li>
+        <% if current_user.has_role? :admin %>
+          <li>
+          <%= link_to '관리자', users_path %>
+          </li>
+        <% end %>
+      <% else %>
+        <li>
+        <%= link_to '회원가입', new_user_registration_path %>
+        </li>
+      <% end %>
       <li>
-      <%= link_to 'Admin', users_path %>
+        <%= link_to '추천정보', stock_firms_path %>
       </li>
-    <% end %>
-  <% else %>
-    <li>
-    <%= link_to 'Sign up', new_user_registration_path %>
-    </li>
-  <% end %>
-  <li>
-    <%= link_to '추천정보', stock_firms_path %>
-  </li>
-</ul>
+    </ul>
+</div><!--/.nav-collapse -->

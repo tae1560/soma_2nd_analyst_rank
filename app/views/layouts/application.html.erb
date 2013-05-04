@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "증권사 Rank" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "증권사 순위" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Analyst Rank" %>">
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
@@ -10,9 +10,15 @@
     <%= yield(:head) %>
   </head>
   <body class="<%= controller_name %> <%= action_name %>">
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top navbar-inverse">
       <nav class="navbar-inner">
         <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
           <%= render 'layouts/navigation' %>
         </div>
       </nav>
@@ -31,5 +37,20 @@
         </div>
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->
+    <!-- bartender 적용? -->
+    <div class="ui-footer visible-phone">
+      <div>
+        <ul class="apple-navbar-ui comboSprite">
+          <li>
+            <a class="ui-btn">
+          <span class="ui-btn-inner">
+            <span class="ui-btn-text"><span class="ui-li-count"></span></span>
+            <span class="ui-icon"></span>
+          </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>
