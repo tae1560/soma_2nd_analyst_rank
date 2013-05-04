@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130504154504) do
+ActiveRecord::Schema.define(:version => 20130504165359) do
+
+  create_table "analyses", :force => true do |t|
+    t.float    "earning_average"
+    t.float    "earning_variance"
+    t.integer  "stock_firm_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "keep_period_id"
+    t.integer  "recent_period_id"
+  end
+
+  add_index "analyses", ["keep_period_id", "recent_period_id"], :name => "index_by_keep_period_id_and_recent_period_id"
 
   create_table "day_candles", :force => true do |t|
     t.string   "symbol"
@@ -49,6 +61,13 @@ ActiveRecord::Schema.define(:version => 20130504154504) do
   end
 
   add_index "gcm_notifications", ["device_id"], :name => "index_gcm_notifications_on_device_id"
+
+  create_table "keep_periods", :force => true do |t|
+    t.string   "name"
+    t.integer  "days"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "raw_day_candles", :force => true do |t|
     t.datetime "date"
@@ -102,6 +121,13 @@ ActiveRecord::Schema.define(:version => 20130504154504) do
     t.datetime "updated_at",       :null => false
   end
 
+  create_table "recent_periods", :force => true do |t|
+    t.string   "name"
+    t.integer  "days"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "recommendations", :force => true do |t|
     t.datetime "in_date"
     t.string   "symbol"
@@ -133,21 +159,8 @@ ActiveRecord::Schema.define(:version => 20130504154504) do
 
   create_table "stock_firms", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.float    "profit_recent"
-    t.float    "profit_1_month"
-    t.float    "profit_2_month"
-    t.float    "profit_3_month"
-    t.float    "profit_4_month"
-    t.float    "profit_5_month"
-    t.float    "profit_6_month"
-    t.float    "profit_7_month"
-    t.float    "profit_8_month"
-    t.float    "profit_9_month"
-    t.float    "profit_10_month"
-    t.float    "profit_11_month"
-    t.float    "profit_12_month"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|

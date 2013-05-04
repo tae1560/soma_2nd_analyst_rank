@@ -33,11 +33,11 @@ class Recommendation < ActiveRecord::Base
     return profit
   end
 
-  def get_out_day_candle base_date_type
-  #  1~12 : in_date + month // 0 : now
+  def get_out_day_candle keep_period
+  # keep_period with days
     out_day_candle = nil
-    if base_date_type and base_date_type.to_i > 0
-      base_date = self.in_date + base_date_type.to_i.months
+    if keep_period
+      base_date = self.in_date + keep_period
       out_day_candle = DayCandle.where("trading_date > '#{base_date}'").where(:symbol => self.symbol).order(:trading_date).first
     end
 

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    mixpanel.track("stock_firms/show", {"base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});
+    //mixpanel.track("stock_firms/show", {"base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});
 </script>
 
 <h3><%= link_to "StockFirms", stock_firms_path %> > <%= @stock_firm.name %> (<%=@base_date_string%>)</h3>
@@ -22,7 +22,7 @@
   <% @recommendations.each do |recommendation| %>
       <%
          in_day_candle = recommendation.get_in_day_candle
-         out_day_candle = recommendation.get_out_day_candle session[:base_date]
+         out_day_candle = recommendation.get_out_day_candle @keep_period.days.days
          profit = recommendation.get_profit in_day_candle, out_day_candle
       %>
       <tr>
