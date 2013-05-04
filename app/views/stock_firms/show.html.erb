@@ -2,21 +2,21 @@
     mixpanel.track("stock_firms/show", {"base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});
 </script>
 
-<h3><%= link_to "StockFirms", stock_firms_path %> > <%= @stock_firm.name %> (<%=@base_date_string%>)</h3>
+<h3 class="hidden-phone"><%= link_to "StockFirms", stock_firms_path %> > <%= @stock_firm.name %> (<%=@base_date_string%>)</h3>
 
 <table class="table table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th>종목코드</th>
+      <th class="hidden-phone">종목코드</th>
       <th>종목명</th>
-      <th>증권사명</th>
+      <th class="hidden-phone">증권사명</th>
       <th>추천날짜</th>
       <th>매수 일자</th>
-      <th>매수일 시가</th>
+      <th class="hidden-phone">매수일 시가</th>
       <th>매도 일자</th>
-      <th>매도일 종가</th>
+      <th class="hidden-phone">매도일 종가</th>
       <th>수익률</th>
-      <th></th>
+      <th class="hidden-phone"></th>
     </tr>
   </thead>
   <% @recommendations.each do |recommendation| %>
@@ -26,16 +26,16 @@
          profit = recommendation.get_profit in_day_candle, out_day_candle
       %>
       <tr>
-        <td><%= recommendation.symbol %></td>
+        <td class="hidden-phone"><%= recommendation.symbol %></td>
         <td><%= recommendation.stock_code.name %></td>
-        <td><%= recommendation.stock_firm.name %></td>
-        <td><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
-        <td><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
-        <td><%= in_day_candle && in_day_candle.open || "-" %></td>
-        <td><%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %></td>
-        <td><%= out_day_candle && out_day_candle.close || "-" %></td>
+        <td class="hidden-phone"><%= recommendation.stock_firm.name %></td>
+        <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
+        <td class="small-font"><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
+        <td class="hidden-phone"><%= in_day_candle && in_day_candle.open || "-" %></td>
+        <td class="small-font"><%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %></td>
+        <td class="hidden-phone"><%= out_day_candle && out_day_candle.close || "-" %></td>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
-        <td><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
+        <td class="hidden-phone"><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
                target="_blank"
                onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= Utility.utc_datetime_to_kor_str recommendation.in_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>
           차트</a></td>
