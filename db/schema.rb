@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130504165359) do
+ActiveRecord::Schema.define(:version => 20130505023519) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(:version => 20130504165359) do
     t.integer  "pre_adj_price"
     t.string   "pre_dt"
     t.integer  "cnt"
-    t.string   "reason_in"
+    t.text     "reason_in"
     t.string   "file_nm"
     t.string   "anl_dt"
     t.string   "in_diff_reason"
