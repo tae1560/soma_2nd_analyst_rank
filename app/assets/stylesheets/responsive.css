@@ -1,0 +1,23 @@
+
+@media (max-width: 480px) {
+    body{
+        font-size:12px;
+
+
+    }
+    table td{
+        padding:5px;
+    }
+    .stock_firms .content{
+        padding:0;
+    }
+
+    .small-font{
+        font-size:9px;
+
+    }
+
+
+    .table thead th {background-color:#f8f3ee !important}
+    .dataTables_wrapper th.sorting_asc,.dataTables_wrapper th.sorting_desc {background-color:#eee2d6 !important}
+}
