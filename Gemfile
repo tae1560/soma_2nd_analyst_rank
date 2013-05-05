@@ -14,7 +14,8 @@ gem "database_cleaner", ">= 0.9.1", :group => :test
 gem "email_spec", ">= 1.4.0", :group => :test
 gem "factory_girl_rails", ">= 4.2.0", :group => [:development, :test]
 gem "less-rails", ">= 2.2.6", :group => :assets
-gem "twitter-bootstrap-rails", ">= 2.2.4", :group => :assets
+#gem "twitter-bootstrap-rails", ">= 2.2.4", :group => :assets
+gem "twitter-bootstrap-rails", ">= 2.2.4"
 gem "libv8", ">= 3.11.8"
 gem "therubyracer", ">= 0.11.3", :group => :assets, :platform => :ruby, :require => "v8"
 gem "devise", ">= 2.2.3"
@@ -32,3 +33,4 @@ gem 'whenever', :require => false
 gem 'will_paginate', '~> 3.0'
 gem 'capistrano'
 gem 'gcm_on_rails'
+gem 'configatron'
