@@ -24,6 +24,9 @@ class StockFirmsController < ApplicationController
     @keep_period = KeepPeriod.find(session[:keep_period_id])
 
     @base_date_string = "최근 #{@recent_period.name} 추천을 #{@keep_period.name} 동안 유지할 때"
+    @recent_period_string = @recent_period.name
+    @keep_period_string = @keep_period.name
+
 
     @stock_firms.each do |stock_firm|
       stock_firms_row = {}

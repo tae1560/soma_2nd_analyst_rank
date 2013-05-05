@@ -5,18 +5,12 @@
 <h3 class="hidden-phone">StockFirms (<%=@base_date_string%>)</h3>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span8">
-      <!--Sidebar content-->
-
-    </div>
     <div class="span4">
       <!--Body content-->
-
       <div class="input-append">
-        <span class="add-on">수익률 계산 기준 날짜</span>
         <div class="btn-group">
           <button class="btn dropdown-toggle" data-toggle="dropdown">
-            선택
+            최근 <%=@recent_period_string%> 추천을
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
@@ -27,7 +21,7 @@
         </div>
         <div class="btn-group">
           <button class="btn dropdown-toggle" data-toggle="dropdown">
-            선택
+            <%=@keep_period_string%> 동안 유지할 때
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
