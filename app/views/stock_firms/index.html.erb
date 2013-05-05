@@ -2,7 +2,7 @@
     //mixpanel.track("stock_firms", {"base_date" : "<%=session[:base_date]%>"});
 </script>
 
-<h3>StockFirms (<%=@base_date_string%>)</h3>
+<h3 class="hidden-phone">StockFirms (<%=@base_date_string%>)</h3>
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span8">
@@ -46,9 +46,9 @@
     <tr>
       <th>랭킹</th>
       <th>이름</th>
-      <th><%=@base_date_string%> 수익률의 평균</th>
-      <th> </th>
-      <th> </th>
+      <th>평균수익률</th>
+      <th class="hidden-phone"> </th>
+      <th class="hidden-phone"> </th>
     </tr>
   </thead>
   <%  %>
@@ -58,8 +58,8 @@
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <% profit = stock_firms_row[:profit] %>
       <td class=<%= class_of_profit profit %>><%= profit %> %</td>
-      <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
-      <td><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
+      <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
+      <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>
   <% end %>
 </table>
