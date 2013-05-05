@@ -31,6 +31,8 @@ class StockFirmsController < ApplicationController
       stock_firms_row[:profit] = stock_firm.analyses.where(:recent_period_id => @recent_period.id, :keep_period_id => @keep_period.id).first.earning_average
       if stock_firms_row[:profit]
         stock_firms_row[:profit] = stock_firms_row[:profit].round(2)
+      else
+        stock_firms_row[:profit] = -9999
       end
 
       @stock_firms_rows.push stock_firms_row
@@ -41,6 +43,10 @@ class StockFirmsController < ApplicationController
     ranking = 1
     @stock_firms_rows.each do |stock_firms_row|
       stock_firms_row[:ranking] = ranking
+
+      if stock_firms_row[:profit] == -9999
+        stock_firms_row[:profit] = "-"
+      end
       ranking += 1
     end
 
