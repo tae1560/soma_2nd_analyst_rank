@@ -1,0 +1,52 @@
+ko:
+  errors:
+    messages:
+      expired: "가(이) 만료되었습니다. 새로 요청해 주십시오"
+      not_found: "를(을) 찾을 수 없습니다"
+      already_confirmed: "이미 확인되었습니다, 다시 로그인 해 주십시오"
+      not_locked: "가(이) 잠기지 않았습니다"
+      not_saved:
+        one: "1개의 에러가 발생해서 %{resource}를(을) 저장할 수 없습니다:"
+        other: "%{count}개의 에러가 발생해서 %{resource}를(을) 저장할 수 없습니다:"
+
+  devise:
+    failure:
+      already_authenticated: '이미 로그인 하셨습니다.'
+      unauthenticated: '계속하시려면 로그인하시거나 회원가입을 하셔야 합니다.'
+      unconfirmed: '계속하기 전에 회원가입하신 계정을 확인하셔야 합니다.'
+      locked: '귀하의 계정은 중지되었습니다.'
+      invalid: '로그인 이름이나 암호가 틀립니다.'
+      invalid_token: '인증 토큰 오류입니다.'
+      timeout: '귀하의 로그인 세션이 종료되었습니다. 계속하시려면 다시 로그인하십시요'
+      inactive: '귀하의 계정은 아직 활성화되지 못했습니다.'
+    sessions:
+      signed_in: '로그인되었습니다.'
+      signed_out: '로그아웃되었습니다.'
+    passwords:
+      send_instructions: '잠시후에 귀하의 암호를 재설정하는 방법에 대한 안내문이 이메일로 발송됩니다. 등록된 이메일을 확인하시기 바랍니다.'
+      updated: '귀하의 암호가 변경되었습니다. 현재 로그인 상태입니다.'
+      send_paranoid_instructions: "귀하의 이메일이 등록되어 있다면 암호복원을 위한 링크가 이메일로 발송될 것입니다. 이메일을 확인하십시요."
+    confirmations:
+      send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'
+      send_paranoid_instructions: 'If your e-mail exists on our database, you will receive an email with instructions about how to confirm your account in a few minutes.'
+      confirmed: '귀하의 계정확인 절차가 완료되었습니다. 현재 로그인 상태입니다.'
+    registrations:
+      signed_up: '환영합니다! 귀하의 회원가입이 성공적으로 완료되었습니다.'
+      inactive_signed_up: '귀하는 회원가입이 되었지만 %{reason} 이유로 로그인할 수 없습니다.'
+      updated: '귀하의 개인정보 변경이 완료되었습니다.'
+      destroyed: '안녕히 가십시요! 귀하의 계정이 성공적으로 삭제되었습니다. 조만간 다시 뵙기를 바랍니다.'
+      roles: "권한설정"
+    unlocks:
+      send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
+      unlocked: 'Your account was successfully unlocked. You are now signed in.'
+      send_paranoid_instructions: 'If your account exists, you will receive an email with instructions about how to unlock it in a few minutes.'
+    omniauth_callbacks:
+      success: 'Successfully authorized from %{kind} account.'
+      failure: 'Could not authorize you from %{kind} because "%{reason}".'
+    mailer:
+      confirmation_instructions:
+        subject: '계정확인 안내'
+      reset_password_instructions:
+        subject: '암호 재설정 안내'
+      unlock_instructions:
+        subject: '중지된 계정 활성화 안내'
