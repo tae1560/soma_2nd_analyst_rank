@@ -46,7 +46,8 @@
     <tr>
       <th>랭킹</th>
       <th>이름</th>
-      <th>평균수익률</th>
+      <th>수익률평균</th>
+      <th>수익률분산</th>
       <th class="hidden-phone"> </th>
       <th class="hidden-phone"> </th>
     </tr>
@@ -58,6 +59,8 @@
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <% profit = stock_firms_row[:profit] %>
       <td class=<%= class_of_profit profit %>><%= profit %> %</td>
+      <% variance = stock_firms_row[:variance] %>
+      <td class=<%= class_of_profit variance %>><%= variance %></td>
       <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
       <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>
