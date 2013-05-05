@@ -32,6 +32,14 @@ namespace :crawler do
     end
   end
 
+  task :profit => :environment do
+
+    puts "start calculator:profit"
+    StockFirm.find_each do |stock_firm|
+      stock_firm.calculate_profit
+    end
+  end
+
   #task :firm_data => :environment do
   #  #crwal_financialStatement
   #  crawl_firmdata
