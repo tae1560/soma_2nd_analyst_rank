@@ -5,6 +5,13 @@
 <h3 class="hidden-phone">StockFirms (<%=@base_date_string%>)</h3>
 <div class="container-fluid">
   <div class="row-fluid">
+<<<<<<< HEAD
+=======
+    <div class="span8">
+      <!--Sidebar content-->
+
+    </div>
+>>>>>>> 182f2dad22ce5328a4568123d8aa6d3edb71df2a
     <div class="span4">
       <!--Body content-->
         <div class="input-append">
@@ -29,6 +36,20 @@
           <ul class="dropdown-menu">
             <% RecentPeriod.find_each do |recent_period| %>
                 <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>">최근 <%=recent_period.name%> 추천을 </a></li>
+<<<<<<< HEAD
+=======
+            <% end %>
+          </ul>
+        </div>
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            선택
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <% KeepPeriod.find_each do |keep_period| %>
+                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=keep_period.name%> 동안 유지할 때 </a></li>
+>>>>>>> 182f2dad22ce5328a4568123d8aa6d3edb71df2a
             <% end %>
           </ul>
         </div>
