@@ -60,6 +60,14 @@ class StockFirmsController < ApplicationController
       ranking += 1
     end
 
+    if params["regId"] and params["regId"].length > 0
+      @gcm_device = Gcm::Device.find_or_create_by_registration_id(:registration_id => "#{params["regId"]}")
+
+      if @gcm_device.save
+        session["device_id"] = @gcm_device.id
+      end
+    end
+
   end
 
   def show
