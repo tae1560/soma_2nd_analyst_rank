@@ -17,7 +17,7 @@ task :push => :environment do
     notification.device = device
     notification.collapse_key = "updates_available"
     notification.delay_while_idle = false
-    notification.data = {:registration_ids => ["#{device_token}"], :data => {:message_text => "message"}}
+    notification.data = {:registration_ids => ["#{device_token}"], :data => {:message_text => "message_test", :title_text => "title_test"}}
     notification.save!
     Gcm::Notification.send_notifications
     #send_notifications

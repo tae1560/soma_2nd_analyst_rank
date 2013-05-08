@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130505054652) do
+ActiveRecord::Schema.define(:version => 20130508153218) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20130505054652) do
     t.datetime "last_registered_at"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "user_id"
   end
 
   add_index "gcm_devices", ["registration_id"], :name => "index_gcm_devices_on_registration_id", :unique => true

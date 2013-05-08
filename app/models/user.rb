@@ -11,5 +11,6 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
   attr_accessible :provider, :uid
 
+  has_many :gcm_devices, :class_name => Gcm::Device
 end
 
