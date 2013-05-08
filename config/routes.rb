@@ -10,4 +10,5 @@ AnalystRank::Application.routes.draw do
   resources :stock_codes
   resources :recommendations
   resources :stock_firms
+  resources :gcm_devices
 end
