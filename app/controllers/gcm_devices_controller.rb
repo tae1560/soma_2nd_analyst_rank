@@ -5,6 +5,7 @@ class GcmDevicesController < ApplicationController
 
       if @gcm_device.save
         render :json => {"result" => "success"}
+        session["device_id"] = @gcm_device.id
       else
         render :json => {"result" => "failed", "message" => "save error", "full_messages" => @gcm_device.errors.full_messages}
       end
