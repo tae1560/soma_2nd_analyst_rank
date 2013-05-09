@@ -16,7 +16,9 @@
         font-size:9px;
 
     }
-
+    .content{
+        background-color: white;
+    }
 
     .table thead th {background-color:#f8f3ee !important}
     .dataTables_wrapper th.sorting_asc,.dataTables_wrapper th.sorting_desc {background-color:#eee2d6 !important}
