@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 
   has_many :gcm_devices, :class_name => Gcm::Device
 
+  has_many :stock_firms, :through => :user_favorite_stock_firms
+
   def send_message title, message
     self.gcm_devices.each do |gcm_device|
       notification = Gcm::Notification.new
