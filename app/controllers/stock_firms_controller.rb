@@ -92,7 +92,12 @@ class StockFirmsController < ApplicationController
     @recent_period = RecentPeriod.find(session[:recent_period_id])
     @keep_period = KeepPeriod.find(session[:keep_period_id])
 
-    @recommendations = @stock_firm.recommendations.where("in_date > '#{Time.now - @recent_period.days.days}'").order("in_date DESC").paginate(:page => params[:page], :per_page => 30)
+    if @recent_period and @recent_period.days > 0
+      @recommendations = @stock_firm.recommendations.where("in_date > '#{Time.now - @recent_period.days.days}'").order("in_date DESC").paginate(:page => params[:page], :per_page => 30)
+    else
+      @recommendations = @stock_firm.recommendations.order("in_date DESC").paginate(:page => params[:page], :per_page => 30)
+    end
+
 
     @base_date_string = "최근 #{@recent_period.name} 추천을 #{@keep_period.name} 동안 유지할 때"
   end
