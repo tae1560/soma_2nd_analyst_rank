@@ -5,6 +5,10 @@
 
 
     }
+    .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+        margin:0;
+
+    }
     .navbar{
         position:fixed;
         top:0;
