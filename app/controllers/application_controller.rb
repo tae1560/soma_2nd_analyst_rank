@@ -19,10 +19,12 @@ class ApplicationController < ActionController::Base
     if push_messages_on_device_id_string and push_messages_on_device_id_string.length > 0
       push_messages_on_device_id = push_messages_on_device_id_string.to_i
 
-      push_messages_on_device = PushMessagesOnDevice.find(push_messages_on_device_id)
-      if push_messages_on_device
-        push_messages_on_device.receive_time = Time.now
-        push_messages_on_device.save!
+      if push_messages_on_device_id > 0
+        push_messages_on_device = PushMessagesOnDevice.find(push_messages_on_device_id)
+        if push_messages_on_device
+          push_messages_on_device.receive_time = Time.now
+          push_messages_on_device.save!
+        end
       end
     end
   end
