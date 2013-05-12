@@ -43,6 +43,7 @@
   <% end %>
 </table>
 
-<%= will_paginate @recommendations %>
+<%= will_paginate @recommendations, :previous_label => t("<<"), :next_label => t(">>"), :page_gap => t("...") %>
+
 
 
