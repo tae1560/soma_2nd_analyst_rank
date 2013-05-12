@@ -7,29 +7,41 @@ class Utility
   end
 
   def self.send_message_to_all title, message
+    push_message = PushMessage.create(:title => title, :message => message)
+
+
     Gcm::Device.find_each do |device|
+      push_messages_on_device = PushMessagesOnDevice.create
+      push_messages_on_device.push_message = push_message
+      push_messages_on_device.gcm_device = device
+      push_messages_on_device.push_time = Time.now
+      push_messages_on_device.save!
+
       notification = Gcm::Notification.new
       notification.device = device
       notification.collapse_key = "updates_available"
       notification.delay_while_idle = false
-      notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => notification.id}}
-      notification.save!
-      notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => notification.id}}
+      notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => push_messages_on_device.id}}
       notification.save!
     end
     Gcm::Notification.send_notifications
   end
 
-  def self.send_message_to_device device, title, message
-    notification = Gcm::Notification.new
-    notification.device = device
-    notification.collapse_key = "updates_available"
-    notification.delay_while_idle = false
-    notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => notification.id}}
-    notification.save!
-    notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => notification.id}}
-    notification.save!
-
-    Gcm::Notification.send_notifications
-  end
+  #def self.send_message_to_device device, title, message
+  #  push_message = PushMessage.create(:title => title, :message => message)
+  #
+  #  push_messages_on_device = PushMessagesOnDevice.create
+  #  push_messages_on_device.push_message = push_message
+  #  push_messages_on_device.gcm_device = device
+  #  push_messages_on_device.save!
+  #
+  #  notification = Gcm::Notification.new
+  #  notification.device = device
+  #  notification.collapse_key = "updates_available"
+  #  notification.delay_while_idle = false
+  #  notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => push_messages_on_device.id}}
+  #  notification.save!
+  #
+  #  Gcm::Notification.send_notifications
+  #end
 end
