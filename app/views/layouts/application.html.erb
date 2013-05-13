@@ -4,7 +4,8 @@
   <title><%= content_for?(:title) ? yield(:title) : "증권사 순위" %></title>
   <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "증권사 Rank" %>">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0;" />
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0;" />
+
   <meta property="og:title" content="증권사 RANK"/>
   <meta property="og:description" content="증권사들의 추천정보의 수익률과 리스크를 분석하고 새로운 추천을 시그널링 해드립니다."/>
 
@@ -14,48 +15,60 @@
   <%= yield(:head) %>
 </head>
 <body class="<%= controller_name %> <%= action_name %>">
-<div class="navbar navbar-fixed-top navbar-inverse">
-  <nav class="navbar-inner">
-    <div class="container">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+<!--
+<div id="page">
 
-      <%= render 'layouts/navigation' %>
-    </div>
-  </nav>
-</div>
-<div id="main" role="main">
-  <div class="container">
-    <div class="content">
-      <div class="row">
-        <div class="span12">
-          <%= render 'layouts/messages' %>
-          <%= yield %>
-        </div>
-      </div>
-      <footer>
-      </footer>
-    </div>
-  </div> <!--! end of .container -->
-</div> <!--! end of #main -->
-<!-- bartender 적용? -->
-<div class="ui-footer visible-phone">
-  <div>
-    <ul class="apple-navbar-ui comboSprite">
-      <li>
-        <a class="ui-btn">
-          <span class="ui-btn-inner">
-            <span class="ui-btn-text"><span class="ui-li-count"></span></span>
-            <span class="ui-icon"></span>
-          </span>
-        </a>
-      </li>
-    </ul>
+  <div id="jqt">
+    -->
+
+    <div class="navbar navbar-fixed-top navbar-inverse">
+	  <nav class="navbar-inner">
+		<div class="container">
+		  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+
+		  <%= render 'layouts/navigation' %>
+		</div>
+	  </nav>
+	</div>
+	<div id="main" role="main">
+	  <div class="container">
+		<div class="content">
+		  <div class="row">
+			<div class="span12">
+			  <%= render 'layouts/messages' %>
+			  <%= yield %>
+			</div>
+		  </div>
+		  <footer>
+		  </footer>
+		</div>
+	  </div> <!--! end of .container -->
+	</div> <!--! end of #main -->
+<!--
   </div>
+
 </div>
+
+<div id="loading"><p><img src="img/loading.gif" /></p></div>
+-->
+
+<!-- itabbar -->
+<nav id="tabbar">
+  <ul >
+    <!-- Action & navigation -->
+    <li><a href="/" class="<%= "current" if current_page?(:controller => 'stock_firms') %> flip"><strong>증권사rank</strong><div class="home"></div></a></li>
+    <li><a href="/recommendations" class="<%= "current" if current_page?(:controller => 'recommendations') %> flip"><strong>최근종목추천</strong><div class="rss"></div></a></li>
+    <li><a href="#" class="flip"><strong>관심증권사</strong><div class="page"></div></a></li>
+    <li><a href="#" class="flip"><strong>회원정보</strong><div class="infos"></div></a></li>
+
+  </ul>
+</nav>
+
+
 </body>
 <script type="text/javascript">
 
