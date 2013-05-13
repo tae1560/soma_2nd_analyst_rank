@@ -77,6 +77,8 @@ class StockFirm < ActiveRecord::Base
       end
     end
 
+    self.save
+
     return
 
     (0..12).each do |month|
