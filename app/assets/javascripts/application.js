@@ -26,3 +26,15 @@
         'set_config','people.set','people.increment','people.track_charge','people.append'];
         for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.2;})(document,window.mixpanel||[]);
 mixpanel.init("5656aa59294f5d08d6b14d85c2029828");
+
+//ajax loading animation
+function showLoading() {
+    //$("div.container").show();
+    $("#loading").show(); // If image gif
+}
+
+function hideLoading() {
+    //$("div.container").hide();
+    $("#loading").hide();  // If image gif
+}
+
