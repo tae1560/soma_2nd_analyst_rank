@@ -1,3 +1,4 @@
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -6,6 +7,7 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
   #config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
   config.mailer_sender = "tae1560@gmail.com"
+
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -263,4 +265,8 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
+  require "omniauth-facebook"
+
+  config.omniauth :facebook, "518403351540408", "9880ad441bcaa15906103acfe4169d28", :scope => 'email, offline_access', :strategy_class => OmniAuth::Strategies::Facebook
+
 end
