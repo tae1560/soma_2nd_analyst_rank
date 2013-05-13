@@ -13,6 +13,9 @@
         padding : 0;
 
     }
+    .app-info{
+        padding:10px;
+    }
     .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
         margin:0;
 
