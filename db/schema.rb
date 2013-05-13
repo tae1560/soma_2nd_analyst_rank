@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130509074106) do
+ActiveRecord::Schema.define(:version => 20130512080904) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -69,6 +69,24 @@ ActiveRecord::Schema.define(:version => 20130509074106) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "push_messages", :force => true do |t|
+    t.string   "title"
+    t.string   "message"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "push_messages_on_devices", :force => true do |t|
+    t.datetime "push_time"
+    t.datetime "receive_time"
+    t.integer  "push_message_id"
+    t.integer  "gcm_device_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "push_messages_on_devices", ["push_message_id", "gcm_device_id"], :name => "by_message_and_device"
 
   create_table "raw_day_candles", :force => true do |t|
     t.datetime "date"

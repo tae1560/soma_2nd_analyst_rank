@@ -34,98 +34,101 @@ def crawl_recommend
     doc = open(url).read
     result = JSON.parse(doc)
     data = result["data"]
-    data.each do |row|
-      # data save
-      in_dt = row["IN_DT"]
-      cmp_nm_kor = row["CMP_NM_KOR"]
-      cmp_cd = row["CMP_CD"]
-      brk_nm_kor = row["BRK_NM_KOR"]
-      brk_cd = row["BRK_CD"]
-      pf_nm_kor = row["PF_NM_KOR"]
-      pf_cd = row["PF_CD"]
-      recomm_price = row["RECOMM_PRICE"]
-      recomm_rate = row["RECOMM_RATE"]
-      recommend_adj_price = row["RECOMMEND_ADJ_PRICE"]
-      pre_adj_price = row["PRE_ADJ_PRICE"]
-      pre_dt = row["PRE_DT"]
-      cnt = row["CNT"]
-      reason_in = row["REASON_IN"]
-      file_nm = row["FILE_NM"]
-      anl_dt = row["ANL_DT"]
-      in_diff_reason = row["IN_DIFF_REASON"]
+    if data and data.length > 0
+      data.each do |row|
+        # data save
+        in_dt = row["IN_DT"]
+        cmp_nm_kor = row["CMP_NM_KOR"]
+        cmp_cd = row["CMP_CD"]
+        brk_nm_kor = row["BRK_NM_KOR"]
+        brk_cd = row["BRK_CD"]
+        pf_nm_kor = row["PF_NM_KOR"]
+        pf_cd = row["PF_CD"]
+        recomm_price = row["RECOMM_PRICE"]
+        recomm_rate = row["RECOMM_RATE"]
+        recommend_adj_price = row["RECOMMEND_ADJ_PRICE"]
+        pre_adj_price = row["PRE_ADJ_PRICE"]
+        pre_dt = row["PRE_DT"]
+        cnt = row["CNT"]
+        reason_in = row["REASON_IN"]
+        file_nm = row["FILE_NM"]
+        anl_dt = row["ANL_DT"]
+        in_diff_reason = row["IN_DIFF_REASON"]
 
-      raw_recommendation = nil
-      if RawRecommendation.duplicated? cmp_cd, brk_cd, pf_cd
-        raw_recommendation = RawRecommendation.where(:cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).first
-        raw_recommendation.in_dt = in_dt
-        raw_recommendation.cmp_nm_kor = cmp_nm_kor
-        raw_recommendation.cmp_cd = cmp_cd
-        raw_recommendation.brk_nm_kor = brk_nm_kor
-        raw_recommendation.brk_cd = brk_cd
-        raw_recommendation.pf_nm_kor = pf_nm_kor
-        raw_recommendation.pf_cd = pf_cd
-        raw_recommendation.recomm_price = recomm_price
-        raw_recommendation.recomm_rate = recomm_rate
-        raw_recommendation.recommend_adj_price = recommend_adj_price
-        raw_recommendation.pre_adj_price = pre_adj_price
-        raw_recommendation.pre_dt = pre_dt
-        raw_recommendation.cnt = cnt
-        raw_recommendation.reason_in = reason_in
-        raw_recommendation.file_nm = file_nm
-        raw_recommendation.anl_dt = anl_dt
-        raw_recommendation.in_diff_reason = in_diff_reason
-      else
-        raw_recommendation = RawRecommendation.create(:in_dt => in_dt, :cmp_nm_kor => cmp_nm_kor, :cmp_cd => cmp_cd,
-                                                      :brk_nm_kor => brk_nm_kor, :brk_cd => brk_cd, :pf_nm_kor => pf_nm_kor,
-                                                      :pf_cd => pf_cd, :recomm_price => recomm_price, :recomm_rate => recomm_rate,
-                                                      :recommend_adj_price => recommend_adj_price, :pre_adj_price => pre_adj_price,
-                                                      :pre_dt => pre_dt, :cnt => cnt, :reason_in => reason_in, :file_nm => file_nm,
-                                                      :anl_dt => anl_dt, :in_diff_reason => in_diff_reason)
+        raw_recommendation = nil
+        if RawRecommendation.duplicated? cmp_cd, brk_cd, pf_cd
+          raw_recommendation = RawRecommendation.where(:cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).first
+          raw_recommendation.in_dt = in_dt
+          raw_recommendation.cmp_nm_kor = cmp_nm_kor
+          raw_recommendation.cmp_cd = cmp_cd
+          raw_recommendation.brk_nm_kor = brk_nm_kor
+          raw_recommendation.brk_cd = brk_cd
+          raw_recommendation.pf_nm_kor = pf_nm_kor
+          raw_recommendation.pf_cd = pf_cd
+          raw_recommendation.recomm_price = recomm_price
+          raw_recommendation.recomm_rate = recomm_rate
+          raw_recommendation.recommend_adj_price = recommend_adj_price
+          raw_recommendation.pre_adj_price = pre_adj_price
+          raw_recommendation.pre_dt = pre_dt
+          raw_recommendation.cnt = cnt
+          raw_recommendation.reason_in = reason_in
+          raw_recommendation.file_nm = file_nm
+          raw_recommendation.anl_dt = anl_dt
+          raw_recommendation.in_diff_reason = in_diff_reason
+        else
+          raw_recommendation = RawRecommendation.create(:in_dt => in_dt, :cmp_nm_kor => cmp_nm_kor, :cmp_cd => cmp_cd,
+                                                        :brk_nm_kor => brk_nm_kor, :brk_cd => brk_cd, :pf_nm_kor => pf_nm_kor,
+                                                        :pf_cd => pf_cd, :recomm_price => recomm_price, :recomm_rate => recomm_rate,
+                                                        :recommend_adj_price => recommend_adj_price, :pre_adj_price => pre_adj_price,
+                                                        :pre_dt => pre_dt, :cnt => cnt, :reason_in => reason_in, :file_nm => file_nm,
+                                                        :anl_dt => anl_dt, :in_diff_reason => in_diff_reason)
+        end
+
+        if raw_recommendation
+          raw_recommendation.parse_and_save
+        end
+
+
+        #
+        #
+        #
+        ##recommendation_date = in_dt.to_datetime
+        ##recommendation_date -= 9.hours
+        #
+        #
+        ## 증권사 instance
+        #stock_firm = StockFirm.find_or_create_instance brk_cd, brk_nm_kor
+        #
+        ## stock code instance
+        #stock_code = StockCode.find_by_symbol cmp_cd
+        #
+        ## day candle by symbol and trading date
+        #day_candle = nil
+        #if stock_code
+        #  day_candle = stock_code.day_candles.where(:trading_date => recommendation_date).first
+        #end
+        #
+        #if day_candle and stock_firm
+        #  recommendation = stock_firm.recommendations.where(:day_candle_id => day_candle.id).first
+        #  if recommendation
+        #    # duplicated by day candle and stock firm
+        #    puts "duplicated by day candle and stock firm : day_candle - #{day_candle.inspect} , stock_firm - #{stock_firm.inspect}"
+        #    puts "recommendation : #{recommendation.inspect}"
+        #    puts "recommendation_date : #{recommendation_date}, cmp_cd : #{cmp_cd}"
+        #  else
+        #    recommendation = Recommendation.new(:in_dt => recommendation_date, :cmp_cd => cmp_cd, :brk_nm_kor => brk_nm_kor, :brk_cd => brk_cd)
+        #    recommendation.stock_code = stock_code
+        #    recommendation.day_candle = day_candle
+        #    recommendation.stock_firm = stock_firm
+        #    unless recommendation.save
+        #      "ERROR : recommendation.save not worked"
+        #    end
+        #  end
+        #end
+
       end
-
-      if raw_recommendation
-        raw_recommendation.parse_and_save
-      end
-
-
-      #
-      #
-      #
-      ##recommendation_date = in_dt.to_datetime
-      ##recommendation_date -= 9.hours
-      #
-      #
-      ## 증권사 instance
-      #stock_firm = StockFirm.find_or_create_instance brk_cd, brk_nm_kor
-      #
-      ## stock code instance
-      #stock_code = StockCode.find_by_symbol cmp_cd
-      #
-      ## day candle by symbol and trading date
-      #day_candle = nil
-      #if stock_code
-      #  day_candle = stock_code.day_candles.where(:trading_date => recommendation_date).first
-      #end
-      #
-      #if day_candle and stock_firm
-      #  recommendation = stock_firm.recommendations.where(:day_candle_id => day_candle.id).first
-      #  if recommendation
-      #    # duplicated by day candle and stock firm
-      #    puts "duplicated by day candle and stock firm : day_candle - #{day_candle.inspect} , stock_firm - #{stock_firm.inspect}"
-      #    puts "recommendation : #{recommendation.inspect}"
-      #    puts "recommendation_date : #{recommendation_date}, cmp_cd : #{cmp_cd}"
-      #  else
-      #    recommendation = Recommendation.new(:in_dt => recommendation_date, :cmp_cd => cmp_cd, :brk_nm_kor => brk_nm_kor, :brk_cd => brk_cd)
-      #    recommendation.stock_code = stock_code
-      #    recommendation.day_candle = day_candle
-      #    recommendation.stock_firm = stock_firm
-      #    unless recommendation.save
-      #      "ERROR : recommendation.save not worked"
-      #    end
-      #  end
-      #end
-
     end
+
 
 
     curPage += 1

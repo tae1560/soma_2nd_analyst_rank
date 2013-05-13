@@ -15,19 +15,20 @@ class User < ActiveRecord::Base
 
   has_many :stock_firms, :through => :user_favorite_stock_firms
 
-  def send_message title, message
-    self.gcm_devices.each do |gcm_device|
-      notification = Gcm::Notification.new
-      notification.device = gcm_device
-      notification.collapse_key = "updates_available"
-      notification.delay_while_idle = false
-      notification.data = {:registration_ids => ["#{gcm_device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => notification.id}}
-      notification.save!
-      notification.data = {:registration_ids => ["#{gcm_device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => notification.id}}
-      notification.save!
-      #puts notification.data
-    end
-    Gcm::Notification.send_notifications
-  end
+  #def send_message title, message
+  #  push_message = PushMessage.create(:title => title, :message => message)
+  #  push_message.gcm_devices << device
+  #
+  #  self.gcm_devices.each do |gcm_device|
+  #    notification = Gcm::Notification.new
+  #    notification.device = gcm_device
+  #    notification.collapse_key = "updates_available"
+  #    notification.delay_while_idle = false
+  #    notification.data = {:registration_ids => ["#{gcm_device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => push_message.id}}
+  #    notification.save!
+  #    #puts notification.data
+  #  end
+  #  Gcm::Notification.send_notifications
+  #end
 end
 

@@ -57,17 +57,17 @@ class StockFirmsController < ApplicationController
       if stock_firms_row[:profit] == -9999
         stock_firms_row[:profit] = "-"
       end
+
+      if stock_firms_row[:variance] == -9999
+        stock_firms_row[:variance] = "-"
+      end
+
       ranking += 1
     end
 
-    if params["regId"] and params["regId"].length > 0
-      @gcm_device = Gcm::Device.find_or_create_by_registration_id(:registration_id => "#{params["regId"]}")
-
-      if @gcm_device.save
-        session["device_id"] = @gcm_device.id
-      end
-    end
-
+    # push metric
+    save_session_by_regId params["regId"]
+    record_push_metric params["notification_id"]
   end
 
   def show

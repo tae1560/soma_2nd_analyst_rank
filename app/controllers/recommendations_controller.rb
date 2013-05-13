@@ -23,5 +23,8 @@ class RecommendationsController < ApplicationController
     @keep_period = KeepPeriod.find(session[:keep_period_id])
 
     @base_date_string = "최근 #{@recent_period.name} 추천을 #{@keep_period.name} 동안 유지할 때"
+
+    save_session_by_regId params["regId"]
+    record_push_metric params["notification_id"]
   end
 end
