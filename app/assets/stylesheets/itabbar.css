@@ -1,5 +1,7 @@
 /* iTabbar CSS Start here */
 #tabbar {
+    left:0;
+    right:0;
     -webkit-box-sizing:border-box;
     box-sizing:border-box;
     font-size:12px;
