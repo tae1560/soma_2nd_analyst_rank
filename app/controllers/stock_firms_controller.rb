@@ -40,7 +40,7 @@ class StockFirmsController < ApplicationController
 
       stock_firms_row[:variance] = stock_firm.analyses.where(:recent_period_id => @recent_period.id, :keep_period_id => @keep_period.id).first.earning_variance
       if stock_firms_row[:variance]
-        stock_firms_row[:variance] = stock_firms_row[:variance].round(2)
+        stock_firms_row[:variance] = Math.sqrt(stock_firms_row[:variance]).round(2)
       else
         stock_firms_row[:variance] = -9999
       end
