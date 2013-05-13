@@ -10,30 +10,36 @@ class RawRecommendation < ActiveRecord::Base
   end
 
   def parse_and_save
-    recommendation = self.recommendation
-    unless recommendation
-      recommendation = Recommendation.new
-      self.recommendation = recommendation
-      self.save
-    end
-
-    recommendation.in_date = self.in_dt.to_datetime - 9.hours
-    recommendation.symbol = self.cmp_cd
-
-    # 증권사 instance
-    stock_firm = StockFirm.find_or_create_instance self.brk_cd, self.brk_nm_kor
-    if stock_firm
-      recommendation.stock_firm = stock_firm
-    end
 
     # stock code instance
     stock_code = StockCode.find_by_symbol self.cmp_cd
     if stock_code
-      recommendation.stock_code = stock_code
-    end
+      recommendation = self.recommendation
+      unless recommendation
+        recommendation = Recommendation.new
+        self.recommendation = recommendation
+        self.save
+      end
 
-    unless recommendation.save
-      puts "ERROR : recommendation.save is not working"
+      recommendation.in_date = self.in_dt.to_datetime - 9.hours
+      recommendation.symbol = self.cmp_cd
+
+      # 증권사 instance
+      stock_firm = StockFirm.find_or_create_instance self.brk_cd, self.brk_nm_kor
+      if stock_firm
+        recommendation.stock_firm = stock_firm
+      end
+
+      unless recommendation.save
+        puts "ERROR : recommendation.save is not working"
+      end
+
+      recommendation.stock_code = stock_code
+    else
+      recommendation = self.recommendation
+      if recommendation
+        recommendation.delete
+      end
     end
   end
 end
