@@ -3,6 +3,37 @@
 </script>
 
 <h3 class="hidden-phone"><%= link_to "StockFirms", stock_firms_path %> > <%= @stock_firm.name %> (<%=@base_date_string%>)</h3>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span4">
+      <!--Body content-->
+      <div class="input-append">
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            최근 <%=@recent_period_string%> 추천을
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <% RecentPeriod.find_each do |recent_period| %>
+                <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>">최근 <%=recent_period.name%> 추천을 </a></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <%=@keep_period_string%> 동안 유지할 때
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <% KeepPeriod.find_each do |keep_period| %>
+                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=keep_period.name%> 동안 유지할 때 </a></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <table class="table table-striped table-bordered table-hover">
   <thead>
