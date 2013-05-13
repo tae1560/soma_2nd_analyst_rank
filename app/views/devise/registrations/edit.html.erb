@@ -1,14 +1,14 @@
-<h2>정보수정 : <%= resource_name.to_s.humanize %></h2>
+<h2>정보수정</h2>
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
   <%= f.error_notification %>
   <%= display_base_errors resource %>
   <%= f.input :name, :autofocus => true %>
   <%= f.input :email, :required => true %>
-  <%= f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
+  <%= f.input :password, :autocomplete => "off", :hint => "바꾸고 싶지 않으면 빈칸으로 두세요", :required => false %>
   <%= f.input :password_confirmation, :required => false %>
-  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
-  <%= f.button :submit, 'Update', :class => 'btn-primary' %>
+  <%= f.input :current_password, :hint => "비밀번호 변경을 위해서 입력하셔야합니다. ", :required => true %>
+  <%= f.button :submit, '정보수정하기', :class => 'btn-primary' %>
 <% end %>
 <h3>회원탈퇴</h3>
-<p>탈퇴하고싶으신가요? <%= link_to "탈퇴하기", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
+<p>탈퇴하고싶으신가요? <%= link_to "탈퇴하기", registration_path(resource_name), :data => { :confirm => "정말 탈퇴하세요?" }, :method => :delete %>.</p>
 <%= link_to "Back", :back %>

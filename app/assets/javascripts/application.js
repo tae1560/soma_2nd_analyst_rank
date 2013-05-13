@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require_tree .
 
 (function(c,a){window.mixpanel=a;var b,d,h,e;b=c.createElement("script");
     b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+
