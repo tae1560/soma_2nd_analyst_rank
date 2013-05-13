@@ -82,7 +82,7 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
 
-    mixpanel.mixpanel.track("page_view", {"controller" : "<%= params[:controller]%>", "action" : "<%= params[:action]%>", "mobile_device?" : "<%= mobile_device? %>", "env" : "<%= Rails.env %>"});
+    mixpanel.track("page_view", {"controller" : "<%= params[:controller]%>", "action" : "<%= params[:action]%>", "mobile_device?" : "<%= mobile_device? %>", "env" : "<%= Rails.env %>"});
 
 
 </script>
