@@ -10,7 +10,7 @@
   	/*display: none;   build the tabbar off screen */
   	height: 48px  !important;
 	overflow: hidden;
- 	position: absolute;
+ 	position: fixed;
   	width: 100%;
   	z-index: 100 !important;
  	/*-webkit-box-shadow: 0 -0.05em 0 rgba(0,0,0,0.9); */
