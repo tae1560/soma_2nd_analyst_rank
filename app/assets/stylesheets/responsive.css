@@ -1,4 +1,4 @@
-@media (min-width:481px) {
+@media (min-width: 768px) {
 
     #tabbar{
         display: none !important;
@@ -7,7 +7,7 @@
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 767px) {
     body{
         font-size:11px;
         padding : 0;
