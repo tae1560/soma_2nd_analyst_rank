@@ -19,8 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.minute do
-  command "date >> /Users/tae1560/RubymineProjects/composer_test/analyst_rank/test.txt"
+every :day, :at => '7:00am', :roles => [:app] do
   rake "manager:cron"
 end
-
