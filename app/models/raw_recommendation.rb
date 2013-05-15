@@ -30,11 +30,13 @@ class RawRecommendation < ActiveRecord::Base
         recommendation.stock_firm = stock_firm
       end
 
+      recommendation.stock_code = stock_code
+
       unless recommendation.save
         puts "ERROR : recommendation.save is not working"
       end
 
-      recommendation.stock_code = stock_code
+
     else
       recommendation = self.recommendation
       if recommendation
