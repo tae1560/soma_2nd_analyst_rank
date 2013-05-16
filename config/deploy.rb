@@ -52,4 +52,9 @@ namespace :deploy do
     end
   end
   before "deploy", "deploy:check_revision"
+
+  task :sync_whenever, roles: :app do
+    run "whenever -w"
+  end
+  after "deploy", "deploy:sync_whenever"
 end
