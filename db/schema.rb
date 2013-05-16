@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130512080904) do
+ActiveRecord::Schema.define(:version => 20130516065446) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(:version => 20130512080904) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "user_favorite_stock_firms", :force => true do |t|
+  create_table "user_subscribe_stock_firms", :force => true do |t|
     t.integer  "user_id"
     t.integer  "stock_firm_id"
     t.datetime "created_at",    :null => false

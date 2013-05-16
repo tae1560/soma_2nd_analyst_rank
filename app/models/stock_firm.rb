@@ -4,7 +4,7 @@ class StockFirm < ActiveRecord::Base
   has_many :recommendations
   has_many :analyses
 
-  has_many :users, :through => :user_favorite_stock_firms
+  has_many :users, :through => :user_subscribe_stock_firms
 
   def self.find_or_create_instance id, name
     stock_firm = StockFirm.find_by_id(id)

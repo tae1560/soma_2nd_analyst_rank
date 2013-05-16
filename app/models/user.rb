@@ -15,7 +15,8 @@ class User < ActiveRecord::Base
 
   has_many :gcm_devices, :class_name => Gcm::Device
 
-  has_many :stock_firms, :through => :user_favorite_stock_firms
+  has_many :user_subscribe_stock_firms
+  has_many :stock_firms, :through => :user_subscribe_stock_firms
 
   #def send_message title, message
   #  push_message = PushMessage.create(:title => title, :message => message)
@@ -52,6 +53,17 @@ class User < ActiveRecord::Base
     user
   end
 
+#   subscribe
+  def subscribe stock_firm
+    unless self.stock_firms.include? stock_firm
+      self.stock_firms << stock_firm
+    end
+  end
 
+  def unsubscribe stock_firm
+    if self.stock_firms.include? stock_firm
+      self.stock_firms.delete stock_firm
+    end
+  end
 end
 
