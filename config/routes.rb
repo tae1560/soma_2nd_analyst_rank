@@ -15,5 +15,6 @@ AnalystRank::Application.routes.draw do
   resources :stock_firms
   resources :gcm_devices
   resources :app_info
+  resources :push_messages_on_devices
 
 end
