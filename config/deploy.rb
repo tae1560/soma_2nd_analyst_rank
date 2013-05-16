@@ -54,6 +54,7 @@ namespace :deploy do
   before "deploy", "deploy:check_revision"
 
   task :sync_whenever, roles: :app do
+    run "pwd"
     run "whenever -w"
   end
   after "deploy", "deploy:sync_whenever"
