@@ -55,6 +55,7 @@ namespace :deploy do
 
   task :sync_whenever, roles: :app do
     run "cd /home/#{user}/apps/#{application}/current"
+    run "pwd"
     run "whenever -w"
     run "cd ~"
   end
