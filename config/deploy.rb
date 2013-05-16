@@ -54,7 +54,7 @@ namespace :deploy do
   before "deploy", "deploy:check_revision"
 
   task :sync_whenever, roles: :app do
-    run "cd /home/#{user}/apps/#{application}"
+    run "cd /home/#{user}/apps/#{application}/current"
     run "whenever -w"
     run "cd ~"
   end
