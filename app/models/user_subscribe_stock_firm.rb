@@ -1,4 +1,4 @@
-class UserFavoriteStockFirm < ActiveRecord::Base
+class UserSubscribeStockFirm < ActiveRecord::Base
   # attr_accessible :title, :body
   belongs_to :user
   belongs_to :stock_firm

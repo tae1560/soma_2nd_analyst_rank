@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe UserFavoriteStockFirm do
+describe UserSubscribeStockFirm do
   pending "add some examples to (or delete) #{__FILE__}"
 end
