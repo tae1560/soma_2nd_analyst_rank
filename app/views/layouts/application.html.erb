@@ -73,7 +73,11 @@
 <script type="text/javascript">
 
   <% if Rails.env == "development" %>
-  alert("development mode => not tracking logs")
+    <% if !session["development_mode_alert"] or session["development_mode_alert"] != "1" %>
+    alert("development mode => not tracking logs")
+    <%= session["development_mode_alert"] = "1" %>
+    <% end %>
+
   <% else %>
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-40664867-1']);
