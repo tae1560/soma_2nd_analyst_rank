@@ -1,4 +1,4 @@
-class UserFavoriteStockFirmsController < ApplicationController
+class UserSubscribeStockFirmsController < ApplicationController
   def create
     if params["user_id"] and params["stock_firm_id"]
       begin

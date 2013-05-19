@@ -1,0 +1,2 @@
+module UserSubscribeStockFirmsHelper
+end
