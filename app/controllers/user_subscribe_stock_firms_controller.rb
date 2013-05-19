@@ -21,4 +21,15 @@ class UserSubscribeStockFirmsController < ApplicationController
       render :json => {"result" => "failed", "message" => "needed user_id and stock_firm_id params"}
     end
   end
+
+  def destroy
+    begin
+      @user_subscribe_stock_firm = UserSubscribeStockFirm.find(params[:id])
+      @user_subscribe_stock_firm.destroy
+
+      redirect_to :back
+    rescue
+      render :json => {"result" => "failed", "message" => "Cannot find UserSubscribeStockFirm(#{params[:id]})"}
+    end
+  end
 end
