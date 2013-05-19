@@ -1,9 +1,9 @@
 module StockFirmsHelper
   def class_of_profit profit
     if profit and profit != "-" and profit < 0
-      return "text-error"
+      return "stock-down"
     else
-      return "text-success"
+      return "stock-up"
     end
 
   end

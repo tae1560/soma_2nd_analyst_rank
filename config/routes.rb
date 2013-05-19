@@ -18,4 +18,5 @@ AnalystRank::Application.routes.draw do
   resources :push_messages_on_devices
   resources :user_subscribe_stock_firms
 
+
 end
