@@ -68,22 +68,25 @@
   </ul>
 </nav>
 
-
+<%= Rails.env %>
 </body>
 <script type="text/javascript">
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-40664867-1']);
-    _gaq.push(['_trackPageview']);
+  <% if Rails.env == "development" %>
+  alert("development mode => not tracking logs")
+  <% else %>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-40664867-1']);
+  _gaq.push(['_trackPageview']);
 
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+  (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
 
-    mixpanel.track("page_view", {"total":"<%= params[:controller]%> <%= params[:action]%> <%= if mobile_device? then "mobile" else "desktop" end %> <%= Rails.env %>","controller" : "<%= params[:controller]%>", "action" : "<%= params[:action]%>", "mobile_device?" : "<%= mobile_device? %>", "env" : "<%= Rails.env %>"});
-
+  mixpanel.track("page_view", {"total":"<%= params[:controller]%> <%= params[:action]%> <%= if mobile_device? then "mobile" else "desktop" end %> <%= Rails.env %>","controller" : "<%= params[:controller]%>", "action" : "<%= params[:action]%>", "mobile_device?" : "<%= mobile_device? %>", "env" : "<%= Rails.env %>"});
+  <% end %>
 
 </script>
 </html>
