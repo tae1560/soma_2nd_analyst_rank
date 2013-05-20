@@ -60,4 +60,8 @@ namespace :deploy do
     #run "cd ~"
   end
   after "deploy", "deploy:sync_whenever"
+
+  require 'capistrano-deploy'
+  use_recipe :whenever
+  after 'deploy:restart', 'whenever:update_crontab'
 end
