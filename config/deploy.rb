@@ -1,4 +1,5 @@
 require "bundler/capistrano"
+require "whenever/capistrano"
 
 server "soma2.vps.phps.kr", :web, :app, :db, primary: true
 
@@ -52,16 +53,4 @@ namespace :deploy do
     end
   end
   before "deploy", "deploy:check_revision"
-
-  task :sync_whenever, roles: :app do
-    #run "cd /home/#{user}/apps/#{application}/current"
-    run "pwd"
-    #run "whenever -w"
-    #run "cd ~"
-  end
-  after "deploy", "deploy:sync_whenever"
-
-  require 'capistrano-deploy'
-  use_recipe :whenever
-  after 'deploy:restart', 'whenever:update_crontab'
 end
