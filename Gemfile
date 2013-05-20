@@ -32,6 +32,7 @@ gem 'nokogiri'
 gem 'whenever', :require => false
 gem 'will_paginate', '~> 3.0'
 gem 'capistrano'
+gem 'capistrano-deploy', :group => :development, :require => false
 gem 'gcm_on_rails'
 gem 'configatron'
 gem 'omniauth'
