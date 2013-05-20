@@ -10,6 +10,10 @@ namespace :manager do
     Rake::Task["crawler:day_candles"].invoke
     Rake::Task["crawler:recommendations"].invoke
     Rake::Task["calculator:profit"].invoke
-    Utility.send_message_to_all "증권사 추천왕", "새로운 추천정보가 업데이트 되었습니다."
+
+    # 실제 추천정보가 변화될때에 푸쉬
+    if Recommendation.order("in_date DESC").first.in_date > Time.now - 10.days
+      Utility.send_message_to_all "증권사 추천왕", "새로운 추천정보가 업데이트 되었습니다."
+    end
   end
 end
