@@ -87,7 +87,7 @@
       "mobile_device?" : "<%= mobile_device? %>",
       "env" : "<%= Rails.env %>",
       "recent_period":"<%= if session[:recent_period_id] and RecentPeriod.find_by_id(session[:recent_period_id]) then RecentPeriod.find_by_id(session[:recent_period_id]).name else nil end %>",
-      "keep_period":<%= if KeepPeriod.find_by_id(session[:keep_period_id]) then KeepPeriod.find_by_id(session[:keep_period_id]).name else nil end %>
+      "keep_period":"<%= if KeepPeriod.find_by_id(session[:keep_period_id]) then KeepPeriod.find_by_id(session[:keep_period_id]).name else nil end %>"
   });
 
   <% end %>
