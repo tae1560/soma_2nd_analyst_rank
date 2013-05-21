@@ -42,12 +42,13 @@
           <div class="description">
             <h5><%= stock_firms_row[:ranking] %>. <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><%= stock_firms_row[:stock_firm].name %></a></h5>
 
-            <% profit = stock_firms_row[:profit] %>
+              <% profit = stock_firms_row[:profit] %>
               수익률 : <span class=<%= class_of_profit profit %>><%= profit %> %</span>  <br />
 
 
               <% variance = stock_firms_row[:variance] %>
               투자위험도 : <span class=<%= class_of_profit variance %>><%= variance %></span>
+              <%=stock_firms_row[:id]%>
 
           </div>
 
