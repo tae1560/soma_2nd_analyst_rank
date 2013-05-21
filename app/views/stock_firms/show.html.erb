@@ -10,23 +10,23 @@
       <div  class="full-width input-append">
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
-            최근 <%=@recent_period_string%> 추천을
+            최근 <span class="param"><%=@recent_period_string%></span> 추천을
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
             <% RecentPeriod.find_each do |recent_period| %>
-                <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>">최근 <%=recent_period.name%> 추천을 </a></li>
+                <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>">최근 <span class="param"><%=recent_period.name%></span> 추천을 </a></li>
             <% end %>
           </ul>
         </div>
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
-            <%=@keep_period_string%> 동안 유지할 때
+            <span class="param"><%=@keep_period_string%></span> 동안 유지할 때
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
             <% KeepPeriod.find_each do |keep_period| %>
-                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=keep_period.name%> 동안 유지할 때 </a></li>
+                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><span class="param"><%=keep_period.name%></span> 동안 유지할 때 </a></li>
             <% end %>
           </ul>
         </div>
