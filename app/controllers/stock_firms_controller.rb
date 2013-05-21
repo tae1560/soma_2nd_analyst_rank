@@ -30,6 +30,7 @@ class StockFirmsController < ApplicationController
 
     @stock_firms.each do |stock_firm|
       stock_firms_row = {}
+      stock_firms_row[:id] = stock_firm.id
       stock_firms_row[:stock_firm] = stock_firm
       stock_firms_row[:profit] = stock_firm.analyses.where(:recent_period_id => @recent_period.id, :keep_period_id => @keep_period.id).first.earning_average
       if stock_firms_row[:profit]
@@ -68,6 +69,7 @@ class StockFirmsController < ApplicationController
     # push metric
     save_session_by_regId params["regId"]
     record_push_metric params["notification_id"]
+
   end
 
   def show
