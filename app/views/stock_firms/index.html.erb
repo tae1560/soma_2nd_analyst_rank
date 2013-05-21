@@ -34,9 +34,11 @@
     <% @stock_firms_rows.each do |stock_firms_row| %>
         <div class="rank-item">
 
+          <div class="pull-right">
+            <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
+              <img width=140px src="./img/firms/<%=stock_firms_row[:id]%>.png"/>
+            </a>
 
-          <div class="pull-left">
-            <img width=60px height=60px src="./img/logo.png"/>
 
           </div>
           <div class="description">
@@ -48,7 +50,6 @@
 
               <% variance = stock_firms_row[:variance] %>
               투자위험도 : <span class=<%= class_of_profit variance %>><%= variance %></span>
-              <%=stock_firms_row[:id]%>
 
           </div>
 
