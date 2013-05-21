@@ -33,6 +33,15 @@ def crawl_code
     pg_no += 1
   end
 
+  # 시장지수 포함
+  custom_symbols = ["KOSPI", "KOSDAQ", "KPI200"]
+  custom_symbols.each do |custom_symbol|
+    unless StockCode.where(:symbol => custom_symbol).exists?
+      StockCode.create(:name => custom_symbol, :eng_name => custom_symbol, :symbol => custom_symbol)
+      puts "added #{custom_symbol}"
+    end
+  end
+
   ## 업종별 URL 얻어오기
   #upjong_links = doc.xpath("//div[@id='contentarea_left']/table[@class='type_1']//a[contains(@href,'/sise/sise_group_detail.nhn')]/@href")
   #
