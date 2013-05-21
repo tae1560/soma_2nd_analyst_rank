@@ -1,4 +1,6 @@
 require "bundler/capistrano"
+
+set :whenever_roles, :app
 require "whenever/capistrano"
 
 server "soma2.vps.phps.kr", :web, :app, :db, primary: true
