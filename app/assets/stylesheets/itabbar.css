@@ -5,8 +5,8 @@
     -webkit-box-sizing:border-box;
     box-sizing:border-box;
     font-size:12px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#000), color-stop(.01, #000),
-    color-stop(.02, #555), color-stop(.03, #2d2d2d), color-stop(.5, #151515), color-stop(.51, #000));
+    background: -webkit-gradient(linear, left top, left bottom, from(#664A26), to(#664A26), color-stop(.01, #664A26),
+    color-stop(.02, #bb884e), color-stop(.03, #9b6e3b), color-stop(.5, #6c4d28), color-stop(.51, #664a26));
     bottom: 0;
     border-top: 1px rgba(255,255,255,0.3) solid;
     /*display: none;   build the tabbar off screen */
@@ -82,7 +82,7 @@
 
 #tabbar a > strong {
     bottom: 1px;
-    color: #787878;
+    color: #beb1a2;
     font: bold .925em "Helvetica Neue", Helvetica;
     overflow: hidden;
     position: absolute;
@@ -98,16 +98,16 @@
 }
 
 #tabbar a.current> strong {
-    color: #FFF;
+    color: #fff;
 }
 
 #tabbar a.current> div{
-    background-color: #8AE8FF;
+    background-color: #fff;
 }
 
 #tabbar div{
     margin-top: 4px;
-    background-color: #7F7F7F; /*gray = #7F7F7F */
+    background-color: #beb1a2; /*gray = #7F7F7F */
     width: 100%;
     height: 100%;
     -webkit-mask-size: 28px;

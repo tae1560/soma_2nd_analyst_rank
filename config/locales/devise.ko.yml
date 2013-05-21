@@ -10,6 +10,7 @@ ko:
         other: "%{count}개의 에러가 발생해서 %{resource}를(을) 저장할 수 없습니다:"
 
   devise:
+
     failure:
       already_authenticated: '이미 로그인 하셨습니다.'
       unauthenticated: '계속하시려면 로그인하시거나 회원가입을 하셔야 합니다.'
