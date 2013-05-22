@@ -28,7 +28,7 @@
     margin: 0;
     padding: 0;
     height: auto;
-    width: 33%;
+    width: 25%;
     display:block;
     float:left;
     min-width: 3.33333em;
@@ -93,11 +93,11 @@
     -webkit-font-smoothing: antialiased;
 }
 
-#tabbar a.current{
+#tabbar a:hover,a.current{
     background-color: rgba(255,255,255,.10);
 }
 
-#tabbar a.current> strong {
+#tabbar a:hover,a.current> strong {
     color: #fff;
 }
 
