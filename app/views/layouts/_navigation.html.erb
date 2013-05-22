@@ -2,6 +2,14 @@
 <div class="nav-collapse collapse">
   <ul class="nav pull-right">
 
+
+    <li>
+      <%= link_to '증권사순위', stock_firms_path %>
+    </li>
+    <li>
+      <%= link_to '최신종목추천', recommendations_path %>
+    </li>
+
     <% if user_signed_in? %>
         <li>
           <%= link_to '로그아웃', destroy_user_session_path, :method=>'delete' %>
@@ -25,9 +33,7 @@
           <%= link_to '회원가입', new_user_registration_path %>
         </li>
     <% end %>
-    <li>
-      <%= link_to '추천정보', recommendations_path %>
-    </li>
+
     <li>
       <%= mail_to 'contact@stockrank.kr','버그신고/개선점제안' %>
     </li>
