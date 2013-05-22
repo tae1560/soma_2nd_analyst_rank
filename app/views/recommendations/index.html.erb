@@ -3,7 +3,7 @@
 <table class="table table-striped table-bordered table-hover">
   <thead>
   <tr>
-    <th>종목코드</th>
+    <th class="hidden-phone">종목코드</th>
     <th>종목명</th>
     <th>증권사명</th>
     <th>추천날짜</th>
@@ -22,7 +22,7 @@
          profit = recommendation.get_profit in_day_candle, out_day_candle
       %>
       <tr>
-        <td><%= recommendation.symbol %></td>
+        <td class="hidden-phone"><%= recommendation.symbol %></td>
         <td><%= if recommendation.stock_code then recommendation.stock_code.name end %></td>
         <td><a href="<%= stock_firm_path(recommendation.stock_firm) %>"><%= recommendation.stock_firm.name %></a></td>
         <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
