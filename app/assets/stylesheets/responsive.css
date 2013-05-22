@@ -4,7 +4,6 @@
         display: none !important;
     }
     .content{
-
     }
 
 }
@@ -165,4 +164,12 @@
 .ui-menu .ui-menu-item a.ui-state-active {
     background: #b47f44 !important;
     border-color:#b47f44 !important;
+}
+
+.content {
+    background-color: white;
+    box-shadow : none;
+
+
+
 }
