@@ -2,8 +2,8 @@ AnalystRank::Application.routes.draw do
   #authenticated :user do
   #  root :to => 'home#index'
   #end
-  #root :to => "home#index"
-  root :to => "stock_firms#index"
+  root :to => "home#index"
+  #root :to => "stock_firms#index"
   devise_for :users, :controllers => {
       :omniauth_callbacks => "users/omniauth_callbacks"
   }
@@ -14,6 +14,7 @@ AnalystRank::Application.routes.draw do
   resources :recommendations
   resources :stock_firms
   resources :gcm_devices
+  resources :home
   resources :app_info
   resources :push_messages_on_devices
   resources :user_subscribe_stock_firms
