@@ -45,10 +45,7 @@ class StockFirm < ActiveRecord::Base
           end
 
           filtered_recommendations.find_each do |recommendation|
-            in_day_candle = recommendation.get_in_day_candle
-            # keep_period
-            out_day_candle = recommendation.get_out_day_candle analysis.keep_period.days.days
-            profit = recommendation.get_profit in_day_candle, out_day_candle
+            profit = recommendation.get_profit analysis.keep_period.days.days
 
             if profit
               profit_array.push profit
