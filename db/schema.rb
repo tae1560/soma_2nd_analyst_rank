@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130516065446) do
+ActiveRecord::Schema.define(:version => 20130525091917) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20130516065446) do
     t.datetime "updated_at",       :null => false
     t.integer  "keep_period_id"
     t.integer  "recent_period_id"
+    t.integer  "loss_cut_id"
   end
 
   add_index "analyses", ["keep_period_id", "recent_period_id"], :name => "index_by_keep_period_id_and_recent_period_id"
@@ -66,6 +67,12 @@ ActiveRecord::Schema.define(:version => 20130516065446) do
   create_table "keep_periods", :force => true do |t|
     t.string   "name"
     t.integer  "days"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "loss_cuts", :force => true do |t|
+    t.float    "percent"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
