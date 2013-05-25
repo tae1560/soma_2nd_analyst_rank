@@ -13,6 +13,9 @@ class StockFirmsController < ApplicationController
 
     @stock_firms.each do |stock_firm|
       analysis = stock_firm.analyses.where(:recent_period_id => @recent_period.id, :keep_period_id => @keep_period.id, :loss_cut_id => @loss_cut.id).first
+      unless analysis
+        next
+      end
       stock_firms_row = {}
       stock_firms_row[:id] = stock_firm.id
       stock_firms_row[:stock_firm] = stock_firm
