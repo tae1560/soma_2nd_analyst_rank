@@ -4,4 +4,5 @@ class Analysis < ActiveRecord::Base
   belongs_to :stock_firm
   belongs_to :keep_period
   belongs_to :recent_period
+  belongs_to :loss_cut
 end

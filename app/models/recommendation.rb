@@ -4,7 +4,6 @@ class Recommendation < ActiveRecord::Base
   belongs_to :stock_code
   belongs_to :day_candle
   belongs_to :stock_firm
-  belongs_to :loss_cut
 
   def profit out_date
     out_date = out_date.to_date.to_datetime - 9.hours
