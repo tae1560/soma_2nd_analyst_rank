@@ -46,7 +46,8 @@ class Recommendation < ActiveRecord::Base
 
       if day_candles and loss_cut
         day_candles.order(:trading_date).find_each do |day_candle|
-          if get_profit_with_day_candle(in_day_candle, day_candle) < -loss_cut
+          profit = get_profit_with_day_candle(in_day_candle, day_candle)
+          if profit and profit < -loss_cut
             # loss_cut 적용시
             return day_candle
           end
