@@ -17,17 +17,43 @@ class StockFirmsController < ApplicationController
       stock_firms_row[:id] = stock_firm.id
       stock_firms_row[:stock_firm] = stock_firm
       stock_firms_row[:profit] = analysis.earning_average
+      stock_firms_row[:variance] = analysis.earning_variance
+      if stock_firms_row[:variance]
+        stock_firms_row[:variance] = Math.sqrt(stock_firms_row[:variance])
+      end
+
+      # 샤프지수 : Sharpe ratio
+      # 샤프지수 = (펀드수익률 - 무위험수익률) / 위험 (표준편차)
+      if stock_firms_row[:profit] and stock_firms_row[:variance]
+        stock_firms_row[:sharpe_ratio] = (stock_firms_row[:profit] - (1.1 / (365 / @keep_period.days))) / stock_firms_row[:variance]
+      end
+
+
+      # 소수점 처리
       if stock_firms_row[:profit]
         stock_firms_row[:profit] = stock_firms_row[:profit].round(2)
+
+        # 연 환산 (복리)
+        if analysis.earning_average
+          number_of_fund = 365 / @keep_period.days
+          stock_firms_row[:profit] = (1 + (stock_firms_row[:profit] / 100)) ** (number_of_fund)
+          stock_firms_row[:profit] = (stock_firms_row[:profit] - 1) * 100
+          stock_firms_row[:profit] = stock_firms_row[:profit].round(2)
+        end
       else
         stock_firms_row[:profit] = -9999
       end
 
-      stock_firms_row[:variance] = analysis.earning_variance
       if stock_firms_row[:variance]
-        stock_firms_row[:variance] = Math.sqrt(stock_firms_row[:variance]).round(2)
+        stock_firms_row[:variance] = stock_firms_row[:variance].round(2)
       else
         stock_firms_row[:variance] = -9999
+      end
+
+      if stock_firms_row[:sharpe_ratio]
+        stock_firms_row[:sharpe_ratio] = stock_firms_row[:sharpe_ratio].round(2)
+      else
+        stock_firms_row[:sharpe_ratio] = -9999
       end
 
       @stock_firms_rows.push stock_firms_row
@@ -45,6 +71,22 @@ class StockFirmsController < ApplicationController
 
       if stock_firms_row[:variance] == -9999
         stock_firms_row[:variance] = "-"
+      end
+
+      if stock_firms_row[:sharpe_ratio] == -9999
+        stock_firms_row[:sharpe_ratio] = "-"
+      end
+
+      # 위험도 측정
+      # 기준 : http://blog.naver.com/PostView.nhn?blogId=kimseye3&logNo=130153076168
+      unless stock_firms_row[:sharpe_ratio] == "-"
+        if stock_firms_row[:sharpe_ratio] > 0.4 and stock_firms_row[:sharpe_ratio] < 1
+          stock_firms_row[:risk] = "양호"
+        elsif stock_firms_row[:sharpe_ratio] >= 1
+          stock_firms_row[:risk] = "매우 양호"
+        else
+          stock_firms_row[:risk] = "위험"
+        end
       end
 
       ranking += 1

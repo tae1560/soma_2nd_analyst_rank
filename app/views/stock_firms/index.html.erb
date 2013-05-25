@@ -60,7 +60,7 @@
 
 
               <% variance = stock_firms_row[:variance] %>
-              투자위험도 : <span class=<%= class_of_profit variance %>><%= variance %></span>
+              투자위험도 : <span class=<%= class_of_risk variance %>><%= variance %></span>
 
           </div>
 
@@ -85,7 +85,7 @@
       <% profit = stock_firms_row[:profit] %>
       <td class=<%= class_of_profit profit %>><%= profit %> %</td>
       <% variance = stock_firms_row[:variance] %>
-      <td class=<%= class_of_profit variance %>><%= variance %></td>
+      <td class=<%= class_of_risk variance %>><%= variance %></td>
       <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
       <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>
