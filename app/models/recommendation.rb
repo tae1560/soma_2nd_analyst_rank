@@ -44,7 +44,7 @@ class Recommendation < ActiveRecord::Base
         day_candles = DayCandle.where(:symbol => self.symbol).where("trading_date > '#{in_day_candle.trading_date}'")
       end
 
-      if day_candles
+      if day_candles and loss_cut
         day_candles.order(:trading_date).find_each do |day_candle|
           if get_profit_with_day_candle(in_day_candle, day_candle) < -loss_cut
             # loss_cut 적용시
