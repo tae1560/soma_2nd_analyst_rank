@@ -31,7 +31,7 @@ class StockFirm < ActiveRecord::Base
             self.analyses << analysis
           end
 
-          puts "stock_firm : #{analysis.stock_firm.name} keep : #{analysis.keep_period.name}, recent : #{analysis.recent_period.name}"
+          puts "stock_firm : #{analysis.stock_firm.name} keep : #{analysis.keep_period.name}, recent : #{analysis.recent_period.name}, loss_cut : #{loss_cut.percent}"
 
           # start calculate
           profit_array = []
@@ -45,7 +45,7 @@ class StockFirm < ActiveRecord::Base
           end
 
           filtered_recommendations.find_each do |recommendation|
-            profit = recommendation.get_profit analysis.keep_period.days.days
+            profit = recommendation.get_profit analysis.keep_period.days.days, loss_cut.percent
 
             if profit
               profit_array.push profit
