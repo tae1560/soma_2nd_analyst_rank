@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130525091917) do
+ActiveRecord::Schema.define(:version => 20130525094233) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
