@@ -32,9 +32,49 @@ class ApplicationController < ActionController::Base
           bt = $!.backtrace * "\n  "
           ($stderr << "error: #{$!.inspect}\n  #{bt}\n").flush
         end
-
-
       end
     end
+  end
+
+  def analysis_filtering_with_parameters params
+    unless session[:recent_period_id]
+      if RecentPeriod.where(:days => 182).last
+        session[:recent_period_id] = RecentPeriod.where(:days => 182).last.id
+      else
+        session[:recent_period_id] = RecentPeriod.last.id
+      end
+    end
+
+    unless session[:keep_period_id]
+      if RecentPeriod.where(:days => 91).last
+        session[:keep_period_id] = KeepPeriod.where(:days => 30).last.id
+      else
+        session[:keep_period_id] = KeepPeriod.last.id
+      end
+    end
+
+    unless session[:loss_cut_id]
+      if LossCut.where(:percent => 2).last
+        session[:loss_cut_id] = LossCut.where(:percent => 2).last.id
+      else
+        session[:loss_cut_id] = LossCut.last.id
+      end
+    end
+
+    if params[:recent_period_id]
+      session[:recent_period_id] = params[:recent_period_id].to_i
+    end
+
+    if params[:keep_period_id]
+      session[:keep_period_id] = params[:keep_period_id].to_i
+    end
+
+    if params[:loss_cut_id]
+      session[:loss_cut_id] = params[:loss_cut_id].to_i
+    end
+
+    @recent_period = RecentPeriod.find_by_id(session[:recent_period_id])
+    @keep_period = KeepPeriod.find_by_id(session[:keep_period_id])
+    @loss_cut = LossCut.find_by_id(session[:loss_cut_id])
   end
 end

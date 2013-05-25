@@ -7,32 +7,9 @@ class Recommendation < ActiveRecord::Base
 
   def get_profit keep_period, loss_cut = -1
     in_day_candle = self.get_in_day_candle
-    out_day_candle = self.get_out_day_candle keep_period
+    out_day_candle = self.get_out_day_candle keep_period, loss_cut
 
-    if loss_cut < 0
-      return get_profit_with_day_candle in_day_candle, out_day_candle
-    else
-      #  loss_cut에 해당하는 out_day_candle 찾기
-      day_candles = nil
-      if in_day_candle and out_day_candle
-        day_candles = DayCandle.where(:symbol => self.symbol).where("trading_date > '#{in_day_candle.trading_date}' AND trading_date < '#{out_day_candle.trading_date}'")
-      elsif in_day_candle
-        day_candles = DayCandle.where(:symbol => self.symbol).where("trading_date > '#{in_day_candle.trading_date}'")
-      end
-
-      if day_candles
-        day_candles.order(:trading_date).find_each do |day_candle|
-          if get_profit_with_day_candle(in_day_candle, day_candle) < loss_cut
-            # loss_cut 적용시
-            return get_profit_with_day_candle in_day_candle, day_candle
-          end
-        end
-      end
-
-      return get_profit_with_day_candle in_day_candle, out_day_candle
-    end
-
-
+    return get_profit_with_day_candle in_day_candle, out_day_candle
   end
 
   def get_profit_with_day_candle in_day_candle, out_day_candle
@@ -43,8 +20,8 @@ class Recommendation < ActiveRecord::Base
     return profit
   end
 
-  def get_out_day_candle keep_period
-  # keep_period with days
+  def get_out_day_candle keep_period, loss_cut = -1
+    # keep_period with days
     out_day_candle = nil
     if keep_period
       base_date = self.in_date + keep_period
@@ -55,7 +32,29 @@ class Recommendation < ActiveRecord::Base
       #out_day_candle = DayCandle.where(:symbol => self.symbol).order(:trading_date).last
     end
 
-    return out_day_candle
+    if loss_cut < 0
+      return out_day_candle
+    else
+      #  loss_cut에 해당하는 out_day_candle 찾기
+      in_day_candle = self.get_in_day_candle
+      day_candles = nil
+      if in_day_candle and out_day_candle
+        day_candles = DayCandle.where(:symbol => self.symbol).where("trading_date > '#{in_day_candle.trading_date}' AND trading_date < '#{out_day_candle.trading_date}'")
+      elsif in_day_candle
+        day_candles = DayCandle.where(:symbol => self.symbol).where("trading_date > '#{in_day_candle.trading_date}'")
+      end
+
+      if day_candles
+        day_candles.order(:trading_date).find_each do |day_candle|
+          if get_profit_with_day_candle(in_day_candle, day_candle) < -loss_cut
+            # loss_cut 적용시
+            return day_candle
+          end
+        end
+      end
+
+      return out_day_candle
+    end
   end
 
   def get_in_day_candle

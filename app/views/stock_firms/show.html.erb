@@ -10,23 +10,34 @@
       <div  class="full-width input-append">
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
-            최근 <span class="param"><%=@recent_period_string%></span> 추천을
+            <%= display_recent_period_string %>
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
             <% RecentPeriod.find_each do |recent_period| %>
-                <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>">최근 <span class="param"><%=recent_period.name%></span> 추천을 </a></li>
+                <li><a href="<%=stock_firm_path @stock_firm%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
             <% end %>
           </ul>
         </div>
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
-            <span class="param"><%=@keep_period_string%></span> 동안 유지할 때
+            <%=display_keep_period_string%>
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
             <% KeepPeriod.find_each do |keep_period| %>
-                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><span class="param"><%=keep_period.name%></span> 동안 유지할 때 </a></li>
+                <li><a href="<%=stock_firm_path @stock_firm%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="half-width btn-group">
+          <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
+            <%= display_loss_cut_string %>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <% LossCut.find_each do |loss_cut| %>
+                <li><a href="<%=stock_firm_path @stock_firm%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></li>
             <% end %>
           </ul>
         </div>
@@ -56,8 +67,8 @@
   <% @recommendations.each do |recommendation| %>
       <%
          in_day_candle = recommendation.get_in_day_candle
-         out_day_candle = recommendation.get_out_day_candle @keep_period.days.days
-         profit = recommendation.get_profit @keep_period.days.days
+         out_day_candle = recommendation.get_out_day_candle @keep_period.days.days, @loss_cut.percent
+         profit = recommendation.get_profit @keep_period.days.days, @loss_cut.percent
       %>
       <tr>
         <td class="hidden-phone"><%= recommendation.symbol %></td>
