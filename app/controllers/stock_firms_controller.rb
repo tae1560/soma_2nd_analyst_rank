@@ -34,14 +34,14 @@ class StockFirmsController < ApplicationController
 
       # 소수점 처리
       if stock_firms_row[:profit]
-        stock_firms_row[:profit] = stock_firms_row[:profit].round(2)
+        stock_firms_row[:yearly_profit] = stock_firms_row[:profit].round(2)
 
         # 연 환산 (복리)
         if analysis.earning_average
           number_of_fund = 365 / @keep_period.days
-          stock_firms_row[:profit] = (1 + (stock_firms_row[:profit] / 100)) ** (number_of_fund)
-          stock_firms_row[:profit] = (stock_firms_row[:profit] - 1) * 100
-          stock_firms_row[:profit] = stock_firms_row[:profit].round(2)
+          stock_firms_row[:yearly_profit] = (1 + (stock_firms_row[:yearly_profit] / 100)) ** (number_of_fund)
+          stock_firms_row[:yearly_profit] = (stock_firms_row[:yearly_profit] - 1) * 100
+          stock_firms_row[:yearly_profit] = stock_firms_row[:yearly_profit].round(2)
         end
       else
         stock_firms_row[:profit] = -9999

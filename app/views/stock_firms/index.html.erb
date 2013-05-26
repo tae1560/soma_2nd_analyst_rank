@@ -72,7 +72,7 @@
     <tr>
       <th>랭킹</th>
       <th>이름</th>
-      <th>평균수익률</th>
+      <th>수익률</th>
       <th>투자위험도</th>
       <th class="hidden-phone"> </th>
       <th class="hidden-phone"> </th>
@@ -83,7 +83,7 @@
       <td><%= stock_firms_row[:ranking] %></td>
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <% profit = stock_firms_row[:profit] %>
-      <td class=<%= class_of_profit profit %>><%= profit %> %</td>
+      <td class=<%= class_of_profit profit %>><%= profit %><br />(연:<%=stock_firms_row[:yearly_profit]%>)</td>
       <% variance = stock_firms_row[:variance] %>
       <td class=<%= class_of_risk variance %>><%= variance %></td>
       <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
