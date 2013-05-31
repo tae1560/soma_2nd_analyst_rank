@@ -59,8 +59,8 @@
               수익률 : <span class=<%= class_of_profit profit %>><%= profit %> %</span>  <br />
 
 
-              <% variance = stock_firms_row[:variance] %>
-              투자위험도 : <span class=<%= class_of_risk variance %>><%= variance %></span>
+              <% standard_deviation = stock_firms_row[:standard_deviation] %>
+              투자위험도 : <span class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></span>
 
           </div>
 
@@ -85,8 +85,8 @@
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <% profit = stock_firms_row[:profit] %>
       <td><span class=<%= class_of_profit profit %>><%= profit %>%</span><br />(연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)</td>
-      <% variance = stock_firms_row[:variance] %>
-      <td class=<%= class_of_risk variance %>><%= variance %></td>
+      <% standard_deviation = stock_firms_row[:standard_deviation] %>
+      <td class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></td>
       <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
       <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>

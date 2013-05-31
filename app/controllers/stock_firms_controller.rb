@@ -12,52 +12,19 @@ class StockFirmsController < ApplicationController
 
 
     @stock_firms.each do |stock_firm|
-      analysis = stock_firm.analyses.where(:recent_period_id => @recent_period.id, :keep_period_id => @keep_period.id, :loss_cut_id => @loss_cut.id).first
-      unless analysis
+
+      stock_firms_row = outcome_of_stock_firm stock_firm
+      unless stock_firms_row
         next
       end
-      stock_firms_row = {}
-      stock_firms_row[:id] = stock_firm.id
-      stock_firms_row[:stock_firm] = stock_firm
-      stock_firms_row[:profit] = analysis.earning_average
-      stock_firms_row[:variance] = analysis.earning_variance
-      if stock_firms_row[:variance]
-        stock_firms_row[:variance] = Math.sqrt(stock_firms_row[:variance])
-      end
 
-      # 샤프지수 : Sharpe ratio
-      # 샤프지수 = (펀드수익률 - 무위험수익률) / 위험 (표준편차)
-      if stock_firms_row[:profit] and stock_firms_row[:variance]
-        stock_firms_row[:sharpe_ratio] = (stock_firms_row[:profit] - (1.1 / (365 / @keep_period.days))) / stock_firms_row[:variance]
-      end
+      # 소수점 처리 및 소팅을 위한 값 설정
+      stock_firms_row[:yearly_profit] = round_or_setting_lowest stock_firms_row[:yearly_profit]
+      stock_firms_row[:profit] = round_or_setting_lowest stock_firms_row[:profit]
+      stock_firms_row[:variance] = round_or_setting_lowest stock_firms_row[:variance]
+      stock_firms_row[:standard_deviation] = round_or_setting_lowest stock_firms_row[:standard_deviation]
+      stock_firms_row[:sharpe_ratio] = round_or_setting_lowest stock_firms_row[:sharpe_ratio]
 
-
-      # 소수점 처리
-      if stock_firms_row[:profit]
-        stock_firms_row[:yearly_profit] = stock_firms_row[:profit].round(2)
-
-        # 연 환산 (복리)
-        if analysis.earning_average
-          number_of_fund = 365 / @keep_period.days
-          stock_firms_row[:yearly_profit] = (1 + (stock_firms_row[:yearly_profit] / 100)) ** (number_of_fund)
-          stock_firms_row[:yearly_profit] = (stock_firms_row[:yearly_profit] - 1) * 100
-          stock_firms_row[:yearly_profit] = stock_firms_row[:yearly_profit].round(2)
-        end
-      else
-        stock_firms_row[:profit] = -9999
-      end
-
-      if stock_firms_row[:variance]
-        stock_firms_row[:variance] = stock_firms_row[:variance].round(2)
-      else
-        stock_firms_row[:variance] = -9999
-      end
-
-      if stock_firms_row[:sharpe_ratio]
-        stock_firms_row[:sharpe_ratio] = stock_firms_row[:sharpe_ratio].round(2)
-      else
-        stock_firms_row[:sharpe_ratio] = -9999
-      end
 
       @stock_firms_rows.push stock_firms_row
     end
@@ -68,12 +35,20 @@ class StockFirmsController < ApplicationController
     @stock_firms_rows.each do |stock_firms_row|
       stock_firms_row[:ranking] = ranking
 
-      if stock_firms_row[:profit] == -9999
-        stock_firms_row[:profit] = "-"
+      if stock_firms_row[:yearly_profit] == -9999
+        stock_firms_row[:yearly_profit] = "-"
       end
 
       if stock_firms_row[:variance] == -9999
         stock_firms_row[:variance] = "-"
+      end
+
+      if stock_firms_row[:profit] == -9999
+        stock_firms_row[:profit] = "-"
+      end
+
+      if stock_firms_row[:standard_deviation] == -9999
+        stock_firms_row[:standard_deviation] = "-"
       end
 
       if stock_firms_row[:sharpe_ratio] == -9999
@@ -117,5 +92,56 @@ class StockFirmsController < ApplicationController
     @recent_period_string = @recent_period.name
     @keep_period_string = @keep_period.name
     @loss_cut_string = @loss_cut.percent
+
+
+    # added stock_firm outcome
+    @stock_firm_outcome = outcome_of_stock_firm @stock_firm
+  end
+
+  # 증권사와 현재 필터링에 대한 분석정보
+  def outcome_of_stock_firm stock_firm
+    analysis = stock_firm.analyses.where(:recent_period_id => @recent_period.id, :keep_period_id => @keep_period.id, :loss_cut_id => @loss_cut.id).first
+    unless analysis
+      return nil
+    end
+    stock_firms_row = {}
+    stock_firms_row[:id] = stock_firm.id
+    stock_firms_row[:stock_firm] = stock_firm
+    stock_firms_row[:profit] = analysis.earning_average
+    stock_firms_row[:variance] = analysis.earning_variance
+
+    # 표준편차
+    if stock_firms_row[:variance]
+      stock_firms_row[:standard_deviation] = Math.sqrt(stock_firms_row[:variance])
+    end
+
+    # 샤프지수 : Sharpe ratio
+    # 샤프지수 = (펀드수익률 - 무위험수익률) / 위험 (표준편차)
+    if stock_firms_row[:profit] and stock_firms_row[:standard_deviation]
+      stock_firms_row[:sharpe_ratio] = (stock_firms_row[:profit] - (1.1 / (365 / @keep_period.days))) / stock_firms_row[:standard_deviation]
+    end
+
+    # 연환산 수익률
+    if stock_firms_row[:profit]
+      stock_firms_row[:yearly_profit] = stock_firms_row[:profit]
+
+      # 연 환산 (복리)
+      if analysis.earning_average
+        number_of_fund = 365 / @keep_period.days
+        stock_firms_row[:yearly_profit] = (1 + (stock_firms_row[:yearly_profit] / 100)) ** (number_of_fund)
+        stock_firms_row[:yearly_profit] = (stock_firms_row[:yearly_profit] - 1) * 100
+      end
+    end
+
+    return stock_firms_row
+  end
+
+  def round_or_setting_lowest value
+    # 소수점 처리 및 소팅을 위한 값 설정
+    if value
+      return value.round(2)
+    else
+      return -9999
+    end
   end
 end
