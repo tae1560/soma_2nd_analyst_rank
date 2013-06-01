@@ -133,6 +133,13 @@ class StockFirmsController < ApplicationController
       end
     end
 
+    # 추천 수
+    if @recent_period and @recent_period.days > 0
+      stock_firms_row[:number_of_recommendations] = stock_firm.recommendations.where("in_date > '#{Time.now - @recent_period.days.days}'").count
+    else
+      stock_firms_row[:number_of_recommendations] = stock_firm.recommendations.count
+    end
+
     return stock_firms_row
   end
 

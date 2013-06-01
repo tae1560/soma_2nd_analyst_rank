@@ -72,6 +72,7 @@
     <tr>
       <th>랭킹</th>
       <th>이름</th>
+      <th>추천종목수</th>
       <th>수익률</th>
       <th>투자위험도</th>
       <th>샤프지수</th>
@@ -83,6 +84,7 @@
     <tr>
       <td><%= stock_firms_row[:ranking] %></td>
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
+      <td><%= stock_firms_row[:number_of_recommendations] %></td>
       <% profit = stock_firms_row[:profit] %>
       <td><span class=<%= class_of_profit profit %>><%= profit %>%</span><br />(연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)</td>
       <% standard_deviation = stock_firms_row[:standard_deviation] %>

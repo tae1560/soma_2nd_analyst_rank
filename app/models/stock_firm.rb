@@ -72,6 +72,10 @@ class StockFirm < ActiveRecord::Base
             analysis.earning_average = earning_average
             analysis.earning_variance = sum_of_profit_for_variance / profit_array.size
             analysis.save
+          else
+            analysis.earning_average = nil
+            analysis.earning_variance = nil
+            analysis.save
           end
         end
       end
