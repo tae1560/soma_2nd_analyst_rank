@@ -74,8 +74,9 @@
       <th>이름</th>
       <th>추천종목수</th>
       <th>수익률</th>
-      <th>투자위험도</th>
+      <th>표준편차</th>
       <th>샤프지수</th>
+      <th>위험도</th>
       <th class="hidden-phone"> </th>
       <th class="hidden-phone"> </th>
     </tr>
@@ -89,6 +90,8 @@
       <td><span class=<%= class_of_profit profit %>><%= profit %>%</span><br />(연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)</td>
       <% standard_deviation = stock_firms_row[:standard_deviation] %>
       <td class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></td>
+      <td class="hidden-phone"><%= stock_firms_row[:sharpe_ratio]%></td>
+      <td class="hidden-phone"><%= stock_firms_row[:risk]%></td>
       <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
       <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>

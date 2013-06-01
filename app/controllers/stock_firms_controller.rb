@@ -117,7 +117,7 @@ class StockFirmsController < ApplicationController
 
     # 샤프지수 : Sharpe ratio
     # 샤프지수 = (펀드수익률 - 무위험수익률) / 위험 (표준편차)
-    if stock_firms_row[:profit] and stock_firms_row[:standard_deviation]
+    if stock_firms_row[:profit] and stock_firms_row[:standard_deviation] and stock_firms_row[:standard_deviation] != 0
       stock_firms_row[:sharpe_ratio] = (stock_firms_row[:profit] - (1.1 / (365 / @keep_period.days))) / stock_firms_row[:standard_deviation]
     end
 
