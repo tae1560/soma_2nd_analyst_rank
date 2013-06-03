@@ -714,27 +714,27 @@ a:hover {
 }
 h1,
 .h1 {
-  font-size: 62.006px /* 64px */;
+  font-size: 40px ;
 }
 h2,
 .h2 {
-  font-size: 51.996px /* 52px */;
+  font-size: 38px;
 }
 h3,
 .h3 {
-  font-size: 39.998000000000005px /* 40px */;
+  font-size: 36px ;
 }
 h4,
 .h4 {
-  font-size: 28.994000000000003px /* 29px */;
+  font-size: 30px ;
 }
 h5,
 .h5 {
-  font-size: 28px /* 28px */;
+  font-size: 24px /* 28px */;
 }
 h6,
 .h6 {
-  font-size: 23.996px /* 24px */;
+  font-size: 18px /* 24px */;
 }
 h1,
 .h1,
@@ -4895,9 +4895,10 @@ input.search-query {
   display: none;
 }
 @media (max-width: 767px) {
-  .table {
+  /*.table {
     display: none;
   }
+  */
   .rwd-table {
     display: block;
   }

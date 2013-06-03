@@ -52,8 +52,9 @@
 
 
           </div>
+          <h6><%= stock_firms_row[:ranking] %>. <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><%= stock_firms_row[:stock_firm].name %></a></h6>
+
           <div class="description">
-            <h5><%= stock_firms_row[:ranking] %>. <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><%= stock_firms_row[:stock_firm].name %></a></h5>
 
               <% profit = stock_firms_row[:profit] %>
               수익률 : <span class=<%= class_of_profit profit %>><%= profit %> %</span>  <br />
@@ -92,7 +93,7 @@
       <td class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></td>
       <td class="hidden-phone"><%= stock_firms_row[:sharpe_ratio]%></td>
       <td class="hidden-phone"><%= stock_firms_row[:risk]%></td>
-      <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
+      <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</a></td>
       <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>
   <% end %>
