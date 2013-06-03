@@ -51,6 +51,15 @@
 
 .param
 {
-    color: #1abc9c;
+    color: #34495e;
     font-weight:bold;
 }
+
+@media (max-width: 767px) {
+
+    .btn-group + .btn-group{
+        margin-left:0px;
+    }
+
+}
+
