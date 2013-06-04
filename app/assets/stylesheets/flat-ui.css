@@ -105,7 +105,7 @@ you can use the generic selector below, but it's slower:
 .fui-list-numbered,
 .fui-list-large-thumbnails,
 .fui-list-columned,
-.fui-list-bulleted {
+.fui-list-bulleted{
   display: inline-block;
   font-family: 'Flat-UI-Icons';
   speak: none;
