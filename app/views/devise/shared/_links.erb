@@ -2,28 +2,31 @@
     <%= link_to "로그인", new_session_path(resource_name) %><br />
 <% end -%>
 
-<!--
-<%= link_to "페이스북으로 로그인", user_omniauth_authorize_path(:facebook) %><br />
--->
+<a href="<%=user_omniauth_authorize_url(:facebook)%>" class="btn btn-small btn-social-facebook">
+  <i class="fui-facebook"></i>
+  페이스북으로 로그인
+</a><br /><br />
+
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-    <%= link_to "회원가입", new_registration_path(resource_name) %><br />
+    <%= link_to "회원가입", new_registration_path(resource_name), :class => "btn btn-small btn-primary" %><br /><br />
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
-    <%= link_to "비밀번호를 잊으셨나요?", new_password_path(resource_name) %><br />
+    <%= link_to "비밀번호를 잊으셨나요?", new_password_path(resource_name), :class => "btn btn-small btn-primary" %><br /><br />
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-    <%= link_to "메일을 받지 못하셨나요?", new_confirmation_path(resource_name) %><br />
+    <%= link_to "메일을 받지 못하셨나요?", new_confirmation_path(resource_name), :class => "btn btn-small btn-primary" %><br /><br />
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
     <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
 <% end -%>
+<!--
 <%- if devise_mapping.omniauthable? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
         <%= link_to "#{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %>으로 로그인<br />
     <% end -%>
 <% end -%>
-
+-->
