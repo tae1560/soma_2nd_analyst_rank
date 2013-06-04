@@ -45,7 +45,6 @@
 #main{
     margin-left: -13px;
     margin-right: -13px;
-    margin-top: -15px;
     padding-bottom:40px;
 }
 
@@ -57,15 +56,17 @@
     font-weight:bold;
 }
 
+
+.index-param {
+
+    padding-top:20px;
+}
+
 @media (max-width: 767px) {
 
     .btn-group + .btn-group{
         margin-left:0px;
     }
 
-    .index-param {
-
-        padding-top:20px;
-    }
 }
 
