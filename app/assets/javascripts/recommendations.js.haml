@@ -1,5 +1,0 @@
-$('.recommendations').append('#{escape_javascript(render partial: "recommendations/recommendations", :locals => { :recommendations => recommendations })}');
-$('a.load-more-recommendations').attr('href', '#{recommendation_path page: recommendations.next_page}');
-
-- unless recommendations.next_page
-  $('a.load-more-recommendations').remove();
