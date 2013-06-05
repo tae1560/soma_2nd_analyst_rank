@@ -9,5 +9,10 @@ class RecommendationsController < ApplicationController
 
     save_session_by_regId params["regId"]
     record_push_metric params["notification_id"]
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 end

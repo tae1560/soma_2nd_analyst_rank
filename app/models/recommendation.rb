@@ -91,4 +91,5 @@ class Recommendation < ActiveRecord::Base
 
     get_mdd_with_day_candle in_day_candle, out_day_candle
   end
+
 end
