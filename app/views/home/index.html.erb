@@ -85,6 +85,8 @@
          in_day_candle = recommendation.get_in_day_candle
          out_day_candle = recommendation.get_out_day_candle @keep_period.days.days
          profit = recommendation.get_profit @keep_period.days.days
+         stock_code_name = if recommendation.stock_code then recommendation.stock_code.name end
+         stock_code_name = stock_code_name.gsub("보통주","")
       %>
       <tr>
         <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
@@ -96,7 +98,7 @@
 
         <td class="hidden-phone"><%= recommendation.symbol %></td>
 
-        <td><%= if recommendation.stock_code then recommendation.stock_code.name end %></td>
+        <td><%= stock_code_name %></td>
 
         <td class="hidden-phone <%= class_of_profit profit %>"><%= profit %> %</td>
         <td class="hidden-phone"><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
