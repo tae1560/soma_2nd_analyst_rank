@@ -33,7 +33,7 @@
     -moz-border-radius: 4px;
 }
 .rank-item .description {
-    padding-left:10px;
+    padding-left:15px;
 
 }
 .rank-item h5
@@ -43,6 +43,11 @@
 }
 
 
+.rank-item .ranking {
+    color: rgba(52, 73, 94, 0.23);
+    float:right;
+    font-size:80pt;
+}
 
 .param
 {
@@ -64,8 +69,8 @@
     }
 
     #main{
-        margin-left: -13px;
-        margin-right: -13px;
+        margin-left: -15px;
+        margin-right: -15px;
         padding-bottom:40px;
         margin-top:-20px;
     }

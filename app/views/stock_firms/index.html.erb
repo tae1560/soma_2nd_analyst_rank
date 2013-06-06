@@ -44,15 +44,17 @@
 <% if mobile_device? %>
     <% @stock_firms_rows.each do |stock_firms_row| %>
         <div class="rank-item">
-
-          <div class="pull-right">
+          <!--
+          <div class="pull-right firm-logo">
             <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
-              <img width=140px src="./img/firms/<%=stock_firms_row[:id]%>.png"/>
+              <img width=120px src="./img/firms/<%=stock_firms_row[:id]%>.png"/>
             </a>
 
 
           </div>
-          <h6><%= stock_firms_row[:ranking] %>. <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><%= stock_firms_row[:stock_firm].name %></a></h6>
+          -->
+          <span class="ranking"><%= stock_firms_row[:ranking] %></span>
+          <h6><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width=100px src="./img/firms/<%=stock_firms_row[:id]%>.png"/></a></h6>
 
           <div class="description">
 
@@ -64,7 +66,11 @@
 
 
               <% standard_deviation = stock_firms_row[:standard_deviation] %>
-              투자위험도 : <span class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></span>
+              표준편차 : <span class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></span>     <br />
+
+              샤프지수 : <%= stock_firms_row[:sharpe_ratio]%> <br />
+
+              위험도 : <%= stock_firms_row[:risk]%> <br />
 
           </div>
 
