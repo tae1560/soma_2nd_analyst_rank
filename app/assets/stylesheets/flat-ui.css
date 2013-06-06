@@ -1529,9 +1529,11 @@ a.muted:focus {
   color: #ffffff;
   padding: 16px 20px 15px;
 }
+/*
 .navbar-inverse .nav.pull-right > li > a {
   border-radius: 0 6px 6px 0;
 }
+*/
 .navbar-unread,
 .navbar-new {
   font-family: "Lato", sans-serif;

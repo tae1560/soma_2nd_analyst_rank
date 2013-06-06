@@ -1,14 +1,13 @@
 <%= link_to "증권사추천왕", root_path, :class => 'brand' %>
 <div class="nav-collapse collapse">
   <ul class="nav pull-right">
-
-    <li>
+    <li<%= " class=active" if current_page?(:controller => '/home') %>>
       <%= link_to '홈', root_path %>
     </li>
-    <li>
+    <li<%= " class=active" if current_page?(:controller => '/stock_firms') %>>
       <%= link_to '추천왕', stock_firms_path %>
     </li>
-    <li>
+    <li<%= " class=active" if current_page?(:controller => '/recommendations') %>>
       <%= link_to '최신추천종목', recommendations_path %>
     </li>
 
