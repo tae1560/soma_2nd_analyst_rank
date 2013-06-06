@@ -63,10 +63,13 @@ class HomeController < ApplicationController
       unless stock_firms_row[:sharpe_ratio] == "-"
         if stock_firms_row[:sharpe_ratio] > 0.4 and stock_firms_row[:sharpe_ratio] < 1
           stock_firms_row[:risk] = "양호"
+          stock_firms_row[:risk_style] = "good"
         elsif stock_firms_row[:sharpe_ratio] >= 1
           stock_firms_row[:risk] = "매우 양호"
+          stock_firms_row[:risk_style] = "perfect"
         else
           stock_firms_row[:risk] = "위험"
+          stock_firms_row[:risk_style] = "bad"
         end
       end
 

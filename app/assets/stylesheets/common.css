@@ -87,3 +87,44 @@
     text-align : center;
 
 }
+
+
+.tile {
+    background-color: #EFF0F2;
+    border-radius: 6px 6px 6px 6px;
+    padding: 14px;
+    position: relative;
+    text-align: center;
+}
+
+.tile-image.big-illustration {
+}
+
+.tile-image {
+    height: 50px;
+    margin-top: 20px;
+    width: 80%;
+    margin: 20px 0 27px;
+    vertical-align: bottom;
+}
+
+.tile-title {
+    font-size: 20px;
+
+    margin-bottom: 25px;
+}
+
+.tile p {
+    font-size: 15px;
+    margin: 0;
+}
+
+.tile.tile-hot:before {
+    background: url("http://designmodo.github.io/Flat-UI/css/../images/tile/ribbon.png") no-repeat scroll 0 0 / 82px 82px transparent;
+    content: "";
+    height: 82px;
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 82px;
+}
