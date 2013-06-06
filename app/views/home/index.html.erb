@@ -36,7 +36,11 @@
         <% profit = stock_firms_row[:profit] %>
       <div class="span4">
         <div class="tile">
-          <img class="tile-image big-illustration" alt="Compas@2x" src="/img/firms/<%= stock_firms_row[:id] %>.png">
+          <img class="tile-image big-illustration" src="/img/firms/<%= stock_firms_row[:id] %>.png">
+
+          <p>종목수</p>
+          <h3 class="tile-title"><%= stock_firms_row[:number_of_recommendations] %></h3>
+
 
           <p>평균 수익률</p>
           <h3 class="tile-title <%= class_of_profit profit %>"><%= profit %> %</h3>

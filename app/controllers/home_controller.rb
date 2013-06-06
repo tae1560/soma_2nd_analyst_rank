@@ -71,6 +71,10 @@ class HomeController < ApplicationController
           stock_firms_row[:risk] = "위험"
           stock_firms_row[:risk_style] = "bad"
         end
+      else
+        stock_firms_row[:risk] = "-"
+        stock_firms_row[:risk_style] = ""
+
       end
 
       ranking += 1

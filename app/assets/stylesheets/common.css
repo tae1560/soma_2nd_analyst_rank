@@ -8,13 +8,31 @@
     width:50%;
 }
 
-
+/*
+ 등락
+*/
 .up {
     color : #e74c3c;
 }
 
 .down {
     color : #3498db;
+}
+/*
+위험도
+*/
+.good {
+
+    color : #25a35a;
+
+}
+.bad {
+    color : #e74c3c;
+
+}
+.perfect {
+    color : #3498db;
+
 }
 
 .rank-item  {
@@ -103,7 +121,6 @@
 .tile-image {
     height: 50px;
     margin-top: 20px;
-    width: 80%;
     margin: 20px 0 27px;
     vertical-align: bottom;
 }
