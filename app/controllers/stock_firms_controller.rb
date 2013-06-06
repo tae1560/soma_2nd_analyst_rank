@@ -60,11 +60,18 @@ class StockFirmsController < ApplicationController
       unless stock_firms_row[:sharpe_ratio] == "-"
         if stock_firms_row[:sharpe_ratio] > 0.4 and stock_firms_row[:sharpe_ratio] < 1
           stock_firms_row[:risk] = "양호"
+          stock_firms_row[:risk_style] = "good"
         elsif stock_firms_row[:sharpe_ratio] >= 1
           stock_firms_row[:risk] = "매우 양호"
+          stock_firms_row[:risk_style] = "perfect"
         else
           stock_firms_row[:risk] = "위험"
+          stock_firms_row[:risk_style] = "bad"
         end
+      else
+        stock_firms_row[:risk] = "-"
+        stock_firms_row[:risk_style] = ""
+
       end
 
       ranking += 1
@@ -136,6 +143,7 @@ class StockFirmsController < ApplicationController
     # 추천 수
     if @recent_period and @recent_period.days > 0
       stock_firms_row[:number_of_recommendations] = stock_firm.recommendations.where("in_date > '#{Time.now - @recent_period.days.days}'").count
+
     else
       stock_firms_row[:number_of_recommendations] = stock_firm.recommendations.count
     end

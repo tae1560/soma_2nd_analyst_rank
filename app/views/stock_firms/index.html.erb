@@ -101,7 +101,7 @@
       <% standard_deviation = stock_firms_row[:standard_deviation] %>
       <td class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></td>
       <td><%= stock_firms_row[:sharpe_ratio]%></td>
-      <td><%= stock_firms_row[:risk]%></td>
+      <td class="<%= stock_firms_row[:risk_style] %>"><%= stock_firms_row[:risk]%></td>
       <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</a></td>
       <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
     </tr>

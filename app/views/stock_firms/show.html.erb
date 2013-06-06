@@ -105,8 +105,7 @@
       </tr>
   <% end %>
 </table>
-
-<%= will_paginate @recommendations, :previous_label => t("<<"), :next_label => t(">>"), :page_gap => t("...") %>
+<%= will_paginate @recommendations, :renderer => BootstrapPagination::Rails %>
 
 
 
