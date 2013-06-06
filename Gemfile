@@ -36,3 +36,5 @@ gem 'gcm_on_rails'
 gem 'configatron'
 gem 'omniauth'
 gem 'omniauth-facebook'
+
+gem 'will_paginate-bootstrap'

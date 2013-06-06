@@ -147,3 +147,4 @@ ko:
         even: "은 짝수을 요구합니다"
   cancan:
     access_denied: "죄송합니다. 귀하는 접근권한이 없습니다."
+

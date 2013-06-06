@@ -3,8 +3,9 @@
 
 <%= render :partial => 'recommendations/recommendations', :locals => { :recommendations => @recommendations } %>
 
-<%= will_paginate @recommendations, :previous_label => t("<<"), :next_label => t(">>"), :page_gap => t("...") %>
+<%= will_paginate @recommendations, :renderer => BootstrapPagination::Rails %>
 
 
+<!--
 <%= link_to '더 보기', recommendations_path(:page => @recommendations.next_page), :class => 'load-more-recommendations', :remote => true if @recommendations.next_page %>
-
+-->
