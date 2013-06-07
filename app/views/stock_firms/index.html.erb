@@ -51,6 +51,8 @@
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
             <%= display_recent_period_string %>
+          </button>
+          <button class="btn btn-small phone-btn dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu dropdown-inverse">
@@ -62,6 +64,8 @@
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
             <%=display_keep_period_string%>
+          </button>
+          <button class="btn btn-small phone-btn dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu dropdown-inverse">
@@ -70,9 +74,11 @@
             <% end %>
           </ul>
         </div>
-        <div class="half-width btn-group">
+        <div class="half-width btn-group hidden-phone">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
             <%= display_loss_cut_string %>
+          </button>
+          <button class="btn btn-small phone-btn dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu dropdown-inverse">
