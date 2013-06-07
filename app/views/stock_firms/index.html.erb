@@ -1,8 +1,6 @@
 <h4 class="hidden-phone">추천왕 (<%=@base_date_string%>)</h4>
-<div class="container-fluid">
   <div class="row-fluid">
-    <div class="span4">
-      <!--Body content-->
+    <div class="span5">
       <div class="full-width input-append">
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
@@ -39,7 +37,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 <% if mobile_device? %>
     <% @stock_firms_rows.each do |stock_firms_row| %>
