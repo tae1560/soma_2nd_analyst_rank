@@ -46,49 +46,41 @@
   </div>
 
   <div class="row-fluid">
-    <div class="span5">
       <div class="full-width mbl input-append">
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
             <%= display_recent_period_string %>
-          </button>
-          <button class="btn btn-small phone-btn dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu dropdown-inverse">
             <% RecentPeriod.find_each do |recent_period| %>
-                <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
+            <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
             <% end %>
           </ul>
         </div>
         <div class="half-width btn-group">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
             <%=display_keep_period_string%>
-          </button>
-          <button class="btn btn-small phone-btn dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu dropdown-inverse">
             <% KeepPeriod.find_each do |keep_period| %>
-                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
+            <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
             <% end %>
           </ul>
         </div>
         <div class="half-width btn-group hidden-phone">
           <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
             <%= display_loss_cut_string %>
-          </button>
-          <button class="btn btn-small phone-btn dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu dropdown-inverse">
             <% LossCut.find_each do |loss_cut| %>
-                <li><a href="<%=stock_firms_path%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></li>
+            <li><a href="<%=stock_firms_path%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></a></li>
             <% end %>
           </ul>
         </div>
       </div>
-    </div>
   </div>
 <% if mobile_device? %>
     <% @stock_firms_rows.each do |stock_firms_row| %>
