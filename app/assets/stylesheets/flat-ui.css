@@ -1518,10 +1518,13 @@ a.muted:focus {
   -moz-box-shadow: none;
   box-shadow: none;
 }
+/*
+modified by tprpc
 .navbar-inverse .nav > li.active + li > a {
   border-left: none;
   padding-left: 22px;
 }
+*/
 .navbar-inverse .nav > li > a {
   font-size: 16.002px;
   /* 16px */
