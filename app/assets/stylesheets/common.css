@@ -83,17 +83,24 @@
 /* mobile resolution only */
 @media (max-width: 767px) {
 
-    .btn-group + .btn-group{
-        margin-left:0px;
+    .input-append .btn.btn-phone {
+        margin-left:-4px;
     }
+    /*
     .btn.btn-small.phone-btn {
         padding: 9px 0px 9px 4px;
         font-size: 13px;
     }
-    .btn.btn-small.phone-btn.dropdown-toggle {
+    */
+    .btn.btn-small.btn-phone.dropdown-toggle {
 
         padding-left:9px;
         padding-right:9px;
+    }
+    .btn-group > .btn:first-of-type.first-type {
+
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 
     #main{
