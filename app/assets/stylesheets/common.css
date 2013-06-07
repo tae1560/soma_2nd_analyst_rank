@@ -80,10 +80,20 @@
     padding-top:20px;
 }
 
+/* mobile resolution only */
 @media (max-width: 767px) {
 
     .btn-group + .btn-group{
         margin-left:0px;
+    }
+    .btn.btn-small.phone-btn {
+        padding: 9px 0px 9px 4px;
+        font-size: 13px;
+    }
+    .btn.btn-small.phone-btn.dropdown-toggle {
+
+        padding-left:9px;
+        padding-right:9px;
     }
 
     #main{
@@ -92,6 +102,8 @@
         padding-bottom:40px;
         margin-top:-20px;
     }
+
+
 
 }
 
