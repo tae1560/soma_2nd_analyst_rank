@@ -36,3 +36,5 @@ gem 'gcm_on_rails'
 gem 'configatron'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem "mongoid", "~> 3.0.0"
+gem "will_paginate_mongoid"

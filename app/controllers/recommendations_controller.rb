@@ -3,7 +3,7 @@ class RecommendationsController < ApplicationController
   def index
     analysis_filtering_with_parameters params
 
-    @recommendations = Recommendation.order("in_date DESC").paginate(:page => params[:page], :per_page => 30)
+    @recommendations = Recommendation.order_by("in_date DESC").paginate(:page => params[:page], :per_page => 30)
 
     @base_date_string = "최근 #{@recent_period.name} 추천을 #{@keep_period.name} 동안 유지할 때"
 

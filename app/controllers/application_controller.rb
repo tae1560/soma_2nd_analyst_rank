@@ -37,6 +37,9 @@ class ApplicationController < ActionController::Base
   end
 
   def analysis_filtering_with_parameters params
+
+
+
     unless session[:recent_period_id]
       if RecentPeriod.where(:days => 182).last
         session[:recent_period_id] = RecentPeriod.where(:days => 182).last.id
@@ -62,19 +65,19 @@ class ApplicationController < ActionController::Base
     end
 
     if params[:recent_period_id]
-      session[:recent_period_id] = params[:recent_period_id].to_i
+      session[:recent_period_id] = params[:recent_period_id]
     end
 
     if params[:keep_period_id]
-      session[:keep_period_id] = params[:keep_period_id].to_i
+      session[:keep_period_id] = params[:keep_period_id]
     end
 
     if params[:loss_cut_id]
-      session[:loss_cut_id] = params[:loss_cut_id].to_i
+      session[:loss_cut_id] = params[:loss_cut_id]
     end
 
-    @recent_period = RecentPeriod.find_by_id(session[:recent_period_id])
-    @keep_period = KeepPeriod.find_by_id(session[:keep_period_id])
-    @loss_cut = LossCut.find_by_id(session[:loss_cut_id])
+    @recent_period = RecentPeriod.find_by(id: session[:recent_period_id])
+    @keep_period = KeepPeriod.find_by(id: session[:keep_period_id])
+    @loss_cut = LossCut.find_by(id: session[:loss_cut_id])
   end
 end

@@ -1,10 +1,20 @@
-class StockFirm < ActiveRecord::Base
+class StockFirm
+  include Mongoid::Document
   attr_accessible :name
+
+  field :name, type: String
 
   has_many :recommendations
   has_many :analyses
 
-  has_many :users, :through => :user_subscribe_stock_firms
+  #has_many :users, :through => :user_subscribe_stock_firms
+  has_many :user_subscribe_stock_firms
+  def users
+    User.in(id: user_subscribe_stock_firms.map(&:user_id))
+  end
+
+  validates_uniqueness_of :name
+  validates_presence_of :name
 
   def self.find_or_create_instance id, name
     stock_firm = StockFirm.find_by_id(id)

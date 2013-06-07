@@ -5,10 +5,10 @@ require 'open-uri'
 def crawl_all_chart
 
   # 하루가 지난 데이터는 필요한 양만큼 새로 받음
-  StockCode.find_each do |stock_code|
+  StockCode.each do |stock_code|
     #crawl_chart(stock_code, stock_code[:symbol])
 
-    day_candle = stock_code.day_candles.order(:trading_date).last
+    day_candle = stock_code.day_candles.order_by(:trading_date.asc).last
 
     if day_candle and day_candle.trading_date
       term_secs = Time.now - day_candle.trading_date

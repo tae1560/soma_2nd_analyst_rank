@@ -1,7 +1,30 @@
-class RawRecommendation < ActiveRecord::Base
+class RawRecommendation
+  include Mongoid::Document
+
   attr_accessible :in_dt, :cmp_nm_kor, :cmp_cd, :brk_nm_kor, :brk_cd, :pf_nm_kor, :pf_cd, :recomm_price, :recomm_rate, :recommend_adj_price, :pre_adj_price, :pre_dt, :cnt, :reason_in, :file_nm, :anl_dt, :in_diff_reason
 
-  belongs_to :recommendation
+  field :in_dt, type: String
+  field :cmp_nm_kor, type: String
+  field :cmp_cd, type: String
+  field :brk_nm_kor, type: String
+  field :brk_cd, type: Integer
+  field :pf_nm_kor, type: String
+  field :pf_cd, type: Integer
+  field :recomm_price, type: String
+  field :recomm_rate, type: String
+  field :recommend_adj_price, type: Integer
+  field :pre_adj_price, type: Integer
+  field :pre_dt, type: String
+  field :cnt, type: Integer
+  field :reason_in, type: String
+  field :file_nm, type: String
+  field :anl_dt, type: String
+  field :in_diff_reason, type: String
+
+  belongs_to :recommendation, :inverse_of => :raw_recommendations
+
+  validates_uniqueness_of :cmp_cd, :scope => [:brk_cd, :pf_cd]
+  validates_presence_of :cmp_cd, :brk_cd, :pf_cd
 
 #  add_index :raw_recommendations, [:cmp_cd, :brk_cd, :pf_cd], :unique => true
 

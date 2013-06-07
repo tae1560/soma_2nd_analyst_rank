@@ -11,7 +11,7 @@ def crawl_code
   while true
     doc = Nokogiri::HTML(
         open("http://isin.krx.co.kr/jsp/BA_LT131.jsp?pg_no=#{pg_no}").read, nil, 'utf-8')
-    #puts "http://isin.krx.co.kr/jsp/BA_LT131.jsp?pg_no=#{pg_no}"
+    puts "http://isin.krx.co.kr/jsp/BA_LT131.jsp?pg_no=#{pg_no}"
 
     # 각 데이터 튜플
     odd_tuples = doc.xpath("//tr[@bgcolor='#E5E5E5']")

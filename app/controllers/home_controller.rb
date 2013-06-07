@@ -75,7 +75,7 @@ class HomeController < ApplicationController
 
     #최근 종목
 
-    @recommendations = Recommendation.order("in_date DESC").limit(10)
+    @recommendations = Recommendation.order_by("in_date DESC").limit(10)
 
     save_session_by_regId params["regId"]
     record_push_metric params["notification_id"]

@@ -1,9 +1,21 @@
 # coding: utf-8
-class RawStockCode < ActiveRecord::Base
+class RawStockCode
+  include Mongoid::Document
+
   # 발행기관코드	종목명	영문종목명	표준코드	단축코드	시장구분
   attr_accessible :institution_code, :name, :eng_name, :standard_code, :short_code, :market_type
 
-  belongs_to :stock_code
+  field :institution_code, type: String
+  field :name, type: String
+  field :eng_name, type: String
+  field :standard_code, type: String
+  field :short_code, type: String
+  field :market_type, type: String
+
+  belongs_to :stock_code, :inverse_of => :raw_stock_codes
+
+  validates_uniqueness_of :standard_code
+  validates_presence_of :standard_code
 
   def self.duplicated? standard_code
     RawStockCode.where(:standard_code => standard_code).exists?

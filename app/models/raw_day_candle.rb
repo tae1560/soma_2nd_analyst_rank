@@ -1,8 +1,21 @@
-class RawDayCandle < ActiveRecord::Base
+class RawDayCandle
+  include Mongoid::Document
+
   # attr_accessible :title, :body
   attr_accessible :date, :o, :h, :l, :c, :v, :symbol
 
-  belongs_to :day_candle
+  field :date, type: DateTime
+  field :o, type: Integer
+  field :h, type: Integer
+  field :l, type: Integer
+  field :c, type: Integer
+  field :v, type: Integer
+  field :symbol, type: String
+
+  belongs_to :day_candle, :inverse_of => :raw_day_candles
+
+  validates_uniqueness_of :date, :scope => :symbol
+  validates_presence_of :date, :symbol
 
   # add_index :raw_day_candles, [:symbol, :date], :unique => true
   def self.duplicated? symbol, date
@@ -25,10 +38,15 @@ class RawDayCandle < ActiveRecord::Base
 
     day_candle.trading_date = self.date.to_datetime - 9.hours
 
-    day_candle.stock_code = StockCode.find_by_symbol(day_candle.symbol)
+    day_candle.stock_code = StockCode.find_by(:symbol => day_candle.symbol)
 
     unless day_candle.save
       puts "ERROR : day_candle.save is not working"
+      puts "#{day_candle.errors.full_messages.inspect}"
+      puts self.inspect
+      puts day_candle.inspect
+    else
+      self.save
     end
   end
 
