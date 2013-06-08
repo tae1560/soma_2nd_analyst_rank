@@ -1,81 +1,49 @@
 <h5 class="hidden-phone">추천왕 (<%=@base_date_string%>)</h5>
 
-  <div class="row-fluid full-width">
-    <div class="input-append input-menu">
-      <div class="btn-group">
-        <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-        <button class="btn btn-small btn-phone first-type" data-toggle="dropdown"><%= display_recent_period_string %></button>
-        <ul class="dropdown-menu dropdown-inverse">
-          <% RecentPeriod.find_each do |recent_period| %>
-              <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
-          <% end %>
-        </ul>
-      </div>
-
-      <div class="btn-group">
-        <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-        <button class="btn btn-small btn-phone" data-toggle="dropdown"><%=display_keep_period_string%></button>
-        <ul class="dropdown-menu dropdown-inverse">
-          <% KeepPeriod.find_each do |keep_period| %>
-              <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
-          <% end %>
-        </ul>
-      </div>
-     </div>
-    <div class="input-append input-menu">
-      <div class="btn-group">
-        <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-        <button class="btn btn-small btn-phone" data-toggle="dropdown"><%= display_loss_cut_string %></button>
-        <ul class="dropdown-menu dropdown-inverse">
-          <% LossCut.find_each do |loss_cut| %>
-              <li><a href="<%=stock_firms_path%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
-<!--
-  <div class="row">
-    <div class="span4">
-      <div class="full-width input-append">
-        <div class="btn-group">
-          <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
-            <%= display_recent_period_string %>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu dropdown-inverse">
-            <% RecentPeriod.find_each do |recent_period| %>
-            <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="btn-group">
-          <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
-            <%=display_keep_period_string%>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu dropdown-inverse">
-            <% KeepPeriod.find_each do |keep_period| %>
-            <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="btn-group">
-          <button class="full-width btn dropdown-toggle" data-toggle="dropdown">
-            <%= display_loss_cut_string %>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu dropdown-inverse">
-            <% LossCut.find_each do |loss_cut| %>
-            <li><a href="<%=stock_firms_path%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></a></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
--->
 <% if mobile_device? %>
+
+
+    <!-- Modal -->
+    <div id="recent_period" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">추천기간선택</h3>
+      </div>
+      <div class="modal-body">
+        <% RecentPeriod.find_each do |recent_period| %>
+            <p><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></p>
+        <% end %>
+      </div>
+    </div>
+    <div id="keep_period" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">투자기간</h3>
+      </div>
+      <div class="modal-body">
+        <% KeepPeriod.find_each do |keep_period| %>
+            <p><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></p>
+        <% end %>
+      </div>
+    </div>
+    <div id="loss_cut" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Loss cut 설정</h3>
+      </div>
+      <div class="modal-body">
+        <% LossCut.find_each do |loss_cut| %>
+            <p><a href="<%=stock_firms_path%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="input-menu">
+      <a href="#recent_period" role="button" class="btn btn-small" data-toggle="modal"><%= display_recent_period_string %></a>
+      <a href="#keep_period" role="button" class="btn btn-small" data-toggle="modal"><%=display_keep_period_string%></a>
+      <a href="#loss_cut" role="button" class="btn btn-small" data-toggle="modal"><%= display_loss_cut_string %></a>
+
+    </div>
     <% @stock_firms_rows.each do |stock_firms_row| %>
         <div class="rank-item">
           <!--
@@ -112,6 +80,48 @@
         </div>
     <% end %>
 <% else %>
+    <div class="row-fluid">
+      <div class="input-append">
+        <div class="btn-group">
+          <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= display_recent_period_string %></button>
+          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-inverse">
+            <% RecentPeriod.find_each do |recent_period| %>
+                <li><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="btn-group">
+          <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%=display_keep_period_string%></button>
+          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-inverse">
+            <% KeepPeriod.find_each do |keep_period| %>
+                <li><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="btn-group">
+          <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= display_loss_cut_string %></button>
+          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-inverse">
+            <% LossCut.find_each do |loss_cut| %>
+                <li><a href="<%=stock_firms_path%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
