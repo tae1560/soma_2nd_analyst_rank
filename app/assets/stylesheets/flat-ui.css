@@ -4825,7 +4825,12 @@ input.search-query {
     }
 }
 .table {
+    /*
+    tprpc
     font-size: 15.988px;
+    */
+    font-size: 13px;
+
 }
 .table th,
 .table td {

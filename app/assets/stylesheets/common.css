@@ -1,4 +1,7 @@
 
+body{
+    font-size:12px;
+}
 
 .full-width{
     width:100%;
@@ -132,7 +135,11 @@
     }
 
     .table th, .table td{
-        padding:4px 8px;
+        padding:7px 11px;
+    }
+    .btn.btn-small {
+        font-size:13px;
+        padding:6px 10px 8px;
     }
 
 
