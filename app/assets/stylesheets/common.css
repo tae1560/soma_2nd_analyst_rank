@@ -17,7 +17,7 @@ body{
 
 .up,
 .down{
-    text-weight:bold;
+    font-weight: bold;
 }
 
 .up {
