@@ -5,6 +5,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
+
 gem 'jquery-rails'
 gem "unicorn", ">= 4.3.1", :group => :production
 gem "mysql2", ">= 0.3.11"
@@ -38,3 +39,8 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 
 gem 'will_paginate-bootstrap'
+
+gem 'mongoid'
+gem 'mongify'
+gem 'mongify-mongoid'
+gem 'activerecord-mysql-adapter'
