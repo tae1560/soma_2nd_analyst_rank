@@ -11,4 +11,6 @@ class MongoStockCode
   has_many :day_candles
   has_many :recommendations
 
+  validates_uniqueness_of :symbol
+  validates_presence_of :symbol
 end

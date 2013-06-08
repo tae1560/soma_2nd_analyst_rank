@@ -15,4 +15,6 @@ class MongoDayCandle
   belongs_to :stockcode
   has_many :recommendations
 
+  validates_uniqueness_of :symbol, :scope => :trading_date
+  validates_presence_of :symbol, :trading_date
 end
