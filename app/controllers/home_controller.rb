@@ -100,6 +100,9 @@ class HomeController < ApplicationController
     stock_firms_row[:stock_firm] = stock_firm
     stock_firms_row[:profit] = analysis.earning_average
     stock_firms_row[:variance] = analysis.earning_variance
+    # 승패 확률구하기
+    stock_firms_row[:number_of_winner] = analysis.count_winner ? analysis.count_winner : 0
+    stock_firms_row[:number_of_loser] = analysis.count_loser ? analysis.count_loser : 0
 
     # 표준편차
     if stock_firms_row[:variance]
@@ -127,7 +130,6 @@ class HomeController < ApplicationController
     # 추천 수
     if @recent_period and @recent_period.days > 0
       stock_firms_row[:number_of_recommendations] = stock_firm.recommendations.where("in_date > '#{Time.now - @recent_period.days.days}'").count
-
     else
       stock_firms_row[:number_of_recommendations] = stock_firm.recommendations.count
     end
