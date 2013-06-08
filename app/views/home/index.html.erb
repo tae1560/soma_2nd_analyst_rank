@@ -63,8 +63,8 @@
 
 
           <p>평균 수익률</p>
-          <h3 class="tile-title <%= class_of_profit profit %>"><%= profit %> %</h3>
-          <h4 class="tile-title-small">(연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)</h4>
+          <h3 class="tile-title <%= class_of_profit profit %>"><%= profit %> %<br />
+            <small>(연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)</small></h3>
 
           <p>투자 위험도</p>
           <h3 class="tile-title <%= stock_firms_row[:risk_style] %>"><%= stock_firms_row[:risk] %></h3>
