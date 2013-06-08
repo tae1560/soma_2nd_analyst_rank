@@ -54,14 +54,26 @@ class StockFirm < ActiveRecord::Base
 
           # calculate average and variance
           sum_of_profit = 0
+          count_winner = 0
+          count_loser = 0
           profit_array.each do |profit|
             sum_of_profit += profit
+
+            # added winning rate of stock_firm
+            if profit > 0
+              count_winner += 1
+            else
+              count_loser += 1
+            end
           end
 
           earning_average = nil
           if profit_array.size > 0
             earning_average = sum_of_profit / profit_array.size
           end
+
+          analysis.count_winner = count_winner
+          analysis.count_loser = count_loser
 
           if earning_average
             sum_of_profit_for_variance = 0
