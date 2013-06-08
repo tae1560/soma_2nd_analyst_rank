@@ -98,6 +98,8 @@ body{
     .h5 {
         font-size: 20px;
         color: #2ecc71;
+        font-weight:bold;
+
     }
     .input-menu {
         margin-top: -2px;
