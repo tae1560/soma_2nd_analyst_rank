@@ -1,3 +1,22 @@
+<%= javascript_include_tag "//www.google.com/jsapi"%>
+<script>
+    google.load("visualization", "1", {packages:["corechart"]});
+    function drawChart(win,loses,target) {
+        var data = google.visualization.arrayToDataTable([
+            ['승/패', '갯수'],
+            ['승',     win],
+            ['패',     loses]
+        ]);
+        var options = {
+            backgroundColor:'transparent',
+            legend: null
+        };
+
+
+        var chart = new google.visualization.PieChart(document.getElementById(target));
+        chart.draw(data, options);
+    }
+</script>
 
 <span class="pull-right index-param">최근 <span class=param><%=@recent_period.name%></span> 추천을 <span class=param><%=@keep_period.name%></span> 동안 유지할 때</span>
 <h5><%= link_to '추천왕', stock_firms_path %></h5>
@@ -47,12 +66,18 @@
 
           <p>투자 위험도</p>
           <h3 class="tile-title <%= stock_firms_row[:risk_style] %>"><%= stock_firms_row[:risk] %></h3>
-          <!--
+
           <p>승률</p>
           <h3 class="tile-title">
-            <img src="https://chart.googleapis.com/chart?cht=p3&chs=500x200&chd=t:60,40&chl=Hello|World" width="90%"/>
+            <div id="chart-<%=stock_firms_row[:ranking]%>">
+            </div>
+            <script>
+              drawChart(<%=stock_firms_row[:number_of_winner]%>,<%=stock_firms_row[:number_of_loser]%>,"chart-<%=stock_firms_row[:ranking]%>");
+            </script>
+
+
+
           </h3>
-           -->
           <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>" class="btn btn-primary btn-large btn-block">자세히 보기</a>
         </div>
       </div>

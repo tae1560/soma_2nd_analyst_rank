@@ -100,6 +100,8 @@ class HomeController < ApplicationController
     stock_firms_row[:stock_firm] = stock_firm
     stock_firms_row[:profit] = analysis.earning_average
     stock_firms_row[:variance] = analysis.earning_variance
+    stock_firms_row[:number_of_winner] = analysis.count_winner ? analysis.count_winner : 0
+    stock_firms_row[:number_of_loser] = analysis.count_loser ? analysis.count_loser : 0
 
     # 표준편차
     if stock_firms_row[:variance]
