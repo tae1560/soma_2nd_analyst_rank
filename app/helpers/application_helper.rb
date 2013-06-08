@@ -58,11 +58,11 @@ module ApplicationHelper
 
     if loss_cut.percent < 0
       html = <<-HTML
-      loss cut <span class="param">적용 안함</span>
+      loss cut <span class="param">X</span>
       HTML
     else
       html = <<-HTML
-      loss cut <span class="param">#{loss_cut.percent} %</span>
+      loss cut <span class="param">#{loss_cut.percent}%</span>
       HTML
     end
 

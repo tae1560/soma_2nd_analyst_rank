@@ -83,8 +83,9 @@
 /* mobile resolution only */
 @media (max-width: 767px) {
 
-    .input-append .btn.btn-phone {
-        margin-left:-4px;
+    .input-menu .btn.btn-phone {
+        margin-left:-2px;
+        margin-right:10px;
     }
     /*
     .btn.btn-small.phone-btn {
@@ -97,7 +98,7 @@
         padding-left:9px;
         padding-right:9px;
     }
-    .btn-group > .btn:first-of-type.first-type {
+    .btn-group > .btn {
 
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -110,6 +111,9 @@
         margin-top:-20px;
     }
 
+    .input-append.dropdown-menu {
+        font-size:12px;
+    }
 
 
 }
