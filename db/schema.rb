@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130525094233) do
+ActiveRecord::Schema.define(:version => 20130608030532) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(:version => 20130525094233) do
     t.datetime "updated_at",          :null => false
   end
 
-  add_index "raw_recommendations", ["cmp_cd", "brk_cd", "pf_cd"], :name => "index_raw_recommendations_on_cmp_cd_and_brk_cd_and_pf_cd", :unique => true
+  add_index "raw_recommendations", ["in_dt", "cmp_cd", "brk_cd", "pf_cd"], :name => "by_in_dt_and_cds", :unique => true
 
   create_table "raw_stock_codes", :force => true do |t|
     t.string   "institution_code"
