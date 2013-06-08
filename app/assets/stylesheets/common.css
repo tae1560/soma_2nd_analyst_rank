@@ -148,18 +148,13 @@
 
 .tile-image {
     height: 35px;
-    margin-top: 20px;
+    margin-top: 15px;
     margin: 20px 0 27px;
     vertical-align: bottom;
 }
 
 .tile-title {
     font-size: 20px;
-
-    margin-bottom: 25px;
-}
-.tile-title-small {
-    font-size: 16px;
 
     margin-bottom: 25px;
 }
