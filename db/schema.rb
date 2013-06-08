@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130525094233) do
+ActiveRecord::Schema.define(:version => 20130608031742) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(:version => 20130525094233) do
     t.integer  "keep_period_id"
     t.integer  "recent_period_id"
     t.integer  "loss_cut_id"
+    t.integer  "count_winner"
+    t.integer  "count_loser"
   end
 
   add_index "analyses", ["keep_period_id", "recent_period_id"], :name => "index_by_keep_period_id_and_recent_period_id"
