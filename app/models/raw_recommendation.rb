@@ -5,8 +5,8 @@ class RawRecommendation < ActiveRecord::Base
 
 #  add_index :raw_recommendations, [:cmp_cd, :brk_cd, :pf_cd], :unique => true
 
-  def self.duplicated? cmp_cd, brk_cd, pf_cd
-    RawRecommendation.where(:cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).exists?
+  def self.duplicated? in_dt, cmp_cd, brk_cd, pf_cd
+    RawRecommendation.where(:in_dt => in_dt, :cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).exists?
   end
 
   def parse_and_save

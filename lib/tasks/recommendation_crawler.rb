@@ -56,8 +56,8 @@ def crawl_recommend
         in_diff_reason = row["IN_DIFF_REASON"]
 
         raw_recommendation = nil
-        if RawRecommendation.duplicated? cmp_cd, brk_cd, pf_cd
-          raw_recommendation = RawRecommendation.where(:cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).first
+        if RawRecommendation.duplicated? in_dt, cmp_cd, brk_cd, pf_cd
+          raw_recommendation = RawRecommendation.where(:in_dt => in_dt, :cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).first
           raw_recommendation.in_dt = in_dt
           raw_recommendation.cmp_nm_kor = cmp_nm_kor
           raw_recommendation.cmp_cd = cmp_cd
