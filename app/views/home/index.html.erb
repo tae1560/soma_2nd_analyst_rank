@@ -127,7 +127,9 @@
 
         <td><%= stock_code_name %></td>
 
-        <td class="hidden-phone <%= class_of_profit profit %>"><%= profit %> %</td>
+        <td class="hidden-phone <%= class_of_profit profit %>"><%= profit %>%<br />
+          (연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)
+        </td>
         <td class="hidden-phone"><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
                                     target="_blank"
                                     onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= Utility.utc_datetime_to_kor_str recommendation.in_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>
