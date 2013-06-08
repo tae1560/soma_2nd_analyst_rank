@@ -158,6 +158,11 @@
 
     margin-bottom: 25px;
 }
+.tile-title-small {
+    font-size: 16px;
+
+    margin-bottom: 25px;
+}
 
 .tile p {
     font-size: 15px;
