@@ -83,6 +83,11 @@
 /* mobile resolution only */
 @media (max-width: 767px) {
 
+    h5,
+    .h5 {
+        font-size: 20px;
+    }
+
     .input-menu .btn.btn-phone {
         margin-left:-2px;
         margin-right:10px;
