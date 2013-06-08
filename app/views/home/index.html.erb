@@ -42,7 +42,7 @@
         <% profit = stock_firms_row[:profit] %>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
         <% variance = stock_firms_row[:variance] %>
-        <td class=<%= stock_firms_row[:risk_style] %>><%= stock_firms_row[:risk] %></td>
+        <td class=<%= stock_firms_row[:risk_style] %>><span class="symbol-<%= stock_firms_row[:risk_style] %>"></span> <%= stock_firms_row[:risk] %></td>
         <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</td>
         <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
       </tr>

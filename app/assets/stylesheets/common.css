@@ -197,3 +197,26 @@ body{
     top: -4px;
     width: 82px;
 }
+
+.symbol-perfect:before {
+    content: "\e036";
+}
+.symbol-good:before {
+    content: "\e006";
+}
+.symbol-bad:before {
+    content: "\e017";
+}
+
+.symbol-good,
+.symbol-perfect,
+.symbol-bad {
+    display: inline-block;
+    font-family: 'Flat-UI-Icons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+}
