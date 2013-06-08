@@ -226,3 +226,13 @@ body{
     text-transform: none;
     -webkit-font-smoothing: antialiased;
 }
+
+
+.date-width {
+    width:75px;
+}
+
+.firm-width {
+    width:75px;
+
+}
