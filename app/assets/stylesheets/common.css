@@ -14,6 +14,12 @@ body{
 /*
  등락
 */
+
+.up,
+.down{
+    text-weight:bold;
+}
+
 .up {
     color : #e74c3c;
 }
