@@ -14,7 +14,7 @@ namespace :manager do
     Rake::Task["calculator:profit"].invoke
 
     # 실제 추천정보가 변화될때에 푸쉬
-    if Recommendation.order("in_date DESC").first.in_date > Time.now - 10.days
+    if Recommendation.order("in_date DESC").first.in_date > Time.now - 1.days
       Utility.send_message_to_all "증권사 추천왕", "새로운 추천정보가 업데이트 되었습니다."
     end
 
