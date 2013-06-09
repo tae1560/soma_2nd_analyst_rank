@@ -148,7 +148,8 @@ body{
         padding:7px 11px;
     }
     .btn.btn-small {
-        font-size:13px;
+        font-size:12px;
+        font-weight:bold;
         padding:8px 7px 8px;
     }
 
