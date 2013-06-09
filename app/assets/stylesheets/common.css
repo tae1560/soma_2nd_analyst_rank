@@ -117,6 +117,7 @@ body{
         text-align:center;
     }
 
+    /*
     .btn.btn-small.phone-btn {
         padding: 8px 8px 8px;
         font-size: 12px;
@@ -148,7 +149,7 @@ body{
     }
     .btn.btn-small {
         font-size:13px;
-        padding:6px 10px 8px;
+        padding:8px 7px 8px;
     }
 
 
