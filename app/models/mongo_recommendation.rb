@@ -53,15 +53,21 @@ class MongoRecommendation
         day_candles = DayCandle.where(:symbol => self.symbol).where("trading_date > '#{in_day_candle.trading_date}'")
       end
 
-      if day_candles and loss_cut
-        day_candles.order(:trading_date).find_each do |day_candle|
-          profit = get_profit_with_day_candle(in_day_candle, day_candle)
-          if profit and profit < -loss_cut
-            # loss_cut 적용시
-            return day_candle
-          end
+      if in_day_candle
+        if day_candles.where("open < '#{in_day_candle.open * (100 - loss_cut) * 0.01}'")
+          return day_candles.where("open < '#{in_day_candle.open * (100 - loss_cut) * 0.01}'").order(:trading_date).first
         end
       end
+
+      #if day_candles and loss_cut
+      #  day_candles.order(:trading_date).find_each do |day_candle|
+      #    profit = get_profit_with_day_candle(in_day_candle, day_candle)
+      #    if profit and profit < -loss_cut
+      #      # loss_cut 적용시
+      #      return day_candle
+      #    end
+      #  end
+      #end
 
       return out_day_candle
     end

@@ -19,8 +19,16 @@ class StockFirm < ActiveRecord::Base
   end
 
   def calculate_profit
+    #profiler = MethodProfiler.observe(Analysis)
+    #profiler2 = MethodProfiler.observe(Recommendation)
+
     KeepPeriod.find_each do |keep_period|
+
       RecentPeriod.find_each do |recent_period|
+        #puts profiler.report
+        #puts profiler2.report
+
+
         LossCut.find_each do |loss_cut|
           analysis = self.analyses.where(:keep_period_id => keep_period.id, :recent_period_id => recent_period.id, :loss_cut_id => loss_cut.id).first
           unless analysis
