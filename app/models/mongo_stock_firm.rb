@@ -1,38 +1,26 @@
-class StockFirm < ActiveRecord::Base
-  attr_accessible :name
+class MongoStockFirm
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
-  has_many :recommendations
-  has_many :analyses
+  store_in collection: "stock_firms"
 
-  has_many :users, :through => :user_subscribe_stock_firms
+  field :name, type: String
+  
+  has_many :analyses, :class_name => "MongoAnalysis", :inverse_of => :stock_firm
+  has_many :recommendations, :class_name => "MongoRecommendation", :inverse_of => :stock_firm
 
-  def self.find_or_create_instance id, name
-    stock_firm = StockFirm.find_by_id(id)
-    unless stock_firm
-      stock_firm = StockFirm.new(:name => name)
-      stock_firm.id = id
-      unless stock_firm.save
-        "ERROR : stock_firm did not saved : #{stock_firm.inspect}"
-      end
-    end
-    return stock_firm
-  end
+  validates_uniqueness_of :name
+  validates_presence_of :name
+
+  index({ name: 1}, { unique: true })
 
   def calculate_profit
-    #profiler = MethodProfiler.observe(Analysis)
-    #profiler2 = MethodProfiler.observe(Recommendation)
-
-    KeepPeriod.find_each do |keep_period|
-
-      RecentPeriod.find_each do |recent_period|
-        #puts profiler.report
-        #puts profiler2.report
-
-
-        LossCut.find_each do |loss_cut|
+    MongoKeepPeriod.each do |keep_period|
+      MongoRecentPeriod.each do |recent_period|
+        MongoLossCut.each do |loss_cut|
           analysis = self.analyses.where(:keep_period_id => keep_period.id, :recent_period_id => recent_period.id, :loss_cut_id => loss_cut.id).first
           unless analysis
-            analysis = Analysis.create
+            analysis = MongoAnalysis.create
             analysis.keep_period = keep_period
             analysis.recent_period = recent_period
             analysis.loss_cut = loss_cut
@@ -49,10 +37,11 @@ class StockFirm < ActiveRecord::Base
           if analysis.recent_period.days < 0
             filtered_recommendations = self.recommendations
           else
-            filtered_recommendations = self.recommendations.where("in_date > '#{Time.now - analysis.recent_period.days.days}'")
+            #filtered_recommendations = self.recommendations.where("in_date > '#{Time.now - analysis.recent_period.days.days}'")
+            filtered_recommendations = self.recommendations.where(:in_date.gt => (Time.now - analysis.recent_period.days.days))
           end
 
-          filtered_recommendations.find_each do |recommendation|
+          filtered_recommendations.each do |recommendation|
             profit = recommendation.get_profit analysis.keep_period.days.days, loss_cut.percent
 
             if profit
