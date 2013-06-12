@@ -10,6 +10,8 @@ class MongoLossCut
 
   validates_uniqueness_of :percent
 
+  index({ percent: 1}, { unique: true })
+
   def self.initialize_data
     LossCut.create(:percent => 2)
     LossCut.create(:percent => 3)

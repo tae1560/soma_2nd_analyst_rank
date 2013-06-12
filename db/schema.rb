@@ -72,12 +72,14 @@ ActiveRecord::Schema.define(:version => 20130611145120) do
     t.integer  "days"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "mongo_id"
   end
 
   create_table "loss_cuts", :force => true do |t|
     t.float    "percent"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "mongo_id"
   end
 
   create_table "push_messages", :force => true do |t|
@@ -155,6 +157,7 @@ ActiveRecord::Schema.define(:version => 20130611145120) do
     t.integer  "days"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "mongo_id"
   end
 
   create_table "recommendations", :force => true do |t|

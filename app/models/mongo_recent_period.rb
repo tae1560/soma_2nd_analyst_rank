@@ -12,6 +12,8 @@ class MongoRecentPeriod
 
   validates_uniqueness_of :name, :scope => :days
 
+  index({ name: 1, days: 1}, { unique: true })
+
   def self.initialize_data
     RecentPeriod.create(:name => "1개월", :days => 30)
     RecentPeriod.create(:name => "2개월", :days => 60)

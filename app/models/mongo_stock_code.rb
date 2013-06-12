@@ -8,9 +8,11 @@ class MongoStockCode
   field :eng_name, type: String
   field :symbol, type: String
   
-  has_many :day_candles
-  has_many :recommendations
+  has_many :day_candles, :class_name => "MongoDayCandle"
+  has_many :recommendations, :class_name => "MongoRecommendation"
 
   validates_uniqueness_of :symbol
   validates_presence_of :symbol
+
+  index({ symbol: 1}, { unique: true })
 end

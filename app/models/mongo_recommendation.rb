@@ -14,6 +14,8 @@ class MongoRecommendation
   validates_uniqueness_of :stock_code_id, :scope => [:stock_firm_id, :in_date, :symbol]
   validates_presence_of :stock_code_id, :stock_firm_id, :in_date, :symbol
 
+  index({ stock_code_id: 1, stock_firm_id: 1, in_date: 1, symbol: 1}, { unique: true })
+
   def get_profit keep_period, loss_cut = -1
     in_day_candle = self.get_in_day_candle
     out_day_candle = self.get_out_day_candle keep_period, loss_cut

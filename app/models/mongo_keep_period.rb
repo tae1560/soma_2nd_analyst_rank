@@ -12,6 +12,8 @@ class MongoKeepPeriod
 
   validates_uniqueness_of :name, :scope => :days
 
+  index({ name: 1, days: 1}, { unique: true })
+
   def self.initialize_data
     MongoKeepPeriod.create(:name => "7일", :days => 7)
     MongoKeepPeriod.create(:name => "15일", :days => 15)

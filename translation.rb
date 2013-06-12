@@ -60,10 +60,6 @@ table "recommendations" do
 	column "updated_at", :datetime
 end
 
-table "schema_migrations" do
-	column "version", :string
-end
-
 table "stock_codes" do
 	column "id", :key, :as => :integer
 	column "name", :string

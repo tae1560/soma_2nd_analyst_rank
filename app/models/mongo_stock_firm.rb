@@ -12,6 +12,8 @@ class MongoStockFirm
   validates_uniqueness_of :name
   validates_presence_of :name
 
+  index({ name: 1}, { unique: true })
+
   def calculate_profit
     MongoKeepPeriod.each do |keep_period|
       MongoRecentPeriod.each do |recent_period|
