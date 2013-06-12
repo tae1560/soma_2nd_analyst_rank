@@ -100,20 +100,15 @@ body{
 }
 .index-param {
 
-    padding-top:30px;
-    padding-right:5px;
+    padding-top:0px;
+    margin-bottom:15px;
+    float:right;
 }
 
 
 /* mobile resolution only */
 @media (max-width: 767px) {
 
-
-    .index-param {
-
-        padding-top:10px;
-        margin-bottom:10px;
-    }
 
     h5,
     .h5 {
