@@ -38,7 +38,7 @@
   </thead>
   <% @stock_firms_rows.each do |stock_firms_row| %>
       <% break if stock_firms_row[:ranking] > 3 %>
-      <tr>
+      <tr class="link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
         <td align="right"><img src="/img/crown/s<%= stock_firms_row[:ranking] %>.png" /></td>
         <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width="100px" src="/img/firms/<%= stock_firms_row[:id] %>.png" /></a></td>
         <% profit = stock_firms_row[:profit] %>
@@ -57,7 +57,7 @@
 
         <% profit = stock_firms_row[:profit] %>
       <div class="span4">
-        <div class="tile">
+        <div class="tile link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
           <img class="tile-image big-illustration" src="/img/firms/<%= stock_firms_row[:id] %>.png">
 
           <p>종목수</p>
@@ -69,7 +69,7 @@
             <small>(연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)</small></h3>
 
           <p>투자 위험도</p>
-          <h3 class="tile-title <%= stock_firms_row[:risk_style] %>"><%= stock_firms_row[:risk] %></h3>
+          <h3 class="tile-title <%= stock_firms_row[:risk_style] %>"><span class="symbol-<%= stock_firms_row[:risk_style] %>"></span> <%= stock_firms_row[:risk] %></h3>
 
           <p>승률</p>
           <h3 class="tile-title">
@@ -117,7 +117,7 @@
          stock_code_name = if recommendation.stock_code then recommendation.stock_code.name end
          stock_code_name = stock_code_name.gsub("보통주","")
       %>
-      <tr>
+      <tr class="link-section" data-href="<%= stock_firm_path(recommendation.stock_firm) %>">
         <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
         <td class="hidden-phone"><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
         <td class="hidden-phone"><%= in_day_candle && in_day_candle.open || "-" %></td>

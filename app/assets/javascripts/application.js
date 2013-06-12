@@ -37,3 +37,10 @@ function hideLoading() {
     $("#loading").hide();  // If image gif
 }
 
+$(document).ready(function() {
+
+    $(".link-section").click(function() {
+        $(location).attr('href', $(this).attr("data-href"));
+    });
+
+});

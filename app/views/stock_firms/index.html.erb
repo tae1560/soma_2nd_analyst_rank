@@ -45,7 +45,7 @@
 
     </div>
     <% @stock_firms_rows.each do |stock_firms_row| %>
-        <div class="rank-item">
+        <div class="rank-item link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
           <!--
           <div class="pull-right firm-logo">
             <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
@@ -55,7 +55,23 @@
 
           </div>
           -->
-          <span class="ranking"><%= stock_firms_row[:ranking] %></span>
+
+          <div class="ranking">
+            <%
+               if stock_firms_row[:ranking] <= 3
+            %>
+                <img src="/img/crown/<%=stock_firms_row[:ranking]%>.png" />
+            <%
+               else
+            %>
+                  <%=stock_firms_row[:ranking]%>
+
+
+
+            <%
+               end
+
+            %></div>
           <h6><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width=100px src="./img/firms/<%=stock_firms_row[:id]%>.png"/></a></h6>
 
           <div class="description">
@@ -73,7 +89,8 @@
 
               샤프지수 : <%= stock_firms_row[:sharpe_ratio]%> <br />
 
-              위험도 : <%= stock_firms_row[:risk]%> <br />
+              위험도 : <span class=<%= stock_firms_row[:risk_style] %>><span class="symbol-<%= stock_firms_row[:risk_style] %>"></span> <%= stock_firms_row[:risk] %></span>
+            <br />
 
           </div>
 
@@ -137,7 +154,7 @@
     </tr>
   </thead>
   <% @stock_firms_rows.each do |stock_firms_row| %>
-    <tr>
+    <tr class="link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
       <td><%= stock_firms_row[:ranking] %></td>
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <td><%= stock_firms_row[:number_of_recommendations] %></td>
@@ -153,3 +170,4 @@
   <% end %>
 </table>
 <% end %>
+
