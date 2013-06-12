@@ -64,7 +64,7 @@ body{
 
 }
 .description {
-    margin-top:10px;
+    line-height:20px;
     margin-bottom:10px;
     font-weight:bold;
 }
