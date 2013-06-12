@@ -45,7 +45,7 @@
 
     </div>
     <% @stock_firms_rows.each do |stock_firms_row| %>
-        <div class="rank-item">
+        <div class="rank-item link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
           <!--
           <div class="pull-right firm-logo">
             <a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
@@ -153,7 +153,7 @@
     </tr>
   </thead>
   <% @stock_firms_rows.each do |stock_firms_row| %>
-    <tr>
+    <tr class="link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
       <td><%= stock_firms_row[:ranking] %></td>
       <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> <%= stock_firms_row[:stock_firm].name %></a></td>
       <td><%= stock_firms_row[:number_of_recommendations] %></td>
@@ -169,3 +169,4 @@
   <% end %>
 </table>
 <% end %>
+
