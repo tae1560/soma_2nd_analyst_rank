@@ -18,14 +18,16 @@
     }
 </script>
 
-<span class="pull-right index-param">최근 <span class=param><%=@recent_period.name%></span> 추천을 <span class=param><%=@keep_period.name%></span> 동안 유지할 때</span>
+<div class="index-param pull-right">최근 <span class=param><%=@recent_period.name%></span> 추천을 <span class=param><%=@keep_period.name%></span> 동안 유지할 때(<%= display_loss_cut_string %>)</div>
+
 <h5><%= link_to '추천왕', stock_firms_path %></h5>
+
 
 <% if mobile_device? %>
 <table id="rank-table" class="table table-striped">
   <thead>
   <tr>
-    <th>랭킹</th>
+    <th></th>
     <th>추천증권사</th>
     <th>평균수익률</th>
     <th>투자위험도</th>
@@ -36,7 +38,7 @@
   <% @stock_firms_rows.each do |stock_firms_row| %>
       <% break if stock_firms_row[:ranking] > 3 %>
       <tr>
-        <td><%= stock_firms_row[:ranking] %></td>
+        <td align="right"><img src="/img/crown/s<%= stock_firms_row[:ranking] %>.png" /></td>
         <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width="100px" src="/img/firms/<%= stock_firms_row[:id] %>.png" /></a></td>
         <% profit = stock_firms_row[:profit] %>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
