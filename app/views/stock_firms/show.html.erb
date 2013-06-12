@@ -8,55 +8,13 @@
   <img width=140px src="/img/firms/<%=@stock_firm.id%>.png"/>
 </div>
 
-<div class="row-fluid">
-  <div class="mbl input-append">
-    <div class="btn-group">
-      <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-      <button class="btn btn-small btn-phone" data-toggle="dropdown"><%= display_recent_period_string %></button>
-      <button class="btn btn-small btn-phone dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu dropdown-inverse">
-        <% RecentPeriod.find_each do |recent_period| %>
-            <li><a href="<%=stock_firm_path @stock_firm%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
-        <% end %>
-      </ul>
-    </div>
-
-    <div class="btn-group">
-      <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-      <button class="btn btn-small btn-phone" data-toggle="dropdown"><%=display_keep_period_string%></button>
-      <button class="btn btn-small btn-phone dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu dropdown-inverse">
-        <% KeepPeriod.find_each do |keep_period| %>
-            <li><a href="<%=stock_firm_path @stock_firm%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
-        <% end %>
-      </ul>
-    </div>
-
-
-    <div class="btn-group hidden-phone">
-      <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-      <button class="btn btn-small btn-phone" data-toggle="dropdown"><%= display_loss_cut_string %></button>
-      <button class="btn btn-small btn-phone dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu dropdown-inverse">
-        <% LossCut.find_each do |loss_cut| %>
-            <li><a href="<%=stock_firm_path @stock_firm%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-</div>
+<h5 class="hidden-phone">추천왕 (<%=@base_date_string%>)</h5>
 
 <% if @stock_firm_outcome %>
-    <div class="description pull-right">
+    <div class="description">
 
       <% profit = @stock_firm_outcome[:profit] %>
-      수익률 : <span class=<%= class_of_profit profit %>><%= profit ? "#{profit.round(2)} %" : "-" %></span>
+      총수익률 : <span class=<%= class_of_profit profit %>><%= profit ? "#{profit.round(2)} %" : "-" %></span>
 
 
       <% standard_deviation = @stock_firm_outcome[:standard_deviation] %>
@@ -64,6 +22,98 @@
 
     </div>
 <% end  %>
+
+<% if mobile_device? %>
+
+
+    <!-- Modal -->
+    <div id="recent_period" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">추천기간선택</h3>
+      </div>
+      <div class="modal-body">
+        <% RecentPeriod.find_each do |recent_period| %>
+            <p><a href="<%=stock_firms_path @stock_firm%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></p>
+        <% end %>
+      </div>
+    </div>
+    <div id="keep_period" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">투자기간</h3>
+      </div>
+      <div class="modal-body">
+        <% KeepPeriod.find_each do |keep_period| %>
+            <p><a href="<%=stock_firms_path @stock_firm%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></p>
+        <% end %>
+      </div>
+    </div>
+    <div id="loss_cut" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Loss cut 설정</h3>
+      </div>
+      <div class="modal-body">
+        <% LossCut.find_each do |loss_cut| %>
+            <p><a href="<%=stock_firms_path @stock_firm%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="input-menu">
+      <a href="#recent_period" role="button" class="btn btn-small" data-toggle="modal"><%= display_recent_period_string %></a>
+      <a href="#keep_period" role="button" class="btn btn-small" data-toggle="modal"><%=display_keep_period_string%></a>
+      <a href="#loss_cut" role="button" class="btn btn-small" data-toggle="modal"><%= display_loss_cut_string %></a>
+
+    </div>
+<% else %>
+
+    <div class="row-fluid">
+      <div class="mbl input-append">
+        <div class="btn-group">
+          <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+          <button class="btn btn-small btn-phone" data-toggle="dropdown"><%= display_recent_period_string %></button>
+          <button class="btn btn-small btn-phone dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-inverse">
+            <% RecentPeriod.find_each do |recent_period| %>
+                <li><a href="<%=stock_firm_path @stock_firm%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="btn-group">
+          <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+          <button class="btn btn-small btn-phone" data-toggle="dropdown"><%=display_keep_period_string%></button>
+          <button class="btn btn-small btn-phone dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-inverse">
+            <% KeepPeriod.find_each do |keep_period| %>
+                <li><a href="<%=stock_firm_path @stock_firm%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
+            <% end %>
+          </ul>
+        </div>
+
+
+        <div class="btn-group hidden-phone">
+          <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+          <button class="btn btn-small btn-phone" data-toggle="dropdown"><%= display_loss_cut_string %></button>
+          <button class="btn btn-small btn-phone dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-inverse">
+            <% LossCut.find_each do |loss_cut| %>
+                <li><a href="<%=stock_firm_path @stock_firm%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+<% end %>
+
 
 
 
@@ -73,10 +123,10 @@
     <th class="hidden-phone">종목코드</th>
     <th>종목명</th>
     <th class="hidden-phone">증권사명</th>
-    <th class="date-width">추천날짜</th>
-    <th>매수 일자</th>
+    <th class="date-width">추천일</th>
+    <th class="date-width">매수일</th>
     <th class="hidden-phone">매수일 시가</th>
-    <th>매도 일자</th>
+    <th class="date-width">매도일</th>
     <th class="hidden-phone">매도일 종가</th>
     <th>수익률</th>
     <th class="hidden-phone"></th>
@@ -94,12 +144,12 @@
         <td class="hidden-phone"><%= recommendation.symbol %></td>
         <td><%= stock_code_name %></td>
         <td class="hidden-phone"><%= recommendation.stock_firm.name %></td>
-        <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
-        <td class="small-font"><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
+        <td ><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
+        <td><a rel="popover" data-toggle="tooltip" title="매수일 시가 : <%= in_day_candle && in_day_candle.open || "-" %>"><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></a></td>
         <td class="hidden-phone"><%= in_day_candle && in_day_candle.open || "-" %></td>
-        <td class="small-font"><%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %></td>
+        <td><a rel="popover" data-toggle="tooltip" title="매도일 시가 : <%= out_day_candle && out_day_candle.close || "-" %>"><%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %></a></td>
         <td class="hidden-phone"><%= out_day_candle && out_day_candle.close || "-" %></td>
-        <td class=<%= class_of_profit profit %>><%= profit %> %</td>
+        <td class=<%= class_of_profit profit %>><%= profit %>%</td>
         <td class="hidden-phone"><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
                                     target="_blank"
                                     onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= Utility.utc_datetime_to_kor_str recommendation.in_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>

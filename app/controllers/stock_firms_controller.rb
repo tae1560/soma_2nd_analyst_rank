@@ -89,9 +89,9 @@ class StockFirmsController < ApplicationController
     @stock_firm = StockFirm.find(params[:id])
 
     if @recent_period and @recent_period.days > 0
-      @recommendations = @stock_firm.recommendations.where("in_date > '#{Time.now - @recent_period.days.days}'").order("in_date DESC").paginate(:page => params[:page], :per_page => 30)
+      @recommendations = @stock_firm.recommendations.where("in_date > '#{Time.now - @recent_period.days.days}'").order("in_date DESC").paginate(:page => params[:page], :per_page => 50)
     else
-      @recommendations = @stock_firm.recommendations.order("in_date DESC").paginate(:page => params[:page], :per_page => 30)
+      @recommendations = @stock_firm.recommendations.order("in_date DESC").paginate(:page => params[:page], :per_page => 50)
     end
 
 
