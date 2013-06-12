@@ -69,7 +69,7 @@
             <small>(연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)</small></h3>
 
           <p>투자 위험도</p>
-          <h3 class="tile-title <%= stock_firms_row[:risk_style] %>"><%= stock_firms_row[:risk] %></h3>
+          <h3 class="tile-title <%= stock_firms_row[:risk_style] %>"><span class="symbol-<%= stock_firms_row[:risk_style] %>"></span> <%= stock_firms_row[:risk] %></h3>
 
           <p>승률</p>
           <h3 class="tile-title">

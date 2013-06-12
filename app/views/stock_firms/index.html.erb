@@ -89,7 +89,8 @@
 
               샤프지수 : <%= stock_firms_row[:sharpe_ratio]%> <br />
 
-              위험도 : <%= stock_firms_row[:risk]%> <br />
+              위험도 : <span class=<%= stock_firms_row[:risk_style] %>><span class="symbol-<%= stock_firms_row[:risk_style] %>"></span> <%= stock_firms_row[:risk] %></span>
+            <br />
 
           </div>
 
