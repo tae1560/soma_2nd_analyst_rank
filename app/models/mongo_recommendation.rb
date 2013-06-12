@@ -1,9 +1,20 @@
-class Recommendation < ActiveRecord::Base
-  attr_accessible :in_date, :symbol
+class MongoRecommendation
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
-  belongs_to :stock_code
-  belongs_to :day_candle
-  belongs_to :stock_firm
+  store_in collection: "recommendations"
+
+  field :in_date, type: DateTime
+  field :symbol, type: String
+  
+  belongs_to :stock_code, :class_name => "MongoStockCode", :inverse_of => :recommendations
+  belongs_to :day_candle, :class_name => "MongoDayCandle", :inverse_of => :recommendations
+  belongs_to :stock_firm, :class_name => "MongoStockFirm", :inverse_of => :recommendations
+
+  validates_uniqueness_of :stock_code_id, :scope => [:stock_firm_id, :in_date, :symbol]
+  validates_presence_of :stock_code_id, :stock_firm_id, :in_date, :symbol
+
+  index({ stock_code_id: 1, stock_firm_id: 1, in_date: 1, symbol: 1}, { unique: true })
 
   def get_profit keep_period, loss_cut = -1
     in_day_candle = self.get_in_day_candle
@@ -50,15 +61,15 @@ class Recommendation < ActiveRecord::Base
         end
       end
 
-      if day_candles and loss_cut
-        day_candles.order(:trading_date).find_each do |day_candle|
-          profit = get_profit_with_day_candle(in_day_candle, day_candle)
-          if profit and profit < -loss_cut
-            # loss_cut 적용시
-            return day_candle
-          end
-        end
-      end
+      #if day_candles and loss_cut
+      #  day_candles.order(:trading_date).find_each do |day_candle|
+      #    profit = get_profit_with_day_candle(in_day_candle, day_candle)
+      #    if profit and profit < -loss_cut
+      #      # loss_cut 적용시
+      #      return day_candle
+      #    end
+      #  end
+      #end
 
       return out_day_candle
     end
@@ -97,5 +108,6 @@ class Recommendation < ActiveRecord::Base
 
     get_mdd_with_day_candle in_day_candle, out_day_candle
   end
+
 
 end
