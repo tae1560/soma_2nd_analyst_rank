@@ -82,6 +82,7 @@ body{
 .rank-item .ranking {
     color: rgba(52, 73, 94, 0.12);
     float:right;
+    padding-top:-20px;
     font-size:50pt;
 }
 
