@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611145120) do
+ActiveRecord::Schema.define(:version => 20130613131819) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -231,6 +231,7 @@ ActiveRecord::Schema.define(:version => 20130611145120) do
     t.string   "invited_by_type"
     t.string   "provider"
     t.string   "uid"
+    t.string   "authentication_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

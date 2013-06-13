@@ -1,10 +1,12 @@
 class User < ActiveRecord::Base
+  before_save :ensure_authentication_token
   rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :token_authenticatable
 
   devise :omniauthable, :omniauth_providers => [:facebook]
 

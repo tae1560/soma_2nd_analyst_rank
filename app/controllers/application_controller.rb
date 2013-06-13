@@ -54,8 +54,8 @@ class ApplicationController < ActionController::Base
     end
 
     unless session[:loss_cut_id]
-      if LossCut.where(:percent => 2).last
-        session[:loss_cut_id] = LossCut.where(:percent => 2).last.id
+      if LossCut.where(:percent => 5).last
+        session[:loss_cut_id] = LossCut.where(:percent => 5).last.id
       else
         session[:loss_cut_id] = LossCut.last.id
       end
