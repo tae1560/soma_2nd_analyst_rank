@@ -1,5 +1,5 @@
 class StockFirm < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :mongo_id
 
   has_many :recommendations
   has_many :analyses

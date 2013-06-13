@@ -1,5 +1,5 @@
 class Recommendation < ActiveRecord::Base
-  attr_accessible :in_date, :symbol
+  attr_accessible :in_date, :symbol, :mongo_id
 
   belongs_to :stock_code
   belongs_to :day_candle

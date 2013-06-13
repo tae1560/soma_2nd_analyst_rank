@@ -1,5 +1,5 @@
 class KeepPeriod < ActiveRecord::Base
-  attr_accessible :name, :days
+  attr_accessible :name, :days, :mongo_id
 
   has_many :analyses
 end
