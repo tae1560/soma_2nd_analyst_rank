@@ -56,7 +56,7 @@ class MongoRecommendation
       end
 
       if in_day_candle
-        if day_candles.where("open < '#{in_day_candle.open * (100 - loss_cut) * 0.01}'")
+        if day_candles.where("open < '#{in_day_candle.open * (100 - loss_cut) * 0.01}'").count > 0
           return day_candles.where("open < '#{in_day_candle.open * (100 - loss_cut) * 0.01}'").order(:trading_date).first
         end
       end

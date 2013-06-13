@@ -174,7 +174,12 @@ namespace :manager do
       mongo_day_candle.low = day_candle.low
       mongo_day_candle.close = day_candle.close
       mongo_day_candle.volume = day_candle.volume
+      unless day_candle.stock_code
+        day_candle.stock_code = StockCode.where(:symbol => day_candle.symbol).first
+        day_candle.save
+      end
       mongo_day_candle.stock_code = MongoStockCode.find(day_candle.stock_code.mongo_id)
+
       if mongo_day_candle.save
         day_candle.mongo_id = mongo_day_candle.id.to_s
         day_candle.save
