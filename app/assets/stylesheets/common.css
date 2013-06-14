@@ -251,3 +251,7 @@ body{
     width:75px;
 
 }
+
+.stock_code_name {
+    font-weight:bold;
+}

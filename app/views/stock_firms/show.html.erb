@@ -140,7 +140,7 @@
       %>
       <tr>
         <td class="hidden-phone"><%= recommendation.symbol %></td>
-        <td><%= stock_code_name %></td>
+        <td class="stock_code_name"><%= stock_code_name %></td>
         <td class="hidden-phone"><%= recommendation.stock_firm.name %></td>
         <td ><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
         <td><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
