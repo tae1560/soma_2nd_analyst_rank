@@ -4,6 +4,7 @@
   <thead>
   <tr>
     <th>증권사</th>
+    <th>투자시작일</th>
     <th>보유기간</th>
     <th>전체자산</th>
     <th>각 추천 투자자산</th>
@@ -16,6 +17,7 @@
       <tr class="link-section" data-href="<%= investment_path(investment) %>">
         <td><%= investment.stock_firm.name %></td>
         <td><%= investment.start_date %></td>
+        <td><%= investment.keep_period.days %>일</td>
         <td><%= investment.total_asset %></td>
         <td><%= investment.invest_asset %></td>
         <td>-</td>
