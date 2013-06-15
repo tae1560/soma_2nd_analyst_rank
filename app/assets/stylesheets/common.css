@@ -107,6 +107,11 @@ body{
 }
 
 
+
+.table th, .table td{
+    padding:8px 15px;
+}
+
 /* mobile resolution only */
 @media (max-width: 767px) {
 
