@@ -114,6 +114,7 @@ class StockFirmsController < ApplicationController
     stock_firms_row = {}
     stock_firms_row[:id] = stock_firm.id
     stock_firms_row[:stock_firm] = stock_firm
+    stock_firms_row[:analysis] = analysis
     stock_firms_row[:profit] = analysis.earning_average
     stock_firms_row[:variance] = analysis.earning_variance
 

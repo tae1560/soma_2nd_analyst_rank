@@ -1,0 +1,125 @@
+<h5><%= link_to '모의투자', stock_firms_path %></h5>
+
+<div class="row-fluid">
+  <div class="input-append">
+    <div class="btn-group">
+      <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+      <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= display_recent_period_string %></button>
+      <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-inverse">
+        <% RecentPeriod.find_each do |recent_period| %>
+            <li><a href="<%=new_investment_path(:stock_firm_id => @stock_firm)%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+      <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%=display_keep_period_string%></button>
+      <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-inverse">
+        <% KeepPeriod.find_each do |keep_period| %>
+            <li><a href="<%=new_investment_path(:stock_firm_id => @stock_firm)%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+      <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= display_loss_cut_string %></button>
+      <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-inverse">
+        <% LossCut.find_each do |loss_cut| %>
+            <li><a href="<%=new_investment_path(:stock_firm_id => @stock_firm)%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<%= form_for(@investment) do |f| %>
+    <% if @investment.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@investment.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+          <ul>
+            <% @investment.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <%= f.hidden_field :stock_firm_id, :value => @stock_firm.id %>
+    <%= f.hidden_field :keep_period_id, :value => @keep_period.id %>
+    <%= f.hidden_field :recent_period_id, :value => @recent_period.id %>
+    <%= f.hidden_field :loss_cut_id, :value => @loss_cut.id %>
+
+    <div class="field">
+      <%= f.label "증권사명" %>
+      <%= f.label @stock_firm.name %>
+    </div>
+    <div class="field">
+      <%= f.label "전체자산(원)" %>
+      <%= f.text_field :total_asset, :value => 1500000 %>
+    </div>
+    <div class="field">
+      <%= f.label "각 추천 투자자산(원)" %>
+      <%= f.text_field :invest_asset, :value => 150000 %>
+    </div>
+    <div class="actions">
+      <%= f.submit "투자하기" %>
+    </div>
+<% end %>
+
+
+
+
+
+<% if mobile_device? %>
+    <table id="rank-table" class="table table-striped">
+      <thead>
+      <tr>
+        <th></th>
+        <th>추천증권사</th>
+        <th>평균수익률</th>
+        <th>투자위험도</th>
+        <th class="hidden-phone"> </th>
+        <th class="hidden-phone"> </th>
+      </tr>
+      </thead>
+
+    </table>
+<% else %>
+    <div class="row demo-tiles">
+
+<% end %>
+</div>
+
+
+<h5><%= link_to '최신추천종목', recommendations_path %></h5>
+
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th class="date-width">추천날짜</th>
+    <th class="hidden-phone">매수 일자</th>
+    <th class="hidden-phone">매수일 시가</th>
+    <th class="hidden-phone">매도 일자</th>
+    <th class="hidden-phone">매도일 종가</th>
+    <th class="firm-width">증권사명</th>
+    <th class="hidden-phone">종목코드</th>
+    <th>종목명</th>
+    <th class="hidden-phone">수익률</th>
+    <th class="hidden-phone"></th>
+  </tr>
+  </thead>
+
+</table>

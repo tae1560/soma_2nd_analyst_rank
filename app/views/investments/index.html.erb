@@ -1,0 +1,29 @@
+<h5 class="hidden-phone">모의투자</h5>
+
+<table class="table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th>증권사</th>
+    <th>투자시작일</th>
+    <th>보유기간</th>
+    <th>전체자산</th>
+    <th>각 추천 투자자산</th>
+    <th>현재 수익금액</th>
+    <th>현재잔액</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @investments.each do |investment| %>
+      <tr class="link-section" data-href="<%= investment_path(investment) %>">
+        <td><%= investment.stock_firm.name %></td>
+        <td><%= investment.start_date %></td>
+        <td><%= investment.keep_period.days %>일</td>
+        <td><%= investment.total_asset %></td>
+        <td><%= investment.invest_asset %></td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+

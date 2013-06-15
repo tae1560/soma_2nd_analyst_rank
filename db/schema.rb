@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130613131819) do
+ActiveRecord::Schema.define(:version => 20130614174051) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -66,6 +66,19 @@ ActiveRecord::Schema.define(:version => 20130613131819) do
   end
 
   add_index "gcm_notifications", ["device_id"], :name => "index_gcm_notifications_on_device_id"
+
+  create_table "investments", :force => true do |t|
+    t.datetime "start_date"
+    t.integer  "total_asset"
+    t.integer  "invest_asset"
+    t.integer  "user_id"
+    t.integer  "stock_firm_id"
+    t.integer  "keep_period_id"
+    t.integer  "recent_period_id"
+    t.integer  "loss_cut_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "keep_periods", :force => true do |t|
     t.string   "name"

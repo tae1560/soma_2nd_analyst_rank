@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   has_many :user_subscribe_stock_firms
   has_many :stock_firms, :through => :user_subscribe_stock_firms
 
+  has_many :investments
+
   #def send_message title, message
   #  push_message = PushMessage.create(:title => title, :message => message)
   #  push_message.gcm_devices << device
@@ -65,6 +67,18 @@ class User < ActiveRecord::Base
   def unsubscribe stock_firm
     if self.stock_firms.include? stock_firm
       self.stock_firms.delete stock_firm
+    end
+  end
+
+  def add_investment investment
+    unless self.investments.include? investment
+      self.investments << investment
+    end
+  end
+
+  def remove_investment investment
+    if self.investments.include? investment
+      self.investments.delete investment
     end
   end
 end
