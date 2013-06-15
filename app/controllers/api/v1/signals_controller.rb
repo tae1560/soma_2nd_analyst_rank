@@ -15,7 +15,7 @@ class Api::V1::SignalsController < Api::ApiController
                       :symbol => "005930",
                       :in_date => Time.now.to_s,
                       :keep_period => "15",
-                      :asset => "150000""}]
+                      :asset => "150000"}]
 
   # signal id, name, 거래일수, 금액
   end
