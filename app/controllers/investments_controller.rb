@@ -35,7 +35,7 @@ class InvestmentsController < ApplicationController
 
       @rest_asset -= in_day_candle.open * recommendation_print[:volumn]
 
-      if out_day_candle then @rest_asset += out_day_candle.open * recommendation_print[:volumn] end
+      if out_day_candle then @rest_asset += out_day_candle.close * recommendation_print[:volumn] end
 
       recommendation_print[:symbol] = recommendation.symbol
       recommendation_print[:stock_firm_name] = recommendation.stock_firm.name

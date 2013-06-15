@@ -58,12 +58,15 @@ class StockFirmsController < ApplicationController
       # 위험도 측정
       # 기준 : http://blog.naver.com/PostView.nhn?blogId=kimseye3&logNo=130153076168
       unless stock_firms_row[:sharpe_ratio] == "-"
-        if stock_firms_row[:sharpe_ratio] > 0.4 and stock_firms_row[:sharpe_ratio] < 1
+        if stock_firms_row[:sharpe_ratio] >= 0.3 and stock_firms_row[:sharpe_ratio] < 1
           stock_firms_row[:risk] = "양호"
-          stock_firms_row[:risk_style] = "good"
+          stock_firms_row[:risk_style] = "perfect"
         elsif stock_firms_row[:sharpe_ratio] >= 1
           stock_firms_row[:risk] = "매우 양호"
           stock_firms_row[:risk_style] = "perfect"
+        elsif stock_firms_row[:sharpe_ratio] >= 0.2 and stock_firms_row[:sharpe_ratio] < 0.3
+          stock_firms_row[:risk] = "보통"
+          stock_firms_row[:risk_style] = "good"
         else
           stock_firms_row[:risk] = "위험"
           stock_firms_row[:risk_style] = "bad"
