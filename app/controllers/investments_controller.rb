@@ -33,7 +33,9 @@ class InvestmentsController < ApplicationController
       real_invest_asset = [@investment.invest_asset, @rest_asset].min
       recommendation_print[:volumn] = if in_day_candle then real_invest_asset / in_day_candle.open else 0 end
 
-      @rest_asset -= in_day_candle.open * recommendation_print[:volumn]
+      if in_day_candle
+        @rest_asset -= in_day_candle.open * recommendation_print[:volumn]
+      end
 
       if out_day_candle then @rest_asset += out_day_candle.close * recommendation_print[:volumn] end
 
