@@ -46,3 +46,4 @@ gem 'mongify-mongoid'
 #gem 'activerecord-mysql-adapter'
 
 gem 'method_profiler'
+gem 'jbuilder'
