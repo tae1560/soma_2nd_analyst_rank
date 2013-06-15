@@ -165,7 +165,7 @@
       <td><%= stock_firms_row[:sharpe_ratio]%></td>
       <td class="<%= stock_firms_row[:risk_style] %>"><%= stock_firms_row[:risk]%></td>
       <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</a></td>
-      <td class="hidden-phone"><a href="#" onclick="alert('준비중입니다.');">시그널링</a></td>
+      <td class="hidden-phone"><a href="<%= new_investment_path(:stock_firm_id => stock_firms_row[:stock_firm]) %>">시그널링</a></td>
     </tr>
   <% end %>
 </table>
