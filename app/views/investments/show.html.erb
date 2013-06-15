@@ -1,4 +1,4 @@
-<h5 class="hidden-phone"><%= link_to '모의투자 세부정보', investments_path %></h5>
+<h5 class="hidden-phone"><%= link_to '모의투자', investments_path %> > <%= link_to '세부정보', "#" %></h5>
 
 <ul>
   <li>증권사 : <%= @investment.stock_firm.name %></li>
@@ -15,14 +15,11 @@
   <thead>
   <tr>
     <th>종목명</th>
-    <th class="hidden-phone">증권사명</th>
     <th class="date-width">추천일</th>
-    <th class="date-width">상태</th>
-    <th class="date-width">매수일</th>
-    <th class="hidden-phone">매수일 시가</th>
+    <th class="date-width">현재상태</th>
+    <th class="hidden-phone">매수가</th>
     <th class="date-width">주식수</th>
-    <th class="date-width">매도일</th>
-    <th class="hidden-phone">매도일 종가</th>
+    <th class="hidden-phone">매도가</th>
     <th class="date-width">수익금</th>
   </tr>
   </thead>
@@ -38,14 +35,16 @@
       %>
       <tr>
         <td class="stock_code_name"><%= stock_code_name %></td>
-        <td class="hidden-phone"><%= recommendation.stock_firm.name %></td>
         <td ><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
         <td><%= state %></td>
-        <td><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
-        <td class="hidden-phone"><%= in_day_candle && in_day_candle.open || "-" %></td>
+        <td class="hidden-phone"><%= in_day_candle && in_day_candle.open || "-" %> 원
+          <br />
+          <%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %>
+        </td>
         <td> <%= volumn %> 주</td>
-        <td><%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %></td>
-        <td class="hidden-phone"><%= out_day_candle && out_day_candle.close || "-" %></td>
+        <td><%= out_day_candle && out_day_candle.close || "-" %> 원
+          <br/>
+          <%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %> </td>
         <td><%= if out_day_candle then (out_day_candle.close - in_day_candle.open) * volumn else "-" end  %> 원</td>
       </tr>
   <% end %>
