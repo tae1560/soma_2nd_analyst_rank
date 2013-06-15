@@ -40,9 +40,9 @@ gem 'omniauth-facebook'
 
 gem 'will_paginate-bootstrap'
 
-gem 'mongoid'
-gem 'mongify'
-gem 'mongify-mongoid'
-gem 'activerecord-mysql-adapter'
+#gem 'mongoid'
+#gem 'mongify'
+#gem 'mongify-mongoid'
+#gem 'activerecord-mysql-adapter'
 
 gem 'method_profiler'
