@@ -107,6 +107,9 @@ body{
 }
 
 
+.table{
+    vertical-align:middle;
+}
 
 .table th, .table td{
     padding:8px 15px;
