@@ -4,18 +4,18 @@
   <thead>
   <tr>
     <th>id</th>
+    <th>전송 시간</th>
     <th>title</th>
     <th>message</th>
-    <th>전송 시간</th>
     <th>응답률</th>
   </tr>
   </thead>
   <% @push_messages.each do |push_message| %>
       <tr>
         <td><%= push_message.id %></td>
+        <td><%= push_message.created_at %></td>
         <td><%= push_message.title %></td>
         <td><%= push_message.message %></td>
-        <td><%= push_message.created_at %></td>
         <td><%= push_message.push_messages_on_devices.count != 0 ? (push_message.push_messages_on_devices.where("receive_time IS NOT NULL").count / push_message.push_messages_on_devices.count.to_f * 100).round(2) : 0 %>% (<%= push_message.push_messages_on_devices.where("receive_time IS NOT NULL").count %> / <%= push_message.push_messages_on_devices.count %>)</td>
       </tr>
   <% end %>
