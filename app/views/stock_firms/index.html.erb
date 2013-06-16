@@ -151,7 +151,6 @@
       <th>샤프지수</th>
       <th>위험도</th>
       <th class="hidden-phone"> </th>
-      <th class="hidden-phone"> </th>
     </tr>
   </thead>
   <% @stock_firms_rows.each do |stock_firms_row| %>
@@ -165,8 +164,7 @@
       <td class=<%= class_of_risk standard_deviation %>><%= standard_deviation %></td>
       <td><%= stock_firms_row[:sharpe_ratio]%></td>
       <td class=<%= stock_firms_row[:risk_style] %>><span class="symbol-<%= stock_firms_row[:risk_style] %>"></span> <%= stock_firms_row[:risk] %></td>
-      <td class="hidden-phone"><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"> 자세히보기</a></td>
-      <td class="hidden-phone"><a href="<%= new_investment_path(:stock_firm_id => stock_firms_row[:stock_firm]) %>">시그널링</a></td>
+      <td class="hidden-phone"><a href="<%= new_investment_path(:stock_firm_id => stock_firms_row[:stock_firm]) %>">모의투자하기</a></td>
     </tr>
   <% end %>
 </table>

@@ -10,6 +10,9 @@
     <li<%= " class=active" if current_page?(:controller => '/recommendations') %>>
       <%= link_to '최신추천종목', recommendations_path %>
     </li>
+    <li<%= " class=active" if current_page?(:controller => '/investments') %>>
+      <%= link_to '모의투자', investments_path %>
+    </li>
 
     <!--
     <% if user_signed_in? %>
