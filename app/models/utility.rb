@@ -32,16 +32,17 @@ class Utility
     number_of_case = title_message_pairs.count
 
     push_messages = []
+
     title_message_pairs.each do |title_message_pair|
       push_message = PushMessage.create(:title => title_message_pair[:title], :message => title_message_pair[:message])
+
       push_messages.push push_message
     end
 
 
-
-    count = 0
     #Gcm::Device.find_each do |device|
-    Gcm::Device.all.shuffle do |device|
+    count = (rand * number_of_case).ceil - 1
+    Gcm::Device.all.shuffle.each do |device|
       push_message = push_messages[count]
       push_messages_on_device = PushMessagesOnDevice.create
       push_messages_on_device.push_message = push_message
