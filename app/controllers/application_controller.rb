@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
   def save_session_by_regId regId
     if regId and regId.length > 0
       @gcm_device = Gcm::Device.find_or_create_by_registration_id(:registration_id => "#{regId}")
-
+      @gcm_device.updated_at = Time.now
+      
       if @gcm_device.save
         session["device_id"] = @gcm_device.id
       end

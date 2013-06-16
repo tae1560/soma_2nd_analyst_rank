@@ -27,6 +27,43 @@ class Utility
     Gcm::Notification.send_notifications
   end
 
+  # param : [{:title => "title", :message => "message"}]
+  def self.send_message_to_all_with_ab_test title_message_pairs
+    number_of_case = title_message_pairs.count
+
+    push_messages = []
+    title_message_pairs.each do |title_message_pair|
+      push_message = PushMessage.create(:title => title_message_pair[:title], :message => title_message_pair[:message])
+      push_messages.push push_message
+    end
+
+
+
+    count = 0
+    #Gcm::Device.find_each do |device|
+    Gcm::Device.all.shuffle do |device|
+      push_message = push_messages[count]
+      push_messages_on_device = PushMessagesOnDevice.create
+      push_messages_on_device.push_message = push_message
+      push_messages_on_device.gcm_device = device
+      push_messages_on_device.push_time = Time.now
+      push_messages_on_device.save!
+
+      notification = Gcm::Notification.new
+      notification.device = device
+      notification.collapse_key = "updates_available"
+      notification.delay_while_idle = false
+      notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => push_message.message, :title_text => push_message.title, :notification_id => push_messages_on_device.id}}
+      notification.save!
+
+      count += 1
+      if count >= number_of_case
+        count = 0
+      end
+    end
+    Gcm::Notification.send_notifications
+  end
+
   #def self.send_message_to_device device, title, message
   #  push_message = PushMessage.create(:title => title, :message => message)
   #
