@@ -39,8 +39,8 @@
   <% @stock_firms_rows.each do |stock_firms_row| %>
       <% break if stock_firms_row[:ranking] > 3 %>
       <tr class="link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
-        <td align="right"><img src="/img/crown/s<%= stock_firms_row[:ranking] %>.png" /></td>
-        <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width="100px" src="/img/firms/<%= stock_firms_row[:id] %>.png" /></a></td>
+        <td><img src="/img/crown/s<%= stock_firms_row[:ranking] %>.png" /></td>
+        <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width="90px" src="/img/firms/<%= stock_firms_row[:id] %>.png" /></a></td>
         <% profit = stock_firms_row[:profit] %>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
         <% variance = stock_firms_row[:variance] %>
@@ -92,6 +92,7 @@
 </div>
 
 
+<hr>
 <h5><%= link_to '최신추천종목', recommendations_path %></h5>
 
 <table class="table table-striped table-hover">
