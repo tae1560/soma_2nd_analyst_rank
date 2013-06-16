@@ -21,6 +21,7 @@ AnalystRank::Application.routes.draw do
   resources :user_subscribe_stock_firms
   resources :investments
   namespace :api do
+    resources :documents
     namespace :v1 do
       resources :signals
     end
