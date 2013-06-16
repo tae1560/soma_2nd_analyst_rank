@@ -4,6 +4,7 @@
   <thead>
   <tr>
     <th>id</th>
+    <th>message id</th>
     <th>push 시간</th>
     <th>접속 시간</th>
   </tr>
@@ -11,6 +12,7 @@
   <% @push_messages_on_devices.each do |push_messages_on_device| %>
       <tr>
         <td><%= push_messages_on_device.id %></td>
+        <td><%= push_messages_on_device.push_message ? push_messages_on_device.push_message.id : nil %></td>
         <td><%= push_messages_on_device.push_time %></td>
         <td><%= push_messages_on_device.receive_time %></td>
       </tr>

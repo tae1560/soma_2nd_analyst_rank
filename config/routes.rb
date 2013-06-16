@@ -17,6 +17,7 @@ AnalystRank::Application.routes.draw do
   resources :home
   resources :app_info
   resources :push_messages_on_devices
+  resources :push_messages
   resources :user_subscribe_stock_firms
   resources :investments
   namespace :api do
