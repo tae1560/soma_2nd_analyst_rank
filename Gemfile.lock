@@ -201,6 +201,7 @@ GEM
       thor (>= 0.14.6, < 2.0)
     raindrops (0.10.0)
     rake (10.0.4)
+    rb-libsvm (1.1.3)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.2)
@@ -300,6 +301,7 @@ DEPENDENCIES
   omniauth-facebook
   quiet_assets (>= 1.0.1)
   rails (= 3.2.9)
+  rb-libsvm
   rolify (>= 3.2.0)
   rspec-rails (>= 2.12.2)
   sass-rails (~> 3.2.3)

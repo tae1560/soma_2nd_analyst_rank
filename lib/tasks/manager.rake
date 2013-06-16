@@ -257,4 +257,129 @@ namespace :manager do
     puts "ended #{task_name} on #{end_time}"
     puts "elapsed time of #{task_name} : #{end_time - start_time}"
   end
+
+  task :svm => :environment do
+    task_name = "manager:svm"
+    start_time = Time.now
+    puts "start #{task_name} on #{start_time}"
+
+    # setting learning data
+    # code, day_candle 15, max percent, min percent, predict after 7 days
+    end_date = Time.now - 1.years
+    recommendations = Recommendation.where("in_date < '#{end_date}'")
+
+    learning_data = []
+    learning_results = []
+    learning_results_bool = []
+    recommendations.find_each do |recommendation|
+      pre_day_candles = DayCandle.where("trading_date < '#{recommendation.in_date}'")
+      current_day_candle = DayCandle.where("trading_date > '#{recommendation.in_date}'").order(:trading_date).first
+      after_day_candle = DayCandle.where("trading_date > '#{recommendation.in_date + 7.days}'").order(:trading_date).first
+
+      if pre_day_candles.count > 15 and after_day_candle and current_day_candle
+        learning_datum = []
+        learning_datum.push recommendation.stock_firm.id
+
+        # iterate pre_day_candles
+        count = 0
+        min_value = 99999999
+        max_value = 0
+        temp_data = []
+        pre_day_candles.order("trading_date DESC").find_each do |pre_day_candle|
+          if count > 15
+            break
+          end
+
+          value = pre_day_candle.close
+          min_value = [min_value, value].min
+          max_value = [max_value, value].max
+          temp_data.push value
+          count += 1
+        end
+
+        mdd = max_value - min_value
+        temp_data.each do |temp_datum|
+          learning_datum.push (temp_datum - min_value) / mdd.to_f
+        end
+
+        # find min,max percent
+        min_percent = 0
+        max_percent = 0
+        if min_value.to_f > 0
+          min_percent = (current_day_candle.close - min_value) / min_value.to_f
+        end
+
+        if max_value.to_f > 0
+          max_percent = (current_day_candle.close - max_value) / max_value.to_f
+        end
+
+
+        learning_datum.push min_percent
+        learning_datum.push max_percent
+
+        puts learning_datum.inspect
+        learning_data.push learning_datum
+
+        profit = 0
+        if current_day_candle.close > 0
+          profit = (after_day_candle.close - current_day_candle.close) / current_day_candle.close.to_f
+        end
+
+        puts "#{current_day_candle.close} #{after_day_candle.close} #{profit}"
+
+        if profit > 0
+          learning_results_bool.push 1
+        else
+          learning_results_bool.push 0
+        end
+
+        #[43, 0.7294117647058823, 0.6470588235294118, 1.0, 0.35294117647058826, 0.08235294117647059, 0.18823529411764706, 0.041176470588235294, 0.029411764705882353, 0.07058823529411765, 0.08823529411764706, 0.047058823529411764, 0.0, 0.058823529411764705, 0.1588235294117647, 0.11764705882352941, 0.2, -0.18248945147679324, -0.3067978533094812]
+        #3875 40300 1
+
+        learning_results.push profit * 10000
+
+        #[43, 0.7294117647058823, 0.6470588235294118, 1.0, 0.35294117647058826, 0.08235294117647059, 0.18823529411764706, 0.041176470588235294, 0.029411764705882353, 0.07058823529411765, 0.08823529411764706, 0.047058823529411764, 0.0, 0.058823529411764705, 0.1588235294117647, 0.11764705882352941, 0.2, -0.18248945147679324, -0.3067978533094812]
+        #3875 40300 9.4
+
+      end
+    end
+
+    require 'libsvm'
+# This library is namespaced.
+    problem = Libsvm::Problem.new
+    parameter = Libsvm::SvmParameter.new
+    parameter.cache_size = 200 # in megabytes
+    parameter.eps = 0.001 # tolerance of termination criterion
+    parameter.c = 10 # C parameter (for C_SVC, Epsilon_SVR and Nu_SVR)
+    #examples = [ [1,0,1], [-1,0,-1] ].map {|ary| Libsvm::Node.features(ary) }
+    #labels = [10, -5]
+    examples = learning_data.map {|ary| Libsvm::Node.features(ary) }
+    labels = learning_results
+    problem.set_examples(labels, examples)
+    model = Libsvm::Model.train(problem, parameter)
+    puts model.inspect
+    model.save("model.svm")
+
+    problem = Libsvm::Problem.new
+    parameter = Libsvm::SvmParameter.new
+    parameter.cache_size = 200 # in megabytes
+    parameter.eps = 0.001 # tolerance of termination criterion
+    parameter.c = 10 # C parameter (for C_SVC, Epsilon_SVR and Nu_SVR)
+    #examples = [ [1,0,1], [-1,0,-1] ].map {|ary| Libsvm::Node.features(ary) }
+    #labels = [10, -5]
+    examples = learning_data.map {|ary| Libsvm::Node.features(ary) }
+    labels = learning_results_bool
+    problem.set_examples(labels, examples)
+    model = Libsvm::Model.train(problem, parameter)
+    puts model.inspect
+    model.save("model2.svm")
+
+    #model = Libsvm::Model.load("model.svm")
+    #pred = model.predict(Libsvm::Node.features(15, 0.328125, 0.0, 0.0, 0.375, 0.578125, 0.5625, 0.6875, 0.84375, 0.84375, 0.6875, 0.6875, 0.6875, 0.84375, 0.84375, 0.609375, 1.0, 0.14264264264264265, 0.04246575342465753))
+    #puts "Example [1, 1, 1] - Predicted #{pred}"
+
+    end_time = Time.now
+    puts "ended #{task_name} on #{end_time}"
+    puts "elapsed time of #{task_name} : #{end_time - start_time}"
+  end
 end

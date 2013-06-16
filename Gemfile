@@ -47,3 +47,5 @@ gem 'mongify-mongoid'
 
 gem 'method_profiler'
 gem 'jbuilder'
+
+gem 'rb-libsvm', require: 'libsvm'
