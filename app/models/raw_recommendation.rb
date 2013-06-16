@@ -3,10 +3,11 @@ class RawRecommendation < ActiveRecord::Base
 
   belongs_to :recommendation
 
-#  add_index :raw_recommendations, [:cmp_cd, :brk_cd, :pf_cd], :unique => true
+  #  add_index :raw_recommendations, [:cmp_cd, :brk_cd, :pf_cd], :unique => true
 
+  #[:stock_code_id, :stock_firm_id, :in_date, :symbol]
   def self.duplicated? in_dt, cmp_cd, brk_cd, pf_cd
-    RawRecommendation.where(:in_dt => in_dt, :cmp_cd => cmp_cd, :brk_cd => brk_cd, :pf_cd => pf_cd).exists?
+    RawRecommendation.where(:in_dt => in_dt, :cmp_cd => cmp_cd, :brk_cd => brk_cd).exists?
   end
 
   def parse_and_save

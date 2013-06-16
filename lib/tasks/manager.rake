@@ -40,6 +40,23 @@ namespace :manager do
     puts "elapsed time of manager:no_message : #{end_time - start_time}"
   end
 
+#  association day_candle with stock_code
+  task :fix_association => :environment do
+    count = 0
+    total_count = DayCandle.count
+    DayCandle.find_each do |day_candle|
+      unless day_candle.stock_code
+        day_candle.stock_code = StockCode.where(:symbol => day_candle.symbol).first
+        day_candle.save
+      end
+
+      count += 1
+      if count % 1000 == 0
+        puts "#{count} / #{total_count}"
+      end
+    end
+  end
+
 #   translate database to mongo
   task :mongify => :environment do
     task_name = "manager:mongify"
@@ -272,9 +289,9 @@ namespace :manager do
     learning_results = []
     learning_results_bool = []
     recommendations.find_each do |recommendation|
-      pre_day_candles = DayCandle.where("trading_date < '#{recommendation.in_date}'")
-      current_day_candle = DayCandle.where("trading_date > '#{recommendation.in_date}'").order(:trading_date).first
-      after_day_candle = DayCandle.where("trading_date > '#{recommendation.in_date + 7.days}'").order(:trading_date).first
+      pre_day_candles = recommendation.stock_code.day_candles.where("trading_date < '#{recommendation.in_date}'")
+      current_day_candle = recommendation.stock_code.day_candles.where("trading_date > '#{recommendation.in_date}'").order(:trading_date).first
+      after_day_candle = recommendation.stock_code.day_candles.where("trading_date > '#{recommendation.in_date + 7.days}'").order(:trading_date).first
 
       if pre_day_candles.count > 15 and after_day_candle and current_day_candle
         learning_datum = []
@@ -390,11 +407,12 @@ namespace :manager do
 
 
     end_date = Time.now - 1.years
-    recommendations = Recommendation.where("in_date > '#{end_date}'")
+    recommendations = Recommendation.where("in_date > '#{end_date}' AND in_date < '#{Time.now - 1.month}'")
     recommendations.order("in_date DESC").find_each do |recommendation|
-      pre_day_candles = DayCandle.where("trading_date < '#{recommendation.in_date}'")
-      current_day_candle = DayCandle.where("trading_date > '#{recommendation.in_date}'").order(:trading_date).first
-      after_day_candle = DayCandle.where("trading_date > '#{recommendation.in_date + 7.days}'").order(:trading_date).first
+      puts "recommendation"
+      pre_day_candles = recommendation.stock_code.day_candles.where("trading_date < '#{recommendation.in_date}'")
+      current_day_candle = recommendation.stock_code.day_candles.where("trading_date > '#{recommendation.in_date}'").order(:trading_date).first
+      after_day_candle = recommendation.stock_code.day_candles.where("trading_date > '#{recommendation.in_date + 7.days}'").order(:trading_date).first
 
       if pre_day_candles.count > 15 and after_day_candle and current_day_candle
         learning_datum = []
