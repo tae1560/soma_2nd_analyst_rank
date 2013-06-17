@@ -44,4 +44,6 @@ $(document).ready(function() {
         $(location).attr('href', $(this).attr("data-href"));
     });
 
+    setTimeout("$(\".alert\").fadeOut(\"slow\")",5000);
 });
+

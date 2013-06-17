@@ -116,6 +116,14 @@ body{
 @media (max-width: 767px) {
 
 
+    .alert {
+        padding : 8px;
+        font-size : 11px;
+    }
+    .alert .close {
+        right:0;
+    }
+
     h5,
     .h5 {
         font-size: 20px;
