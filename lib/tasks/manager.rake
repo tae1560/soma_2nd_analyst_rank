@@ -14,7 +14,7 @@ namespace :manager do
     Rake::Task["calculator:profit"].invoke
 
     # 실제 추천정보가 변화될때에 푸쉬
-    if Recommendation.order("in_date DESC").first.in_date > Time.now - 1.days
+    if Recommendation.order("in_date DESC").first.in_date > Time.now - 2.days
       Utility.send_message_to_all "증권사 추천왕", "새로운 추천정보가 업데이트 되었습니다."
     end
 
@@ -23,6 +23,17 @@ namespace :manager do
 
     puts "elapsed time of manager:cron : #{end_time - start_time}"
 
+  end
+
+  task :push => :environment do
+    # 실제 추천정보가 변화될때에 푸쉬
+    if Recommendation.order("in_date DESC").first.in_date > Time.now - 2.days
+      messages = []
+      messages.push({:title => "증권사 추천왕", :message => "새로운 추천정보가 업데이트 되었습니다."})
+      messages.push({:title => "증권사 추천왕", :message => "새로운 종목이 추천되었습니다."})
+      messages.push({:title => "증권사 추천왕", :message => "추천종목이 추가되었습니다."})
+      Utility.send_message_to_all_with_ab_test messages
+    end
   end
 
   task :no_message => :environment do

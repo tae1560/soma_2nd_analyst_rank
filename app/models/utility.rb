@@ -44,7 +44,7 @@ class Utility
     count = (rand * number_of_case).ceil - 1
     Gcm::Device.all.shuffle.each do |device|
       push_message = push_messages[count]
-      push_messages_on_ device = PushMessagesOnDevice.create
+      push_messages_on_device = PushMessagesOnDevice.create
       push_messages_on_device.push_message = push_message
       push_messages_on_device.gcm_device = device
       push_messages_on_device.push_time = Time.now
