@@ -408,11 +408,15 @@ namespace :manager do
 
     end_date = Time.now - 1.years
     recommendations = Recommendation.where("in_date > '#{end_date}' AND in_date < '#{Time.now - 1.month}'")
+
+    result_array = []
     recommendations.order("in_date DESC").find_each do |recommendation|
       puts "recommendation"
       pre_day_candles = recommendation.stock_code.day_candles.where("trading_date < '#{recommendation.in_date}'")
       current_day_candle = recommendation.stock_code.day_candles.where("trading_date > '#{recommendation.in_date}'").order(:trading_date).first
       after_day_candle = recommendation.stock_code.day_candles.where("trading_date > '#{recommendation.in_date + 7.days}'").order(:trading_date).first
+
+
 
       if pre_day_candles.count > 15 and after_day_candle and current_day_candle
         learning_datum = []
@@ -482,8 +486,18 @@ namespace :manager do
 
         model = Libsvm::Model.load("model.svm")
         pred = model.predict(Libsvm::Node.features(learning_datum))
-        puts "[#{learning_datum.inspect}] - Predicted #{pred / 10000.to_f}    real profit : #{profit}"
+        #puts "[#{learning_datum.inspect}] - Predicted #{pred / 10000.to_f}    real profit : #{profit}"
+        puts "[Predicted #{pred / 10000.to_f}    real profit : #{profit}"
+
+        result_array.push [pred / 10000.to_f, profit]
+
       end
+
+    end
+    puts result_array.to_json
+
+    File.open("result.txt", "w") do |aFile|
+      aFile.puts result_array.to_json
     end
 
     end_time = Time.now
