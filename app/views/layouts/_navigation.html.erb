@@ -13,8 +13,6 @@
     <li<%= " class=active" if current_page?(:controller => '/investments') %>>
       <%= link_to '모의투자', investments_path %>
     </li>
-
-    <!--
     <% if user_signed_in? %>
         <li>
           <%= link_to '로그아웃', destroy_user_session_path, :method=>'delete' %>
@@ -24,6 +22,9 @@
           <%= link_to '로그인', new_user_session_path %>
         </li>
     <% end %>
+
+
+    <!--
     <% if user_signed_in? %>
         <li>
           <%= link_to '정보수정', edit_user_registration_path %>
