@@ -214,6 +214,9 @@ body{
     margin: 0;
 }
 
+.mobile-alert {
+    padding:7px;
+}
 .tile.tile-hot:before {
     background: url("http://designmodo.github.io/Flat-UI/css/../images/tile/ribbon.png") no-repeat scroll 0 0 / 82px 82px transparent;
     content: "";

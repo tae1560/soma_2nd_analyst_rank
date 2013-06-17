@@ -16,8 +16,13 @@
         var chart = new google.visualization.PieChart(document.getElementById(target));
         chart.draw(data, options);
     }
+
 </script>
 
+<div class="mobile-alert alert-error">
+  <a id="notice-close" class="close" data-dismiss="alert">&#215;</a>
+  본 자료는 참고용이며 미래의 수익을 보장하지 않습니다.<br/>투자의 책임은 전적으로 투자자에게 있음을 유의바랍니다.
+</div>
 
 <h5><%= link_to '추천왕', stock_firms_path %></h5>
 
@@ -140,3 +145,8 @@
       </tr>
   <% end %>
 </table>
+<script>
+
+    setTimeout("$('#notice-close').click()",5000);
+
+</script>
