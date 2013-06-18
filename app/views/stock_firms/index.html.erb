@@ -10,6 +10,12 @@
         <h3 id="myModalLabel">추천기간선택</h3>
       </div>
       <div class="modal-body">
+        <div>추천기간은 증권사 추천종목을 <br />
+          얼마나 최신으로 계산하는지 정합니다.<br/>
+          예를들어 최근 30일이면<br />
+          최근 30일 동안 증권사 추천종목을 가져와서 계산합니다.<br />
+        </div>
+        <hr>
         <% RecentPeriod.find_each do |recent_period| %>
             <p><a href="<%=stock_firms_path%>?recent_period_id=<%=recent_period.id%>"><%= display_recent_period_string recent_period %></a></p>
         <% end %>
@@ -21,6 +27,12 @@
         <h3 id="myModalLabel">투자기간</h3>
       </div>
       <div class="modal-body">
+        <div>투자기간은 얼마나 보유할지 정하는 것입니다.<br/>
+          예를들어 7일 보유를 지정하면<br />
+          손절매하지 않으면 7일 동안 보유하고 매도(판매) 합니다.<br />
+
+        </div>
+        <hr>
         <% KeepPeriod.find_each do |keep_period| %>
             <p><a href="<%=stock_firms_path%>?keep_period_id=<%=keep_period.id%>"><%=display_keep_period_string keep_period%></a></p>
         <% end %>
@@ -29,9 +41,17 @@
     <div id="loss_cut" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Loss cut 설정</h3>
+        <h3 id="myModalLabel">손절매 설정</h3>
       </div>
       <div class="modal-body">
+        <div>손절매는 보유하고 있는 종목의 수익률이 떨어졌을때<br/>
+          손해를 감수하고 파는 것을 말합니다. <br />
+          예를들어 손절매 10% 이면, <br />
+          손해가 10% 났을때는 무조건 파는 것을 의미합니다. <br />
+
+        </div>
+        <hr>
+
         <% LossCut.find_each do |loss_cut| %>
             <p><a href="<%=stock_firms_path%>?loss_cut_id=<%=loss_cut.id%>"><%= display_loss_cut_string loss_cut %></span></a></p>
         <% end %>
