@@ -56,6 +56,7 @@ def crawl_chart (code = 000270, count = 2500)
     end
 
     unless RawDayCandle.duplicated?(symbol, date)
+      puts "new data crawled #{symbol}, #{date}"
       begin
         d = RawDayCandle.new(:symbol => symbol, :date => date, :o => o, :h => h, :l => l, :c => c, :v => v)
         unless d.save
