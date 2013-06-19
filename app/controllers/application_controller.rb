@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
       if @gcm_device.save
         session["device_id"] = @gcm_device.id
 
-        push_messages_on_device = @gcm_device.push_messages_on_devices.order(:push_time).last
+        push_messages_on_device = PushMessagesOnDevice.where(:gcm_device_id => @gcm_device.id).order(:push_time).last
         unless push_messages_on_device.receive_time
           push_messages_on_device.receive_time = Time.now
           push_messages_on_device.save!
