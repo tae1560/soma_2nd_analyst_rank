@@ -1,3 +1,9 @@
+<div class="alert alert-success">
+  <a id="notice-close" class="close" data-dismiss="alert">&#215;</a>
+  <a>최근 6개월 추천에 15일 동안 유지해 보셨나요?</a>
+</div>
+
+
 <h5 class="hidden-phone">추천왕 (<%=@base_date_string%>)</h5>
 
 <% if mobile_device? %>
@@ -101,7 +107,7 @@
 
               <% profit = stock_firms_row[:profit] %>
               개별 평균수익률 : <span class=<%= class_of_profit profit %>><%= profit %> %</span>
-                  (연:<span class=<%= class_of_profit profit %>><%=stock_firms_row[:yearly_profit]%>%</span>)<br />
+                  (연:<span class=<%= class_of_profit profit %>><%=stock_firm[:yearly_profit]%>%</span>)<br />
 
 
               <% standard_deviation = stock_firms_row[:standard_deviation] %>
@@ -147,7 +153,7 @@
     </div>
 
 
-    <div class="btn-group hidden-phone">
+    <div class="btn-group">
       <i class="dropdown-arrow dropdown-arrow-inverse"></i>
       <button class="btn btn-small btn-phone" data-toggle="dropdown"><%= display_loss_cut_string %></button>
       <button class="btn btn-small btn-phone dropdown-toggle" data-toggle="dropdown">

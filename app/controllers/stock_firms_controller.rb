@@ -104,6 +104,7 @@ class StockFirmsController < ApplicationController
     @loss_cut_string = @loss_cut.percent
 
 
+
     # added stock_firm outcome
     @stock_firm_outcome = outcome_of_stock_firm @stock_firm
   end
