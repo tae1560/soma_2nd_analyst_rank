@@ -71,6 +71,7 @@ class Utility
     push_messages_on_device = PushMessagesOnDevice.create
     push_messages_on_device.push_message = push_message
     push_messages_on_device.gcm_device = device
+    push_messages_on_device.push_time = Time.now
     push_messages_on_device.save!
 
     notification = Gcm::Notification.new
