@@ -82,4 +82,8 @@ class Utility
 
     Gcm::Notification.send_notifications
   end
+
+  def self.send_remain_messages
+    Gcm::Notification.send_notifications
+  end
 end
