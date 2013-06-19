@@ -49,3 +49,4 @@ gem 'method_profiler'
 gem 'jbuilder'
 
 gem 'rb-libsvm', require: 'libsvm'
+gem 'foreigner'

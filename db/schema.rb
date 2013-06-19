@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130616113116) do
+ActiveRecord::Schema.define(:version => 20130619170821) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(:version => 20130616113116) do
     t.datetime "updated_at",      :null => false
   end
 
+  add_index "push_messages_on_devices", ["gcm_device_id"], :name => "push_messages_on_devices_gcm_device_id_fk"
   add_index "push_messages_on_devices", ["push_message_id", "gcm_device_id"], :name => "by_message_and_device"
 
   create_table "raw_day_candles", :force => true do |t|
@@ -264,5 +265,10 @@ ActiveRecord::Schema.define(:version => 20130616113116) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
+
+  add_foreign_key "gcm_notifications", "gcm_devices", :name => "gcm_notifications_device_id_fk", :column => "device_id", :dependent => :delete
+
+  add_foreign_key "push_messages_on_devices", "gcm_devices", :name => "push_messages_on_devices_gcm_device_id_fk", :dependent => :delete
+  add_foreign_key "push_messages_on_devices", "push_messages", :name => "push_messages_on_devices_push_message_id_fk", :dependent => :delete
 
 end

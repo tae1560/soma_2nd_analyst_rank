@@ -358,7 +358,7 @@ namespace :manager do
         if profit > 0
           learning_results_bool.push 1
         else
-          learning_results_bool.push 0
+          learning_results_bool.push -1
         end
 
         #[43, 0.7294117647058823, 0.6470588235294118, 1.0, 0.35294117647058826, 0.08235294117647059, 0.18823529411764706, 0.041176470588235294, 0.029411764705882353, 0.07058823529411765, 0.08823529411764706, 0.047058823529411764, 0.0, 0.058823529411764705, 0.1588235294117647, 0.11764705882352941, 0.2, -0.18248945147679324, -0.3067978533094812]
@@ -386,7 +386,7 @@ namespace :manager do
     problem.set_examples(labels, examples)
     model = Libsvm::Model.train(problem, parameter)
     puts model.inspect
-    model.save("model.svm")
+    model.save("model3.svm")
 
     problem = Libsvm::Problem.new
     parameter = Libsvm::SvmParameter.new
@@ -400,7 +400,7 @@ namespace :manager do
     problem.set_examples(labels, examples)
     model = Libsvm::Model.train(problem, parameter)
     puts model.inspect
-    model.save("model2.svm")
+    model.save("model4.svm")
 
     #model = Libsvm::Model.load("model2.svm")
     #pred = model.predict(Libsvm::Node.features(43, 0.7294117647058823, 0.6470588235294118, 1.0, 0.35294117647058826, 0.08235294117647059, 0.18823529411764706, 0.041176470588235294, 0.029411764705882353, 0.07058823529411765, 0.08823529411764706, 0.047058823529411764, 0.0, 0.058823529411764705, 0.1588235294117647, 0.11764705882352941, 0.2, -0.18248945147679324, -0.3067978533094812))
@@ -495,19 +495,21 @@ namespace :manager do
         #[43, 0.7294117647058823, 0.6470588235294118, 1.0, 0.35294117647058826, 0.08235294117647059, 0.18823529411764706, 0.041176470588235294, 0.029411764705882353, 0.07058823529411765, 0.08823529411764706, 0.047058823529411764, 0.0, 0.058823529411764705, 0.1588235294117647, 0.11764705882352941, 0.2, -0.18248945147679324, -0.3067978533094812]
         #3875 40300 9.4
 
-        model = Libsvm::Model.load("model.svm")
+        model = Libsvm::Model.load("model4.svm")
         pred = model.predict(Libsvm::Node.features(learning_datum))
         #puts "[#{learning_datum.inspect}] - Predicted #{pred / 10000.to_f}    real profit : #{profit}"
-        puts "[Predicted #{pred / 10000.to_f}    real profit : #{profit}"
+        #puts "[Predicted #{pred / 10000.to_f}    real profit : #{profit}"
+        puts "[Predicted #{pred}    real profit : #{profit > 0 ? 1 : 0}"
 
-        result_array.push [pred / 10000.to_f, profit]
+        #result_array.push [pred / 10000.to_f, profit]
+        result_array.push [pred, profit > 0 ? 1 : 0]
 
       end
 
     end
     puts result_array.to_json
 
-    File.open("result.txt", "w") do |aFile|
+    File.open("result2.txt", "w") do |aFile|
       aFile.puts result_array.to_json
     end
 
