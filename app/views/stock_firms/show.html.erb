@@ -13,7 +13,6 @@
 
       <% profit = @stock_firm_outcome[:profit] %>
       평균 수익률 : <span class=<%= class_of_profit profit %>><%= profit ? "#{profit.round(2)} %" : "-" %></span>
-      (연:<span class=<%= class_of_profit profit %>><%=stock_firms[:yearly_profit]%>%</span>)
 
 
       <% standard_deviation = @stock_firm_outcome[:standard_deviation] %>
