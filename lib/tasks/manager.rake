@@ -36,6 +36,10 @@ namespace :manager do
     end
   end
 
+  task :re_push => :environment do
+    Utility.send_remain_messages
+  end
+
   task :no_message => :environment do
     start_time = Time.now
     puts "start manager:no_message on #{start_time}"
