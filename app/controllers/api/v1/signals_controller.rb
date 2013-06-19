@@ -30,6 +30,7 @@ class Api::V1::SignalsController < Api::ApiController
 
         json.recommendation_id recommendation.id
         json.symbol recommendation.symbol
+        json.stock_name recommendation.stock_code.name
         json.in_date recommendation.in_date
       end
 
