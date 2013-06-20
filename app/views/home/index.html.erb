@@ -135,7 +135,7 @@
          stock_code_name = stock_code_name.gsub("보통주","")
          recommendation.reason_in = recommendation.reason_in.gsub("▶","- ")
       %>
-      <tr class="modal-section" data-target="#reason-in-modal" data-title="<%= recommendation.stock_firm.name %>(<%= recommendation.symbol %>)" data-detail="<%= recommendation.reason_in %>">
+      <tr class="modal-section" data-target="#reason-in-modal" data-title="<%= stock_code_name %>(<%= recommendation.symbol %>)" data-detail="<%= recommendation.reason_in %>">
 
         <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
         <td><a href="<%= stock_firm_path(recommendation.stock_firm) %>"><%= recommendation.stock_firm.name %></a></td>
