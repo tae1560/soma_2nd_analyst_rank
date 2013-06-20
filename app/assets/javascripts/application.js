@@ -44,6 +44,18 @@ $(document).ready(function() {
         $(location).attr('href', $(this).attr("data-href"));
     });
 
+
+
+    $(".modal-section").click(function() {
+
+        $("#reason-in-modal-title").html($(this).attr("data-title"));
+        $("#reason-in-modal-detail").html($(this).attr("data-detail"));
+        $($(this).attr("data-target")).modal();
+        //$(location).attr('href', $(this).attr("data-href"));
+    });
+
     setTimeout("$(\".alert\").fadeOut(\"slow\")",5000);
+
+    $("a[data-toggle=tooltip]").tooltip()
 });
 

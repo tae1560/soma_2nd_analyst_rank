@@ -19,6 +19,19 @@
 
 </script>
 
+<div id="reason-in-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>추천사유</h3>
+  </div>
+  <div class="modal-body">
+    <h6 id="reason-in-modal-title"></h6>
+      <pre id="reason-in-modal-detail">
+
+      </pre>
+  </div>
+</div>
+
 <div class="alert alert-error">
   <a id="notice-close" class="close" data-dismiss="alert">&#215;</a>
   <a>본 정보는 참고용이며 미래의 수익을 보장하지 않습니다.<br/>투자의 책임은 전적으로 투자자에게 있음을 유의바랍니다. </a>
@@ -106,10 +119,11 @@
   <thead>
   <tr>
     <th class="date-width">추천날짜</th>
-    <th class="firm-width">증권사명</th>
-    <th class="date-width">종목코드</th>
-    <th>종목명</th>
-    <th class="hidden-phone"></th>
+    <th class="stockfirm-width">증권사명</th>
+    <th class="firm-width">종목명</th>
+    <th class="date-width hidden-phone">종목코드</th>
+    <th class="reasonin hidden-phone">추천사유</th>
+    <!--<th class="hidden-phone"></th>      -->
   </tr>
   </thead>
   <% @recommendations.each do |recommendation| %>
@@ -119,20 +133,22 @@
          profit = recommendation.get_profit @keep_period.days.days
          stock_code_name = if recommendation.stock_code then recommendation.stock_code.name end
          stock_code_name = stock_code_name.gsub("보통주","")
+         recommendation.reason_in = recommendation.reason_in.gsub("▶","- ")
       %>
-      <tr class="link-section" data-href="<%= stock_firm_path(recommendation.stock_firm) %>">
+      <tr class="modal-section" data-target="#reason-in-modal" data-title="<%= recommendation.stock_firm.name %>(<%= recommendation.symbol %>)" data-detail="<%= recommendation.reason_in %>">
+
         <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
         <td><a href="<%= stock_firm_path(recommendation.stock_firm) %>"><%= recommendation.stock_firm.name %></a></td>
 
-        <td class="date-width"><%= recommendation.symbol %></td>
 
         <td class="stock_code_name"><%= stock_code_name %></td>
+        <td class="date-width hidden-phone"><%= recommendation.symbol %></td>
+        <td class="reasonin hidden-phone"><%=simple_format(recommendation.reason_in) %></td>
 
-        </td>
-        <td class="hidden-phone"><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
+        <!--<td class="hidden"><a href="http://recommend.finance.naver.com/Home/InLookUp/naver?cmpcd=<%=recommendation.symbol%>&indt=<%= Utility.utc_datetime_to_kor_str recommendation.in_date %>&brknm=<%=recommendation.stock_firm.name%>"
                                     target="_blank"
                                     onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= Utility.utc_datetime_to_kor_str recommendation.in_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>
-          차트</a></td>
+          차트</a></td>   -->
       </tr>
   <% end %>
 </table>

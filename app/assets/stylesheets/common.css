@@ -111,6 +111,20 @@ body{
     padding:8px 15px;
     vertical-align:middle;
 }
+.reasonin p{
+    font-size:12px;
+    text-align:justify;
+}
+
+
+h5,
+.h5,
+h6,
+.h6{
+    color: #2ecc71;
+    font-weight:bold;
+
+}
 
 /* mobile resolution only */
 @media (max-width: 767px) {
@@ -125,11 +139,8 @@ body{
     }
 
     h5,
-    .h5 {
+    .h5{
         font-size: 20px;
-        color: #2ecc71;
-        font-weight:bold;
-
     }
     .input-menu {
         margin-top: 0px;
@@ -264,6 +275,14 @@ body{
 }
 
 .firm-width {
+    width:90px;
+
+}
+.reasonin {
+
+}
+
+.stockfirm-width {
     width:75px;
 
 }
