@@ -24,7 +24,7 @@ class Utility
       notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => push_messages_on_device.id}}
       notification.save!
     end
-    Gcm::Notification.send_notifications
+    Utility.send_remain_messages
   end
 
   # param : [{:title => "title", :message => "message"}]
@@ -81,10 +81,16 @@ class Utility
     notification.data = {:registration_ids => ["#{device.registration_id}"], :data => {:message_text => message, :title_text => title, :notification_id => push_messages_on_device.id}}
     notification.save!
 
-    Gcm::Notification.send_notifications
+    Utility.send_remain_messages
   end
 
   def self.send_remain_messages
-    Gcm::Notification.send_notifications
+    while Gcm::Notification.where(:sent_at => nil).count > 0
+      begin
+        Gcm::Notification.send_notifications
+      rescue
+
+      end
+    end
   end
 end
