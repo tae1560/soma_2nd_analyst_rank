@@ -87,10 +87,13 @@ class Utility
   def self.send_remain_messages
     while Gcm::Notification.where(:sent_at => nil).count > 0
       begin
+        puts "started send notification"
         Gcm::Notification.send_notifications
       rescue
-
+        puts "errored send notification"
+        sleep 3
       end
     end
+    puts "ended send notification"
   end
 end
