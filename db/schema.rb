@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619170821) do
+ActiveRecord::Schema.define(:version => 20130620134055) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(:version => 20130619170821) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.string   "mongo_id"
+    t.text     "reason_in"
   end
 
   add_index "recommendations", ["stock_code_id", "stock_firm_id", "in_date", "symbol"], :name => "recommendation_unique_index", :unique => true

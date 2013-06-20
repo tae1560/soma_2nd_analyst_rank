@@ -1,9 +1,11 @@
 class Recommendation < ActiveRecord::Base
-  attr_accessible :in_date, :symbol, :mongo_id
+  attr_accessible :in_date, :symbol, :mongo_id, :reason_in
 
   belongs_to :stock_code
   belongs_to :day_candle
   belongs_to :stock_firm
+
+  has_one :raw_recommendation
 
   def get_profit keep_period, loss_cut = -1
     in_day_candle = self.get_in_day_candle
