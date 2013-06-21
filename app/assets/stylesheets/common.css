@@ -132,6 +132,7 @@ h6,
 
     .alert {
         padding : 8px;
+        margin-bottom : 8px;
         font-size : 11px;
     }
     .alert .close {
@@ -278,8 +279,11 @@ h6,
     width:90px;
 
 }
+.option-width {
+    width:10px;
+}
 .reasonin {
-
+    width:500px;
 }
 
 .stockfirm-width {

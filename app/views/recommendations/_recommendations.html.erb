@@ -4,9 +4,10 @@
 
     <th class="date-width">추천날짜</th>
     <th class="stockfirm-width">증권사명</th>
-    <th class="firm-width">종목명</th>
+    <th>종목명</th>
     <th class="date-width hidden-phone">종목코드</th>
     <th class="reasonin hidden-phone">추천사유</th>
+    <th class="option-width visible-phone"></th>
     <!--<th class="hidden-phone"></th>    -->
   </tr>
   </thead>
@@ -28,6 +29,7 @@
                                     target="_blank"
                                     onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= Utility.utc_datetime_to_kor_str recommendation.in_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>
           차트</a></td>-->
+        <td class="visible-phone"><span class="fui-question"></span></td>
       </tr>
   <% end %>
 </table>
