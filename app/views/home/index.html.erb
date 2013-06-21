@@ -49,7 +49,7 @@
   <tr>
     <th></th>
     <th>추천증권사</th>
-    <th>승/패</th>
+    <th>승:패</th>
     <th>평균수익률</th>
     <th>위험도</th>
     <th class="hidden-phone"> </th>
@@ -61,7 +61,7 @@
       <tr class="link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
         <td><img src="/img/crown/s<%= stock_firms_row[:ranking] %>.png" /></td>
         <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width="85px" src="/img/firms/<%= stock_firms_row[:id] %>.png" /></a></td>
-        <td><%=stock_firms_row[:number_of_winner]%>/<%=stock_firms_row[:number_of_loser]%></td>
+        <td><%=stock_firms_row[:number_of_winner]%>:<%=stock_firms_row[:number_of_loser]%></td>
         <% profit = stock_firms_row[:profit] %>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
         <% variance = stock_firms_row[:variance] %>
