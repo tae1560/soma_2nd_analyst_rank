@@ -18,7 +18,7 @@
       <% standard_deviation = @stock_firm_outcome[:standard_deviation] %>
       투자위험도 : <span class=<%= class_of_risk standard_deviation %>><%= standard_deviation ? "#{standard_deviation.round(2)}" : "-" %></span>
 
-      <div class="pull-right"><a href="<%= new_investment_path(:stock_firm_id => @stock_firm.id) %>"><span class="fui-book"></span>모의투자하기</a>  </div>
+      <div class="pull-right"><a href="<%= new_investment_path(:stock_firm_id => @stock_firm.id) %>"><span class="fui-new"></span>모의투자하기</a>  </div>
     </div>
 <% end  %>
 
