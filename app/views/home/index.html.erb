@@ -60,7 +60,7 @@
       <% break if stock_firms_row[:ranking] > 3 %>
       <tr class="link-section" data-href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>">
         <td><img src="/img/crown/s<%= stock_firms_row[:ranking] %>.png" /></td>
-        <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width="90px" src="/img/firms/<%= stock_firms_row[:id] %>.png" /></a></td>
+        <td><a href="<%= stock_firm_path(stock_firms_row[:stock_firm]) %>"><img width="85px" src="/img/firms/<%= stock_firms_row[:id] %>.png" /></a></td>
         <td><%=stock_firms_row[:number_of_winner]%>/<%=stock_firms_row[:number_of_loser]%></td>
         <% profit = stock_firms_row[:profit] %>
         <td class=<%= class_of_profit profit %>><%= profit %> %</td>
