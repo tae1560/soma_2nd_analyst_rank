@@ -7,8 +7,7 @@
     <th>종목명</th>
     <th class="date-width hidden-phone">종목코드</th>
     <th class="reasonin hidden-phone">추천사유</th>
-    <th class="option-width visible-phone"></th>
-    <!--<th class="hidden-phone"></th>    -->
+    <th class="option-width"></th>
   </tr>
   </thead>
   <% @recommendations.each do |recommendation| %>
@@ -19,10 +18,12 @@
          stock_code_name = if recommendation.stock_code then recommendation.stock_code.name end
          stock_code_name = stock_code_name.gsub("보통주","")
          recommendation.reason_in = '' if recommendation.reason_in == nil
-         recommendation.reason_in = recommendation.reason_in.gsub("▶","- ")
+         recommendation.reason_in = recommendation.reason_in.gsub("▶","-")
       %>
-      <tr class="modal-section" data-target="#reason-in-modal" data-title="<%= stock_code_name %>(<%= recommendation.symbol %>)" data-detail="<%= recommendation.reason_in %>">        <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
+      <tr>
+        <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
         <td><a href="<%= stock_firm_path(recommendation.stock_firm) %>"><%= recommendation.stock_firm.name %></a></td>
+
         <td class="stock_code_name"><%= stock_code_name %></td>
         <td class="hidden-phone"><%= recommendation.symbol %></td>
         <td class="reasonin hidden-phone"><%=simple_format(recommendation.reason_in) %></td>
@@ -30,7 +31,7 @@
                                     target="_blank"
                                     onclick='mixpanel.track("click chart", {"recommendation_id" : <%=recommendation.id%>,"recommendation_in_date" : <%= Utility.utc_datetime_to_kor_str recommendation.in_date %>, "base_date" : "<%=session[:base_date]%>", "id" : <%=params[:id]%>, "page" : "<%=params[:page]%>"});'>
           차트</a></td>-->
-        <td class="visible-phone"><span class="fui-question"></span></td>
+        <td><span class="fui-question modal-section" data-target="#reason-in-modal" data-title="<%= stock_code_name %>(<%= recommendation.symbol %>)" data-detail="<%= recommendation.reason_in %>"></span></td>
       </tr>
   <% end %>
 </table>
