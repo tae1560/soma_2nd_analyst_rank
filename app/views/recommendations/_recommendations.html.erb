@@ -18,6 +18,7 @@
          profit = recommendation.get_profit @keep_period.days.days
          stock_code_name = if recommendation.stock_code then recommendation.stock_code.name end
          stock_code_name = stock_code_name.gsub("보통주","")
+         recommendation.reason_in = '' if recommendation.reason_in == nil
          recommendation.reason_in = recommendation.reason_in.gsub("▶","- ")
       %>
       <tr class="modal-section" data-target="#reason-in-modal" data-title="<%= stock_code_name %>(<%= recommendation.symbol %>)" data-detail="<%= recommendation.reason_in %>">        <td class="small-font"><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
