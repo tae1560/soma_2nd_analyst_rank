@@ -7,6 +7,17 @@ class Recommendation < ActiveRecord::Base
 
   has_one :raw_recommendation
 
+  def get_profit_or_recent keep_period, loss_cut = -1
+    in_day_candle = self.get_in_day_candle
+    out_day_candle = self.get_out_day_candle keep_period, loss_cut
+
+    unless out_day_candle
+      out_day_candle = DayCandle.where(:symbol => self.symbol).order(:trading_date).last
+    end
+
+    return get_profit_with_day_candle in_day_candle, out_day_candle
+  end
+
   def get_profit keep_period, loss_cut = -1
     in_day_candle = self.get_in_day_candle
     out_day_candle = self.get_out_day_candle keep_period, loss_cut
