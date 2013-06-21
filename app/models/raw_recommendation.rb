@@ -24,6 +24,7 @@ class RawRecommendation < ActiveRecord::Base
 
       recommendation.in_date = self.in_dt.to_datetime - 9.hours
       recommendation.symbol = self.cmp_cd
+      recommendation.reason_in = self.reason_in
 
       # 증권사 instance
       stock_firm = StockFirm.find_or_create_instance self.brk_cd, self.brk_nm_kor
