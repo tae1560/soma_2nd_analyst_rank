@@ -23,7 +23,7 @@ every :day, :at => '6:30am', :roles => [:app] do
   rake "manager:no_message"
 end
 
-every :day, :at => '8:00am', :roles => [:app] do
+every :day, :at => '8:30am', :roles => [:app] do
   rake "manager:push"
 end
 
