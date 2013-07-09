@@ -124,7 +124,7 @@
     <th class="hidden-phone">증권사명</th>
     <th class="date-width">추천일</th>
     <th class="date-width">현재상태</th>
-    <th class="date-width">매수일</th>
+    <th class="date-width hidden-phone">매수일</th>
     <th class="hidden-phone">매수일 시가</th>
     <th class="date-width">매도일</th>
     <th class="hidden-phone">매도일 종가</th>
@@ -147,7 +147,7 @@
         <td class="hidden-phone"><%= recommendation.stock_firm.name %></td>
         <td ><%= Utility.utc_datetime_to_kor_str recommendation.in_date %></td>
         <td ><%= state %></td>
-        <td><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
+        <td class="hidden-phone"><%= in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-" %></td>
         <td class="hidden-phone"><%= in_day_candle && in_day_candle.open || "-" %></td>
         <td><%= out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-" %></td>
         <td class="hidden-phone"><%= out_day_candle && out_day_candle.close || "-" %></td>
