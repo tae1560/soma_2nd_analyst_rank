@@ -118,23 +118,23 @@ class SimulationsController < ApplicationController
           @rest_asset -= recommendation_print[:in_price]
 
           # 가상 자산 계산
-          current_abstract_asset = 0
-          out_day_candle = recommendation_print[:in_day_candle]
-          @recommendation_prints.each do |recommendation_print|
-
-            if recommendation_print[:state] == "보유중"
-              if out_day_candle
-                abstract_out_day_candle = recommendation_print[:stock_code].day_candles.where("trading_date >= '#{out_day_candle.trading_date}'").order(:trading_date).first
-              else
-                abstract_out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
-              end
-
-              current_abstract_asset += recommendation_print[:volumn] * abstract_out_day_candle.close * (1-out_tax)
-              current_abstract_asset = current_abstract_asset.round
-            end
-          end
-
-          recommendation_print[:in_profit_asset] = current_abstract_asset + @rest_asset
+          #current_abstract_asset = 0
+          #out_day_candle = recommendation_print[:in_day_candle]
+          #@recommendation_prints.each do |recommendation_print|
+          #
+          #  if recommendation_print[:state] == "보유중"
+          #    if out_day_candle
+          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.where("trading_date >= '#{out_day_candle.trading_date}'").order(:trading_date).first
+          #    else
+          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
+          #    end
+          #
+          #    current_abstract_asset += recommendation_print[:volumn] * abstract_out_day_candle.close * (1-out_tax)
+          #    current_abstract_asset = current_abstract_asset.round
+          #  end
+          #end
+          #
+          #recommendation_print[:in_profit_asset] = current_abstract_asset + @rest_asset
         end
         #recommendation_print[:rest_asset] = @rest_asset
       else
@@ -151,23 +151,23 @@ class SimulationsController < ApplicationController
           recommendation_print[:profit_ratio] = recommendation_print[:profit_ratio].round(2)
 
           # 가상 자산 계산
-          current_abstract_asset = 0
-          out_day_candle = recommendation_print[:out_day_candle]
-          @recommendation_prints.each do |recommendation_print|
-
-            if recommendation_print[:state] == "보유중"
-              if out_day_candle
-                abstract_out_day_candle = recommendation_print[:stock_code].day_candles.where("trading_date >= '#{out_day_candle.trading_date}'").order(:trading_date).first
-              else
-                abstract_out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
-              end
-
-              current_abstract_asset += recommendation_print[:volumn] * abstract_out_day_candle.close * (1-out_tax)
-              current_abstract_asset = current_abstract_asset.round
-            end
-          end
-
-          recommendation_print[:out_profit_asset] = current_abstract_asset + @rest_asset
+          #current_abstract_asset = 0
+          #out_day_candle = recommendation_print[:out_day_candle]
+          #@recommendation_prints.each do |recommendation_print|
+          #
+          #  if recommendation_print[:state] == "보유중"
+          #    if out_day_candle
+          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.where("trading_date >= '#{out_day_candle.trading_date}'").order(:trading_date).first
+          #    else
+          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
+          #    end
+          #
+          #    current_abstract_asset += recommendation_print[:volumn] * abstract_out_day_candle.close * (1-out_tax)
+          #    current_abstract_asset = current_abstract_asset.round
+          #  end
+          #end
+          #
+          #recommendation_print[:out_profit_asset] = current_abstract_asset + @rest_asset
         end
       end
     end
