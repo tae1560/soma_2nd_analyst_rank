@@ -1,6 +1,6 @@
 <h5 class="hidden-phone"><%= link_to '시뮬레이션', simulations_path %> > <%= link_to '조회', "#" %></h5>
 
-<%= form_tag do %>
+<%= form_tag  do %>
     <%= label(:stock_firm, "증권사") %>
     <%= select("simulations", "stock_firm", StockFirm.all.collect {|stock_firm| [stock_firm.name, stock_firm.id]}, {:selected => @stock_firm.id}) %>
     <%= label(:recent_period, "시뮬레이션 기간") %>
@@ -19,7 +19,7 @@
 <ul>
   <li>증권사 : <%= @stock_firm.name %></li>
   <% profit = @stock_firm_outcome[:profit] %>
-  <li>평균 수익률 : <span class=<%= class_of_profit profit %>><%= profit ? "#{profit.round(2)} %" : "-" %></span></li>
+  <li>평균 수익률 : <span class=<%= class_of_profit profit %>><%= profit ? "#{profit.round(2)} %  (연 : #{@stock_firm_outcome[:yearly_profit].round(2)} %)" : "-" %></span></li>
   <% standard_deviation = @stock_firm_outcome[:standard_deviation] %>
   <li>투자위험도 : <span class=<%= class_of_risk standard_deviation %>><%= standard_deviation ? "#{standard_deviation.round(2)}" : "-" %></span></li>
   <li>시작날짜 : <%= @start_date %></li>
@@ -54,10 +54,10 @@
         <td class="stock_code_name"><%= recommendation_print[:stock_code_name] %></td>
         <td ><%= recommendation_print[:recommendation_in_date] %></td>
         <td><%= recommendation_print[:state] %></td>
-        <td class="hidden-phone"><%= recommendation_print[:in_day_candle_open] %></td>
+        <td class="hidden-phone"><%= recommendation_print[:in_day_candle_open] %> <br/> <%= if recommendation_print[:in_day_candle] then "#{Utility.utc_datetime_to_kor_str recommendation_print[:in_day_candle].trading_date}" end %> </td>
         <td><%=recommendation_print[:volumn]%></td>
-        <td><%= recommendation_print[:out_day_candle_close] %></td>
-        <td><%= recommendation_print[:profit] %></td>
+        <td><%= recommendation_print[:out_day_candle_close] %> <br/> <%= if recommendation_print[:out_day_candle] then "#{Utility.utc_datetime_to_kor_str recommendation_print[:out_day_candle].trading_date}" end %> </td>
+        <td class= <%= class_of_profit recommendation_print[:profit]%> ><%= recommendation_print[:profit] %> <br/> <%= if recommendation_print[:profit_ratio] then "(#{recommendation_print[:profit_ratio]} %)" end %></td>
       </tr>
   <% end %>
 

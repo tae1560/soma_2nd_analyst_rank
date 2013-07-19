@@ -140,6 +140,8 @@ class SimulationsController < ApplicationController
           if recommendation_print[:volumn] > 0
             recommendation_print[:state] = "매도완료"
           end
+          recommendation_print[:profit_ratio] = ((recommendation_print[:out_price] - recommendation_print[:in_price]) / recommendation_print[:in_price].to_f) * 100
+          recommendation_print[:profit_ratio] = recommendation_print[:profit_ratio].round(2)
         end
       end
     end
