@@ -23,7 +23,7 @@ class SimulationsController < ApplicationController
     analysis_filtering_with_parameters params
 
     # setting params
-    unless params[:simulations][:stock_firm_id] and StockFirm.find_by_id(params[:stock_firm_id])
+    unless params[:stock_firm_id] and StockFirm.find_by_id(params[:stock_firm_id])
       params[:stock_firm_id] = StockFirm.first
     end
 
