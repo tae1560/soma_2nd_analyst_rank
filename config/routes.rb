@@ -26,6 +26,9 @@ AnalystRank::Application.routes.draw do
       resources :signals
     end
   end
+  match 'simulations/search', to: 'simulations#search'
+  resources :simulations
+
 
 
 end
