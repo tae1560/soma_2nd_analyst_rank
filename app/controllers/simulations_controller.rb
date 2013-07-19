@@ -13,9 +13,11 @@ class SimulationsController < ApplicationController
     in_tax = (0.015) / 100
     out_tax = (0.3 + 0.015) / 100
 
-    params[:stock_firm_id] = params["simulations"]["stock_firm"]
-    params[:recent_period_id] = params["simulations"]["recent_period"]
-    params[:keep_period_id] = params["simulations"]["keep_period"]
+    if params["simulations"]
+      params[:stock_firm_id] = params["simulations"]["stock_firm"]
+      params[:recent_period_id] = params["simulations"]["recent_period"]
+      params[:keep_period_id] = params["simulations"]["keep_period"]
+    end
 
     # session params
     analysis_filtering_with_parameters params
