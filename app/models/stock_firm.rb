@@ -103,4 +103,51 @@ class StockFirm < ActiveRecord::Base
 
     self.save
   end
+
+  # 증권사와 현재 필터링에 대한 분석정보
+  def outcome_of_stock_firm recent_period, keep_period, loss_cut
+    analysis = self.analyses.where(:recent_period_id => recent_period.id, :keep_period_id => keep_period.id, :loss_cut_id => loss_cut.id).first
+    unless analysis
+      return nil
+    end
+    stock_firms_row = {}
+    stock_firms_row[:id] = self.id
+    stock_firms_row[:stock_firm] = self
+    stock_firms_row[:analysis] = analysis
+    stock_firms_row[:profit] = analysis.earning_average
+    stock_firms_row[:variance] = analysis.earning_variance
+
+    # 표준편차
+    if stock_firms_row[:variance]
+      stock_firms_row[:standard_deviation] = Math.sqrt(stock_firms_row[:variance])
+    end
+
+    # 샤프지수 : Sharpe ratio
+    # 샤프지수 = (펀드수익률 - 무위험수익률) / 위험 (표준편차)
+    if stock_firms_row[:profit] and stock_firms_row[:standard_deviation] and stock_firms_row[:standard_deviation] != 0
+      stock_firms_row[:sharpe_ratio] = (stock_firms_row[:profit] - (1.1 / (365 / keep_period.days))) / stock_firms_row[:standard_deviation]
+    end
+
+    # 연환산 수익률
+    if stock_firms_row[:profit]
+      stock_firms_row[:yearly_profit] = stock_firms_row[:profit]
+
+      # 연 환산 (복리)
+      if analysis.earning_average
+        number_of_fund = 365 / keep_period.days
+        stock_firms_row[:yearly_profit] = (1 + (stock_firms_row[:yearly_profit] / 100)) ** (number_of_fund)
+        stock_firms_row[:yearly_profit] = (stock_firms_row[:yearly_profit] - 1) * 100
+      end
+    end
+
+    # 추천 수
+    if recent_period and recent_period.days > 0
+      stock_firms_row[:number_of_recommendations] = self.recommendations.where("in_date > '#{Time.now - recent_period.days.days}'").count
+
+    else
+      stock_firms_row[:number_of_recommendations] = self.recommendations.count
+    end
+
+    return stock_firms_row
+  end
 end

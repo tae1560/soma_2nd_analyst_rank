@@ -22,6 +22,10 @@ class SimulationsController < ApplicationController
     # session params
     analysis_filtering_with_parameters params
 
+    if LossCut.where(:percent => -1).last
+      @loss_cut = LossCut.find_by_id(session[:loss_cut_id])
+    end
+
     # setting params
     unless params[:stock_firm_id] and StockFirm.find_by_id(params[:stock_firm_id])
       params[:stock_firm_id] = StockFirm.first
@@ -39,6 +43,7 @@ class SimulationsController < ApplicationController
     @stock_firm = StockFirm.find_by_id(params[:stock_firm_id])
     @total_asset = params[:total_asset].to_i
     @invest_asset = params[:invest_asset].to_i
+    @stock_firm_outcome = @stock_firm.outcome_of_stock_firm  @recent_period, @keep_period, @loss_cut
 
     # getting require information
     @start_date = Time.now - @recent_period.days.days

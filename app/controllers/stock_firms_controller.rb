@@ -12,8 +12,7 @@ class StockFirmsController < ApplicationController
 
 
     @stock_firms.each do |stock_firm|
-
-      stock_firms_row = outcome_of_stock_firm stock_firm
+      stock_firms_row = stock_firm.outcome_of_stock_firm @recent_period, @keep_period, @loss_cut
       unless stock_firms_row
         next
       end
@@ -106,10 +105,11 @@ class StockFirmsController < ApplicationController
 
 
     # added stock_firm outcome
-    @stock_firm_outcome = outcome_of_stock_firm @stock_firm
+    @stock_firm_outcome = @stock_firm.outcome_of_stock_firm @recent_period, @keep_period, @loss_cut
   end
 
   # 증권사와 현재 필터링에 대한 분석정보
+  # deprecated by taeho : model로 옮김
   def outcome_of_stock_firm stock_firm
     analysis = stock_firm.analyses.where(:recent_period_id => @recent_period.id, :keep_period_id => @keep_period.id, :loss_cut_id => @loss_cut.id).first
     unless analysis

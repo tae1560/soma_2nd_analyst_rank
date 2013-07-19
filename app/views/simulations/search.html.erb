@@ -18,6 +18,10 @@
 
 <ul>
   <li>증권사 : <%= @stock_firm.name %></li>
+  <% profit = @stock_firm_outcome[:profit] %>
+  <li>평균 수익률 : <span class=<%= class_of_profit profit %>><%= profit ? "#{profit.round(2)} %" : "-" %></span></li>
+  <% standard_deviation = @stock_firm_outcome[:standard_deviation] %>
+  <li>투자위험도 : <span class=<%= class_of_risk standard_deviation %>><%= standard_deviation ? "#{standard_deviation.round(2)}" : "-" %></span></li>
   <li>시작날짜 : <%= @start_date %></li>
   <li>보유기간 : <%= @keep_period.days %>일</li>
   <li>전체자산 : <%= number_to_currency(@total_asset, separator: ",", delimiter: ",") %></li>
