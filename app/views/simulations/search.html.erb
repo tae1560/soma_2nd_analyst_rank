@@ -28,7 +28,7 @@
   <li>현재 통장잔액 : <%= number_to_currency(@rest_asset, separator: ",", delimiter: ",") %></li>
   <li>현재 주식자산 : <%= number_to_currency(@current_abstract_asset, separator: ",", delimiter: ",") %></li>
   <li>총 자산 : <%= number_to_currency(@rest_asset + @current_abstract_asset, separator: ",", delimiter: ",") %></li>
-  <li>수익금 : <%= number_to_currency(@rest_asset + @current_abstract_asset - @total_asset, separator: ",", delimiter: ",") %> (<%= ((@rest_asset + @current_abstract_asset - @total_asset) * 100 / @total_asset).round(2) %> %)</li>
+  <li>수익금 : <%= number_to_currency(@rest_asset + @current_abstract_asset - @total_asset, separator: ",", delimiter: ",") %> (<%= ((@rest_asset + @current_abstract_asset - @total_asset) * 100 / @total_asset.to_f).round(2) %> %)</li>
 </ul>
 
 
