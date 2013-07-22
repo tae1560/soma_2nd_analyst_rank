@@ -71,9 +71,9 @@ class SimulationsController < ApplicationController
       recommendation_print[:symbol] = recommendation.symbol
       recommendation_print[:stock_firm_name] = recommendation.stock_firm.name
       recommendation_print[:in_date] = Utility.utc_datetime_to_kor_str recommendation.in_date
-      recommendation_print[:in_day_candle_date] = in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date) || "-"
+      recommendation_print[:in_day_candle_date] = in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date)
       recommendation_print[:in_day_candle_open] = in_day_candle && in_day_candle.open || "-"
-      recommendation_print[:out_day_candle_date] = out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date) || "-"
+      recommendation_print[:out_day_candle_date] = out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date)
       recommendation_print[:out_day_candle_close] = out_day_candle && out_day_candle.close || "-"
       recommendation_print[:profit] = "-"
       @recommendation_prints.push recommendation_print
@@ -98,6 +98,9 @@ class SimulationsController < ApplicationController
 
     @rest_asset = @total_asset
     @profit_asset = 0
+    @asset_history = {}
+    @asset_history[@start_date] = [0, [], @total_asset, 0]
+    @current_stock_codes = []
 
     @orders.sort! {|x,y| x[:date] <=> y[:date]}
     @orders.each do |order|
@@ -114,8 +117,20 @@ class SimulationsController < ApplicationController
             recommendation_print[:state] = "보유중"
           end
 
-          recommendation_print[:in_price] = recommendation_print[:in_price].round
+            recommendation_print[:in_price] = recommendation_print[:in_price].round
           @rest_asset -= recommendation_print[:in_price]
+
+          # 가상 자산 history 저장
+          in_day_candle = recommendation_print[:in_day_candle]
+          if in_day_candle
+            unless @asset_history[in_day_candle.trading_date]
+              @asset_history[in_day_candle.trading_date] = [0,[],0,0]
+            end
+            @asset_history[in_day_candle.trading_date][0] -= recommendation_print[:in_price]
+            @current_stock_codes.push recommendation_print
+            @asset_history[in_day_candle.trading_date][1] = @current_stock_codes.clone
+            @asset_history[in_day_candle.trading_date][2] = @rest_asset
+          end
 
           # 가상 자산 계산
           #current_abstract_asset = 0
@@ -150,6 +165,18 @@ class SimulationsController < ApplicationController
           recommendation_print[:profit_ratio] = ((recommendation_print[:out_price] - recommendation_print[:in_price]) / recommendation_print[:in_price].to_f) * 100
           recommendation_print[:profit_ratio] = recommendation_print[:profit_ratio].round(2)
 
+          # 가상 자산 history 저장
+          out_day_candle = recommendation_print[:out_day_candle]
+          if out_day_candle
+            unless @asset_history[out_day_candle.trading_date]
+              @asset_history[out_day_candle.trading_date] = [0,[],0,0]
+            end
+            @asset_history[out_day_candle.trading_date][0] += recommendation_print[:out_price]
+            @current_stock_codes.delete recommendation_print
+            @asset_history[out_day_candle.trading_date][1] = @current_stock_codes.clone
+            @asset_history[out_day_candle.trading_date][2] = @rest_asset
+          end
+
           # 가상 자산 계산
           #current_abstract_asset = 0
           #out_day_candle = recommendation_print[:out_day_candle]
@@ -172,17 +199,42 @@ class SimulationsController < ApplicationController
       end
     end
 
-    @current_abstract_asset = 0
-    @recommendation_prints.each do |recommendation_print|
-
-      if recommendation_print[:state] == "보유중"
-        out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
-        @current_abstract_asset += recommendation_print[:volumn] * out_day_candle.close * (1-out_tax)
-        @current_abstract_asset = @current_abstract_asset.round
+    # 가상자산 계산
+    rest = @total_asset
+    if params["asset"] == 1 or params["asset"] == "1"
+      @asset_history.each do |k,v|
+        rest += v[0]
+        virtual_asset = 0
+        v[1].collect{|e| virtual_asset += e[:volumn] * (1-out_tax) * e[:stock_code].day_candles.where("trading_date >= '#{Utility.kor_str_to_utc_datetime k}'").order(:trading_date).first.open}
+        v[3] = virtual_asset.round
       end
     end
 
-    @profit_asset = @current_abstract_asset + @rest_asset
+
+    @current_virtual_asset = 0
+    @recommendation_prints.each do |recommendation_print|
+      if params["asset"] == 1 or params["asset"] == "1"
+        # 가상자산 입력
+        if recommendation_print[:in_day_candle]
+          asset_history = @asset_history[recommendation_print[:in_day_candle].trading_date]
+          recommendation_print[:in_profit_asset] = asset_history[2] + asset_history[3]
+        end
+
+        if recommendation_print[:out_day_candle]
+          asset_history = @asset_history[recommendation_print[:out_day_candle].trading_date]
+          recommendation_print[:out_profit_asset] = asset_history[2] + asset_history[3]
+        end
+      end
+
+      # 최종 가상자산 계산
+      if recommendation_print[:state] == "보유중"
+        out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
+        @current_virtual_asset += recommendation_print[:volumn] * out_day_candle.open * (1-out_tax)
+        @current_virtual_asset = @current_virtual_asset.round
+      end
+    end
+
+    @profit_asset = @current_virtual_asset + @rest_asset
 
   end
 end

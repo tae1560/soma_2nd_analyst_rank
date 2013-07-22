@@ -1,4 +1,8 @@
+<script src="http://code.highcharts.com/highcharts.js"></script>
+
 <h5 class="hidden-phone"><%= link_to '시뮬레이션', simulations_path %> > <%= link_to '조회', "#" %></h5>
+
+<div id="container"> </div>
 
 <%= form_tag  do %>
     <%= label(:stock_firm, "증권사") %>
@@ -11,8 +15,14 @@
     <%= label(:total_asset, "전체 자산") %> <%= text_field_tag(:total_asset, @total_asset) %>
     <br/>
     <%= label(:invest_asset, "각 종목 투자 자산") %> <%= text_field_tag(:invest_asset, @invest_asset) %>
+
+    <br/>
+    <%= label(:asset, "평가자산 계산 (연산시간이 매우 길어집니다.)") %>
+    <%= check_box_tag("asset") %>
+    <br/>
     <br/>
     <%= submit_tag("시뮬레이션") %>
+
 <% end %>
 
 
@@ -30,7 +40,7 @@
 <hr />
 <ul>
   <li>현재 통장잔액 : <%= number_to_currency @rest_asset %></li>
-  <li>현재 주식자산 : <%= number_to_currency @current_abstract_asset %></li>
+  <li>현재 주식자산 : <%= number_to_currency @current_virtual_asset %></li>
   <li>총 자산 : <%= number_to_currency @profit_asset %></li>
   <li class="<%= class_of_profit (@profit_asset - @total_asset) %>">
     수익금 :  <%= number_to_currency @profit_asset - @total_asset %> (<%= ((@profit_asset - @total_asset) * 100 / @total_asset.to_f).round(2) %> %)</li>
@@ -49,9 +59,10 @@
     <th class="date-width">수익금</th>
     <th>매수시 자산</th>
     <th>매도시 자산</th>
+    <th>차트</th>
   </tr>
   </thead>
-
+  <tbody>
   <% @recommendation_prints.each do |recommendation_print| %>
       <tr>
         <td class="stock_code_name"><%= recommendation_print[:stock_code_name] %></td>
@@ -65,7 +76,65 @@
           <br/> <%= if recommendation_print[:in_profit_asset] then  "( #{((recommendation_print[:in_profit_asset] - @total_asset) * 100 / @total_asset.to_f).round(2)} %)" end %>  </td>
         <td> <%= number_to_currency recommendation_print[:out_profit_asset] %>
           <br/> <%= if recommendation_print[:out_profit_asset] then  "( #{((recommendation_print[:out_profit_asset] - @total_asset) * 100 / @total_asset.to_f).round(2)} %)" end %></td>
+        <td class="hidden-phone">
+          <a href="http://recommend.finance.naver.com/Home/OutLookUp/naver?cmpcd=<%=recommendation_print[:symbol]%>&indt=<%= recommendation_print[:in_day_candle_date] %>&outdt=<%= recommendation_print[:out_day_candle_date] %>&brknm=<%=recommendation_print[:stock_code_name]%>"
+                                    target="_blank">
+          차트</a></td>
       </tr>
   <% end %>
-
+  </tbody>
 </table>
+
+<script>
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'line',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: 'Asset History',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'by dunamu',
+                x: -20
+            },
+            xAxis: {
+                categories: <%= raw @asset_history.keys.collect{|e| Utility.utc_datetime_to_kor_str e}.to_json %>
+            },
+            yAxis: {
+                title: {
+                    text: 'Asset Amount'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'WON'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series: [{
+                name: 'balance',
+                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][2]}.to_json %>
+            }, {
+                name: 'virtual asset',
+                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][3]}.to_json %>
+            }, {
+                name: 'total asset',
+                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][2] + @asset_history[e][3]}.to_json %>
+            }]
+        });
+    });
+</script>
