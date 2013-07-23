@@ -23,7 +23,8 @@ class SimulationsController < ApplicationController
     analysis_filtering_with_parameters params
 
     if LossCut.where(:percent => -1).last
-      @loss_cut = LossCut.find_by_id(session[:loss_cut_id])
+      @loss_cut = LossCut.where(:percent => -1).last
+      #@loss_cut = LossCut.find_by_id(session[:loss_cut_id])
     end
 
     # setting params
@@ -53,28 +54,7 @@ class SimulationsController < ApplicationController
     @recommendation_prints = []
     @orders = []
     @recommendations.each do |recommendation|
-      recommendation_print = {}
-      recommendation_print[:recommendation] = recommendation
-      in_day_candle = recommendation_print[:in_day_candle] = recommendation.get_in_day_candle
-      out_day_candle = recommendation_print[:out_day_candle] = recommendation.get_out_day_candle @keep_period.days.days
-      #profit = recommendation.get_profit @keep_period.days.days
-
-
-      recommendation_print[:stock_code] = recommendation.stock_code
-      recommendation_print[:stock_code_name] = recommendation.stock_code.name.gsub("보통주","")
-      recommendation_print[:recommendation_in_date] = Utility.utc_datetime_to_kor_str recommendation.in_date
-
-      recommendation_print[:state] = "구매대기"
-      recommendation_print[:volumn] = 0
-
-      recommendation_print[:symbol] = recommendation.symbol
-      recommendation_print[:stock_firm_name] = recommendation.stock_firm.name
-      recommendation_print[:in_date] = Utility.utc_datetime_to_kor_str recommendation.in_date
-      recommendation_print[:in_day_candle_date] = in_day_candle && Utility.utc_datetime_to_kor_str(in_day_candle.trading_date)
-      recommendation_print[:in_day_candle_open] = in_day_candle && in_day_candle.open || "-"
-      recommendation_print[:out_day_candle_date] = out_day_candle && Utility.utc_datetime_to_kor_str(out_day_candle.trading_date)
-      recommendation_print[:out_day_candle_close] = out_day_candle && out_day_candle.close || "-"
-      recommendation_print[:profit] = "-"
+      recommendation_print = Simulation.create_recommendation_print recommendation, @keep_period
       @recommendation_prints.push recommendation_print
 
     #  adding order
@@ -130,27 +110,7 @@ class SimulationsController < ApplicationController
             @asset_history[Utility.utc_datetime_to_kor_str in_day_candle.trading_date][1] = @current_stock_codes.clone
             @asset_history[Utility.utc_datetime_to_kor_str in_day_candle.trading_date][2] = @rest_asset
           end
-
-          # 가상 자산 계산
-          #current_abstract_asset = 0
-          #out_day_candle = recommendation_print[:in_day_candle]
-          #@recommendation_prints.each do |recommendation_print|
-          #
-          #  if recommendation_print[:state] == "보유중"
-          #    if out_day_candle
-          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.where("trading_date >= '#{out_day_candle.trading_date}'").order(:trading_date).first
-          #    else
-          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
-          #    end
-          #
-          #    current_abstract_asset += recommendation_print[:volumn] * abstract_out_day_candle.close * (1-out_tax)
-          #    current_abstract_asset = current_abstract_asset.round
-          #  end
-          #end
-          #
-          #recommendation_print[:in_profit_asset] = current_abstract_asset + @rest_asset
         end
-        #recommendation_print[:rest_asset] = @rest_asset
       else
         if recommendation_print[:out_day_candle_close]
           recommendation_print[:out_price] = recommendation_print[:volumn] * recommendation_print[:out_day_candle_close] * (1-out_tax)
@@ -175,25 +135,6 @@ class SimulationsController < ApplicationController
             @asset_history[Utility.utc_datetime_to_kor_str out_day_candle.trading_date][1] = @current_stock_codes.clone
             @asset_history[Utility.utc_datetime_to_kor_str out_day_candle.trading_date][2] = @rest_asset
           end
-
-          # 가상 자산 계산
-          #current_abstract_asset = 0
-          #out_day_candle = recommendation_print[:out_day_candle]
-          #@recommendation_prints.each do |recommendation_print|
-          #
-          #  if recommendation_print[:state] == "보유중"
-          #    if out_day_candle
-          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.where("trading_date >= '#{out_day_candle.trading_date}'").order(:trading_date).first
-          #    else
-          #      abstract_out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
-          #    end
-          #
-          #    current_abstract_asset += recommendation_print[:volumn] * abstract_out_day_candle.close * (1-out_tax)
-          #    current_abstract_asset = current_abstract_asset.round
-          #  end
-          #end
-          #
-          #recommendation_print[:out_profit_asset] = current_abstract_asset + @rest_asset
         end
       end
     end
