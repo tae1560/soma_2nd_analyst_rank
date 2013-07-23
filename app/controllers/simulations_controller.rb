@@ -98,7 +98,7 @@ class SimulationsController < ApplicationController
     @rest_asset = @total_asset
     @profit_asset = 0
     @asset_history = {}
-    @asset_history[@start_date] = [0, [], @total_asset, 0]
+    @asset_history[Utility.utc_datetime_to_kor_str @start_date] = [0, [], @total_asset, 0]
     @current_stock_codes = []
 
     @orders.sort! {|x,y| x[:date] <=> y[:date]}
@@ -122,13 +122,13 @@ class SimulationsController < ApplicationController
           # 가상 자산 history 저장
           in_day_candle = recommendation_print[:in_day_candle]
           if in_day_candle
-            unless @asset_history[in_day_candle.trading_date]
-              @asset_history[in_day_candle.trading_date] = [0,[],0,0]
+            unless @asset_history[Utility.utc_datetime_to_kor_str in_day_candle.trading_date]
+              @asset_history[Utility.utc_datetime_to_kor_str in_day_candle.trading_date] = [0,[],0,0]
             end
-            @asset_history[in_day_candle.trading_date][0] -= recommendation_print[:in_price]
+            @asset_history[Utility.utc_datetime_to_kor_str in_day_candle.trading_date][0] -= recommendation_print[:in_price]
             @current_stock_codes.push recommendation_print
-            @asset_history[in_day_candle.trading_date][1] = @current_stock_codes.clone
-            @asset_history[in_day_candle.trading_date][2] = @rest_asset
+            @asset_history[Utility.utc_datetime_to_kor_str in_day_candle.trading_date][1] = @current_stock_codes.clone
+            @asset_history[Utility.utc_datetime_to_kor_str in_day_candle.trading_date][2] = @rest_asset
           end
 
           # 가상 자산 계산
@@ -167,13 +167,13 @@ class SimulationsController < ApplicationController
           # 가상 자산 history 저장
           out_day_candle = recommendation_print[:out_day_candle]
           if out_day_candle
-            unless @asset_history[out_day_candle.trading_date]
-              @asset_history[out_day_candle.trading_date] = [0,[],0,0]
+            unless @asset_history[Utility.utc_datetime_to_kor_str out_day_candle.trading_date]
+              @asset_history[Utility.utc_datetime_to_kor_str out_day_candle.trading_date] = [0,[],0,0]
             end
-            @asset_history[out_day_candle.trading_date][0] += recommendation_print[:out_price]
+            @asset_history[Utility.utc_datetime_to_kor_str out_day_candle.trading_date][0] += recommendation_print[:out_price]
             @current_stock_codes.delete recommendation_print
-            @asset_history[out_day_candle.trading_date][1] = @current_stock_codes.clone
-            @asset_history[out_day_candle.trading_date][2] = @rest_asset
+            @asset_history[Utility.utc_datetime_to_kor_str out_day_candle.trading_date][1] = @current_stock_codes.clone
+            @asset_history[Utility.utc_datetime_to_kor_str out_day_candle.trading_date][2] = @rest_asset
           end
 
           # 가상 자산 계산
@@ -219,7 +219,7 @@ class SimulationsController < ApplicationController
     # 가상자산 계산
     if params["asset"] == 1 or params["asset"] == "1"
       @asset_history.each do |k,v|
-        virtual_asset = VirtualAsset.find_or_create(simulation, k)
+        virtual_asset = VirtualAsset.find_or_create(simulation, k.to_datetime)
         if virtual_asset.is_need_to_update?
           virtual_asset_sum = 0
           v[1].collect{|e| virtual_asset_sum += e[:volumn] * (1-out_tax) * e[:stock_code].day_candles.where("trading_date >= '#{Utility.kor_str_to_utc_datetime k}'").order(:trading_date).first.open}
@@ -234,12 +234,12 @@ class SimulationsController < ApplicationController
       @recommendation_prints.each do |recommendation_print|
         # 가상자산 입력
         if recommendation_print[:in_day_candle]
-          asset_history = @asset_history[recommendation_print[:in_day_candle].trading_date]
+          asset_history = @asset_history[Utility.utc_datetime_to_kor_str recommendation_print[:in_day_candle].trading_date]
           recommendation_print[:in_profit_asset] = asset_history[2] + asset_history[3]
         end
 
         if recommendation_print[:out_day_candle]
-          asset_history = @asset_history[recommendation_print[:out_day_candle].trading_date]
+          asset_history = @asset_history[Utility.utc_datetime_to_kor_str recommendation_print[:out_day_candle].trading_date]
           recommendation_print[:out_profit_asset] = asset_history[2] + asset_history[3]
         end
       end
@@ -250,6 +250,6 @@ class SimulationsController < ApplicationController
     @profit_asset = simulation.balance_asset + simulation.virtual_asset
 
     # 최종 자산 그래프 추가
-    @asset_history[Time.now] = [0, @current_stock_codes.clone, simulation.balance_asset, simulation.virtual_asset]
+    @asset_history[Utility.utc_datetime_to_kor_str Time.now] = [0, @current_stock_codes.clone, simulation.balance_asset, simulation.virtual_asset]
   end
 end
