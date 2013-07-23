@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620134055) do
+ActiveRecord::Schema.define(:version => 20130723064713) do
 
   create_table "analyses", :force => true do |t|
     t.float    "earning_average"
@@ -146,10 +146,10 @@ ActiveRecord::Schema.define(:version => 20130620134055) do
     t.text     "reason_in"
     t.string   "file_nm"
     t.string   "anl_dt"
-    t.string   "in_diff_reason"
     t.integer  "recommendation_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.string   "in_diff_reason"
   end
 
   add_index "raw_recommendations", ["in_dt", "cmp_cd", "brk_cd", "pf_cd"], :name => "by_in_dt_and_cds", :unique => true
@@ -198,6 +198,20 @@ ActiveRecord::Schema.define(:version => 20130620134055) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "simulations", :force => true do |t|
+    t.integer  "total_asset"
+    t.integer  "invest_asset"
+    t.datetime "last_modified"
+    t.integer  "balance_asset"
+    t.integer  "virtual_asset"
+    t.integer  "stock_firm_id"
+    t.integer  "recent_period_id"
+    t.integer  "keep_period_id"
+    t.integer  "loss_cut_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "stock_codes", :force => true do |t|
     t.string   "name"
@@ -266,6 +280,15 @@ ActiveRecord::Schema.define(:version => 20130620134055) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
+
+  create_table "virtual_assets", :force => true do |t|
+    t.datetime "date"
+    t.integer  "amount"
+    t.datetime "last_modified"
+    t.integer  "simulation_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   add_foreign_key "gcm_notifications", "gcm_devices", :name => "gcm_notifications_device_id_fk", :column => "device_id", :dependent => :delete
 
