@@ -146,7 +146,14 @@ namespace :manager do
           virtual_asset = VirtualAsset.find_or_create(simulation, k.to_datetime)
           if virtual_asset.is_need_to_update?
             virtual_asset_sum = 0
-            v[1].collect{|e| virtual_asset_sum += e[:volumn] * (1-out_tax) * e[:stock_code].day_candles.where("trading_date >= '#{Utility.kor_str_to_utc_datetime k}'").order(:trading_date).first.open}
+            v[1].collect{|e|
+              day_candle =  e[:stock_code].day_candles.where("trading_date >= '#{Utility.kor_str_to_utc_datetime k}'").order(:trading_date).first
+              if day_candle
+                virtual_asset_sum += e[:volumn] * (1-out_tax) * day_candle.open
+              else
+                puts "ERROR : #{e[:stock_code].name} don't have day_candle on #{k}}"
+              end
+              }
             virtual_asset.last_modified = Time.now
             virtual_asset.amount = virtual_asset_sum
             virtual_asset.save!
