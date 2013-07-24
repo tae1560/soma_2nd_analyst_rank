@@ -120,16 +120,27 @@
                 y: 100,
                 borderWidth: 0
             },
+            <% if @is_asset_history_enable %>
             series: [{
-                name: 'balance',
-                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][2]}.to_json %>
-            }, {
-                name: 'virtual asset',
-                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][3]}.to_json %>
-            }, {
                 name: 'total asset',
                 data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][2] + @asset_history[e][3]}.to_json %>
             }]
+            <% else %>
+            series: [{
+                name: 'balance',
+                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][2]}.to_json %>
+            }]
+//            series: [{
+//                name: 'balance',
+//                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][2]}.to_json %>
+//            }, {
+//                name: 'virtual asset',
+//                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][3]}.to_json %>
+//            }, {
+//                name: 'total asset',
+//                data: <%= raw @asset_history.keys.collect{|e|@asset_history[e][2] + @asset_history[e][3]}.to_json %>
+//            }]
+            <% end %>
         });
     });
 </script>
