@@ -7,7 +7,7 @@ namespace :manager do
   task :calculate_simulation_daemon => :environment do
     loop do
 
-      task_name = "manager:calculate_simulation"
+      task_name = "manager:calculate_simulation_daemon"
       start_time = Time.now
       puts "start #{task_name} on #{start_time}"
 
