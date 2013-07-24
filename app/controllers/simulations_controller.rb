@@ -159,29 +159,40 @@ class SimulationsController < ApplicationController
 
     # 가상자산 계산
     if params["asset"] == 1 or params["asset"] == "1"
+      # 가상자산 계산량 분석
       @asset_history.each do |k,v|
-        virtual_asset = VirtualAsset.find_or_create(simulation, k.to_datetime)
-        if virtual_asset.is_need_to_update?
-          virtual_asset_sum = 0
-          v[1].collect{|e| virtual_asset_sum += e[:volumn] * (1-out_tax) * e[:stock_code].day_candles.where("trading_date >= '#{Utility.kor_str_to_utc_datetime k}'").order(:trading_date).first.open}
-          virtual_asset.last_modified = Time.now
-          virtual_asset.amount = virtual_asset_sum
-          virtual_asset.save!
-        end
-
-        v[3] = virtual_asset.amount
+        VirtualAsset.find_or_create(simulation, k.to_datetime)
       end
 
-      @recommendation_prints.each do |recommendation_print|
-        # 가상자산 입력
-        if recommendation_print[:in_day_candle]
-          asset_history = @asset_history[Utility.utc_datetime_to_kor_str recommendation_print[:in_day_candle].trading_date]
-          recommendation_print[:in_profit_asset] = asset_history[2] + asset_history[3]
+      need_to_update_count = simulation.virtual_assets.where("last_modified IS NULL OR last_modified < '#{Time.now - 1.days}'").count
+
+      if need_to_update_count > 2
+        flash[:notice] = "현재 분석중입니다. 잠시 후 다시 시도해주세요. (#{((simulation.virtual_assets.count - need_to_update_count) / simulation.virtual_assets.count.to_f * 100).round(2)}% 완료)"
+      else
+        @asset_history.each do |k,v|
+          virtual_asset = VirtualAsset.find_or_create(simulation, k.to_datetime)
+          if virtual_asset.is_need_to_update?
+            virtual_asset_sum = 0
+            v[1].collect{|e| virtual_asset_sum += e[:volumn] * (1-out_tax) * e[:stock_code].day_candles.where("trading_date >= '#{Utility.kor_str_to_utc_datetime k}'").order(:trading_date).first.open}
+            virtual_asset.last_modified = Time.now
+            virtual_asset.amount = virtual_asset_sum
+            virtual_asset.save!
+          end
+
+          v[3] = virtual_asset.amount
         end
 
-        if recommendation_print[:out_day_candle]
-          asset_history = @asset_history[Utility.utc_datetime_to_kor_str recommendation_print[:out_day_candle].trading_date]
-          recommendation_print[:out_profit_asset] = asset_history[2] + asset_history[3]
+        @recommendation_prints.each do |recommendation_print|
+          # 가상자산 입력
+          if recommendation_print[:in_day_candle]
+            asset_history = @asset_history[Utility.utc_datetime_to_kor_str recommendation_print[:in_day_candle].trading_date]
+            recommendation_print[:in_profit_asset] = asset_history[2] + asset_history[3]
+          end
+
+          if recommendation_print[:out_day_candle]
+            asset_history = @asset_history[Utility.utc_datetime_to_kor_str recommendation_print[:out_day_candle].trading_date]
+            recommendation_print[:out_profit_asset] = asset_history[2] + asset_history[3]
+          end
         end
       end
     end
