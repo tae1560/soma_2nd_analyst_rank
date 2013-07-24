@@ -171,6 +171,7 @@ class SimulationsController < ApplicationController
       total_need_to_count = VirtualAsset.where("last_modified IS NULL OR last_modified < '#{Time.now - 1.days}'").count * 20 / 60
       flash[:notice] = "현재 평가자산 분석중입니다. 잠시 후 다시 시도해주세요. (#{((simulation.virtual_assets.count - need_to_update_count) / simulation.virtual_assets.count.to_f * 100).round(2)}% 완료) 예상 소요시간 : 약 #{total_need_to_count+1}분"
     else
+      flash[:notice] = nil
       @asset_history.each do |k,v|
         virtual_asset = VirtualAsset.find_or_create(simulation, k.to_datetime)
         if virtual_asset.is_need_to_update?
