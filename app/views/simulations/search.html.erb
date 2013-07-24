@@ -15,11 +15,6 @@
     <%= label(:total_asset, "전체 자산") %> <%= text_field_tag(:total_asset, @total_asset) %>
     <br/>
     <%= label(:invest_asset, "각 종목 투자 자산") %> <%= text_field_tag(:invest_asset, @invest_asset) %>
-
-    <br/>
-    <%= label(:asset, "평가자산 계산 (연산시간이 매우 길어집니다.)") %>
-    <%= check_box_tag("asset", 1, (params["asset"] == 1 or params["asset"] == "1")) %>
-    <br/>
     <br/>
     <%= submit_tag("시뮬레이션") %>
 
