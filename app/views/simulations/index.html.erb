@@ -14,7 +14,7 @@
   </tr>
   <tbody>
   <% @simulations.each do |simulation| %>
-  <tr>
+  <tr class="link-section" data-href=<%="simulations/search?stock_firm_id=#{simulation.stock_firm.id}&recent_period_id=#{simulation.recent_period.id}&keep_period_id=#{simulation.keep_period.id}&total_asset=#{simulation.total_asset}&invest_asset=#{simulation.invest_asset}"%>>
     <td><%= simulation.stock_firm.name %></td>
     <td><span class=param>최근 <%= simulation.recent_period.name %></span> 추천을 <span class=param><%= simulation.keep_period.name %>동안</span> 유지할 때</td>
     <td><%= simulation.total_asset %></td>
