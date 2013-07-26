@@ -314,21 +314,21 @@ namespace :manager do
 
       # caching : 시뮬레이션 필요가 있을경우만 하기
       #simulation = Simulation.find_or_create_by_filter(@stock_firm, @recent_period, @keep_period, @loss_cut, @total_asset, @invest_asset)
-      #if simulation.is_need_to_update?
-      #  virtual_asset = 0
-      #  @recommendation_prints.each do |recommendation_print|
-      #    # 최종 가상자산 계산
-      #    if recommendation_print[:state] == "보유중"
-      #      out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
-      #      virtual_asset += recommendation_print[:volumn] * out_day_candle.open * (1-out_tax)
-      #    end
-      #  end
-      #  virtual_asset = virtual_asset.round
-      #  simulation.virtual_asset = virtual_asset
-      #  simulation.balance_asset = @rest_asset
-      #  simulation.last_modified = Time.now
-      #  simulation.save!
-      #end
+      if simulation.is_need_to_update?
+        virtual_asset = 0
+        @recommendation_prints.each do |recommendation_print|
+          # 최종 가상자산 계산
+          if recommendation_print[:state] == "보유중"
+            out_day_candle = recommendation_print[:stock_code].day_candles.order(:trading_date).last
+            virtual_asset += recommendation_print[:volumn] * out_day_candle.open * (1-out_tax)
+          end
+        end
+        virtual_asset = virtual_asset.round
+        simulation.virtual_asset = virtual_asset
+        simulation.balance_asset = @rest_asset
+        simulation.last_modified = Time.now
+        simulation.save!
+      end
 
       # 가상자산 계산
       for_cnt = 0
