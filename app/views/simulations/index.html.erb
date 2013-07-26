@@ -1,0 +1,29 @@
+<h5 class="hidden-phone"><%= link_to '시뮬레이션', "#" %></h5>
+
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th>증권사</th>
+    <th>필터 조건</th>
+    <th>전체 자산</th>
+    <th>각 추천 투자 자산</th>
+    <th>최종 통장잔액</th>
+    <th>최종 평가자산</th>
+    <th>최종 총자산</th>
+    <th>최종 수익률</th>
+  </tr>
+  <tbody>
+  <% @simulations.each do |simulation| %>
+  <tr>
+    <td><%= simulation.stock_firm.name %></td>
+    <td><span class=param>최근 <%= simulation.recent_period.name %></span> 추천을 <span class=param><%= simulation.keep_period.name %>동안</span> 유지할 때</td>
+    <td><%= simulation.total_asset %></td>
+    <td><%= simulation.invest_asset %></td>
+    <td><%= simulation.balance_asset %></td>
+    <td><%= simulation.virtual_asset %></td>
+    <td><%= simulation.balance_asset + simulation.virtual_asset %></td>
+    <td class= <%= class_of_profit(simulation.balance_asset + simulation.virtual_asset - simulation.total_asset)%>><%= ((simulation.balance_asset + simulation.virtual_asset - simulation.total_asset) / simulation.total_asset.to_f * 100).round(2) %> %</td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>

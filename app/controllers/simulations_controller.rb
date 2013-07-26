@@ -1,5 +1,9 @@
 #coding : utf-8
 class SimulationsController < ApplicationController
+  def index
+    @simulations = Simulation.all
+  end
+
   def search
     #  받는 parameter
     #  - 증권사
